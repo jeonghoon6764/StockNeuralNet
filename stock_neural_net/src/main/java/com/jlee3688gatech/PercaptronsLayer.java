@@ -79,4 +79,44 @@ public class PercaptronsLayer {
             inputArr.set(i, (inputArr.get(i) + biasArr.get(i)));
         }
     }
+
+    /**
+     * sigmoid function, this will be return sigmoid value from input
+     *                    1
+     * Equetion == --------------
+     *             1 + e^(-value)
+     * @param value the input value
+     * @return sigmoid value
+     */
+    private double sigmoidFunction(double value) {
+        double child = 1;
+        double parent = 1 + Math.pow(Math.E, value * (-1.0));
+        return child / parent;
+    }
+
+    /**
+     * sigmoid deriv function, this will be return sigmoid value from input
+     *                 e^(-value)
+     * Equetion == ------------------
+     *             (1 + e^(-value))^2
+     * @param value the input value
+     * @return sigmoid deriv value
+     */
+    private double sigmoidDeriv(Double value) {
+        double child = Math.pow(Math.E, value * (-1.0));
+        double parent = Math.pow(1.0D + Math.pow(Math.E, value * (-1.0)), 2);
+        return child / parent;
+    }
+
+    /**
+     * perform sigmoid activation on the input arraylist
+     * @param  input arraylist
+     * @return the ArrayList after we use sigmoid function each entry
+     */
+    private ArrayList<Double> sigmoidActivation(ArrayList<Double> input) {
+        for (int i = 0; i < input.size(); i++) {
+            input.set(i, (sigmoidFunction(input.get(i))));
+        }
+        return input;
+    }
 }
