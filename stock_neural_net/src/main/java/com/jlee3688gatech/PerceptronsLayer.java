@@ -74,7 +74,7 @@ public class PerceptronsLayer {
             ArrayList<Double> perceptronWeightsArr = weightsArr.get(i);
             Double sum = 0.0D;
             for (int j = 0; j < perceptronWeightsArr.size(); j++) {
-                sum += perceptronWeightsArr.get(j) * input.get(j);
+                sum += perceptronWeightsArr.get(j) * inputArr.get(j);
             }
             ret.add(i, sum);
         }
