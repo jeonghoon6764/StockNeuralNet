@@ -41,6 +41,17 @@ public class PercaptronsLayer {
     }
 
     /**
+     * feedFoward method.
+     * weightsum -> addBias -> sigmoid then
+     * store values to the output variable.
+     */
+    public void feed() {
+        ArrayList<Double> weightSum = getWeightSum();
+        addBias(weightSum);
+        outputArr = sigmoidActivation(weightSum);
+    }
+
+    /**
      * Helper method to get the random double value.
      * This method will return the double value with
      * range from -1 to 1.
@@ -118,5 +129,95 @@ public class PercaptronsLayer {
             input.set(i, (sigmoidFunction(input.get(i))));
         }
         return input;
+    }
+
+    /**
+     * perform sigmoid deriv on the input arraylist
+     * @return the arraylist after we use sigmoid deriv function.
+     */
+    public ArrayList<Double> sigmoidActivationDeriv() {
+        ArrayList<Double> ws = getWeightSum();
+        ArrayList<Double> ret = new ArrayList<Double>();
+        for (int i = 0; i < ws.size(); i++) {
+            ret.add(i, (sigmoidDeriv(ws.get(i) + biasArr.get(i))));
+        }
+        return ret;
+    }
+
+    /**
+     * method for update weight
+     * @param learningRate learning rate
+     * @param delta delta value.
+     */
+    public void update(double learningRate, ArrayList<Double> delta) {
+        for(int i = 0; i < inputArr.size(); i++) {
+            for (int j = 0; j < numOfNode; j++) {
+                updateWeight(learningRate, delta.get(j), i, j);
+            }
+        }
+    }
+
+    /**
+     * helper method for update weight
+     * @param learningRate rate of learning
+     * @param delta delta value
+     * @param start start from
+     * @param end end to
+     */
+    private void updateWeight(double learningRate, double delta, int start, int end) {
+        setWeight(start, end, getWeight(start, end) + delta * inputArr.get(start) * learningRate);
+    }
+
+    /**
+     * setter for input array.
+     * @param input the array of inputs.
+     */
+    public void setInput(ArrayList<Double> inputArr) {
+        this.inputArr = inputArr;
+    }
+
+    /**
+     * getter for output array.
+     * @return output array.
+     */
+    public ArrayList<Double> getOutput() {
+        return this.outputArr;
+    }
+
+    /**
+     * getter for Number of Node.
+     * @return number of node this perceptrons layer have
+     */
+    public int getNumofNode() {
+        return numOfNode;
+    }
+
+    /**
+     * getter for getting weight list.
+     * @param idx node's index number
+     * @return ArrayList of node's weight list.
+     */
+    public ArrayList<Double> getWeightList(int idx) {
+        return weightsArr.get(idx);
+    }
+
+    /**
+     * getter for weight value
+     * @param start node that start from
+     * @param end node that end to
+     * @return value of weigth from weightlist. (prev)start -> "weight" -> (curr)end
+     */
+    public double getWeight(int start, int end) {
+        return weightsArr.get(end).get(start);
+    }
+
+    /**
+     * setter for weight value
+     * @param start node that start from
+     * @param end node that end to
+     * @param value value of weight from weightList.
+     */
+    public void setWeight(int start, int end, double value) {
+        this.weightsArr.get(end).set(start, value);
     }
 }
