@@ -8,7 +8,7 @@ import java.util.Random;
  * @version 1.0
  * @author Jeonghoon Lee
  */
-public class PercaptronsLayer {
+public class PerceptronsLayer {
 
     ArrayList<Double> inputArr;
     ArrayList<Double> outputArr;
@@ -23,7 +23,7 @@ public class PercaptronsLayer {
      * @param numOfNode number of node we build.
      * @param numOfInput number of input this will get.
      */
-    public PercaptronsLayer(int numOfNode, int numOfInput) {
+    public PerceptronsLayer(int numOfNode, int numOfInput) {
         this.numOfNode = numOfNode;
         weightsArr = new ArrayList<ArrayList<Double>>();
         biasArr = new ArrayList<Double>();
