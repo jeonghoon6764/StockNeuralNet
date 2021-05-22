@@ -10,6 +10,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
+/**
+ * class for save and load Object.
+ * @version 1.0
+ * @author Jeonghoon Lee
+ */
 public class SaveAndLoad {
     private String address;
     private String saveFileAddress;
@@ -17,6 +22,11 @@ public class SaveAndLoad {
     private String currAddr;
     private String slash;
 
+    /**
+     * Constructor for SaveAndLoad class.
+     * This will check the save_files directory existance,
+     * and If it is not exist, it will make the save_files directory.
+     */
     public SaveAndLoad() {
         currAddrDirectories = new ArrayList<String>();
         currAddr = new String();
@@ -44,6 +54,10 @@ public class SaveAndLoad {
         }
     }
 
+    /**
+     * The Directory separator ("\", "/") depends on which OS user use.
+     * this method will check user's OS and set Directory separator (slash variable)
+     */
     private void checkOSAndSetSlash() {
         String osName = System.getProperty("os.name").toLowerCase();
         if (osName.contains("win")) {
@@ -53,18 +67,28 @@ public class SaveAndLoad {
         }
     }
 
+    /**
+     * getter for filenames in the current directory.
+     * @return fileNames in current address
+     */
     public ArrayList<String> getFileNamesInSaveDirectory() {
         ArrayList<String> ret = new ArrayList<String>();
-        for (File file: new File(saveFileAddress).listFiles()) {
+        for (File file: new File(saveFileAddress + currAddr).listFiles()) {
             ret.add(file.getName());
         }
         return ret;
     }
 
+    /**
+     * Helper method for save file.
+     * @param fileName name of file
+     * @param o object o
+     * @return return true if file saved successfully, or false.
+     */
     public boolean saveFile(String fileName, Object o) {
         FileOutputStream fileStream;
         try {
-            fileStream = new FileOutputStream(saveFileAddress + currAddr + slash + fileName + ".ser");
+            fileStream = new FileOutputStream(saveFileAddress + currAddr + slash + fileName);
             ObjectOutputStream os = new ObjectOutputStream(fileStream);
             os.writeObject(o);
             os.close();
@@ -75,11 +99,16 @@ public class SaveAndLoad {
         }
     }
 
+    /**
+     * load file from the current address.
+     * @param fileName name of the file
+     * @return Object from the file.
+     */
     public Object loadFile(String fileName) {
          FileInputStream fileStream;
          ObjectInputStream os;
         try {
-            fileStream = new FileInputStream(saveFileAddress + currAddr + slash + fileName + ".ser");
+            fileStream = new FileInputStream(saveFileAddress + currAddr + slash + fileName);
             os = new ObjectInputStream(fileStream);
             Object ret = os.readObject();
             os.close();
@@ -90,11 +119,19 @@ public class SaveAndLoad {
         }
     }
 
+    /**
+     * Helper method for adding directory name in currAddrDirectories(ArrayList)
+     * @param directoryName name of directory.
+     */
     public void addCurrAddr(String directoryName) {
         this.currAddrDirectories.add(directoryName);
         setCurrAddr();
     }
 
+    /**
+     * Helper method for removing directory name in currAddrDirectories(ArrayList)
+     * @return
+     */
     public boolean removeLastAddr() {
         if (currAddrDirectories.size() == 0) {
             return false;
@@ -105,6 +142,9 @@ public class SaveAndLoad {
         }
     }
 
+    /**
+     * setter (refresh) for the CurrAddr String)
+     */
     private void setCurrAddr() {
         currAddr = new String();
         for (int i = 0; i < currAddrDirectories.size(); i++) {
@@ -113,10 +153,20 @@ public class SaveAndLoad {
         }
     }
 
-    public void removeFile(String fileName) {
-        removeFilesWithAddr(saveFileAddress + currAddr + slash + fileName);
+    /**
+     * Method for removing the file in current address.
+     * @param fileName name of the file.
+     * @return true if remove successfully, else false.
+     */
+    public boolean removeFile(String fileName) {
+        return removeFilesWithAddr(saveFileAddress + currAddr + slash + fileName);
     }
 
+    /**
+     * Helper method for remove file.
+     * @param addr address of file to remove
+     * @return true if remove file successfully else return false.
+     */
     private boolean removeFilesWithAddr(String addr) {
         File file = new File(addr);
         boolean ret = true;
@@ -131,8 +181,12 @@ public class SaveAndLoad {
         return ret & file.delete();
     }
 
-    public void makeDirectory(String fileName) {
-        File newDirectory = new File(saveFileAddress + currAddr + slash + fileName);
+    /**
+     * Method for make directory in current address.
+     * @param DirectoryName name of Directory
+     */
+    public void makeDirectory(String DirectoryName) {
+        File newDirectory = new File(saveFileAddress + currAddr + slash + DirectoryName);
         try {
             newDirectory.mkdir();
             System.out.println("make directory \"" + saveFileAddress + "\" successfully.");

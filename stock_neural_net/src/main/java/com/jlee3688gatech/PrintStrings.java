@@ -1,30 +1,51 @@
 package com.jlee3688gatech;
 
+/**
+ * class for print Strings
+ * @version 1.0
+ * @author Jeonghoon Lee
+ */
 public class PrintStrings {
+
+    private int size;
+
+    /**
+     * Constructor for PeintStrings class.
+     * @param size size of box.
+     */
+    public PrintStrings(int size) {
+        this.size = size;
+    }
+
+    /**
+     * Default Constructor.
+     * Default size == 70.
+     */
+    public PrintStrings() {
+        this(70);
+    }
 
     /**
      * helper method for print current address
-     * @param n number of length
      * @param str addr
      */
-    public void printCurrentAddress(int n, String str) {
-        asteriskPrinter(n, null, null);
-        asteriskPrinter(n, null, str);
-        asteriskPrinter(n, null, null);
+    public void printCurrentAddress(String str) {
+        asteriskPrinter(null, null);
+        asteriskPrinter(null, str);
+        asteriskPrinter(null, null);
     }
 
     /**
      * helper method for printing the scripts
-     * @param n number of length
      * @param header header
      * @param str description
      */
-    public void asteriskPrinter(int n, String header, String str) {
-        if ((header != null && header.length() + 6 > n) || n <= 2) {
+    public void asteriskPrinter(String header, String str) {
+        if ((header != null && header.length() + 6 > size) || size <= 2) {
             return;
         }
         if (str == null) {
-            for (int i = 0; i < n; i++) {
+            for (int i = 0; i < size; i++) {
                 System.out.print("#");
             }
             System.out.print("\n");
@@ -55,7 +76,7 @@ public class PrintStrings {
                 } else {
                     counter += preCounter;
                 }
-                while (counter + 2 < n) {
+                while (counter + 2 < size) {
                     if (strCounter < str.length()) {
                         System.out.print(str.charAt(strCounter));
                         strCounter++;
