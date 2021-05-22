@@ -1,5 +1,6 @@
 package com.jlee3688gatech;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -8,7 +9,7 @@ import java.util.Random;
  * @version 1.0
  * @author Jeonghoon Lee
  */
-public class PerceptronsLayer {
+public class PerceptronsLayer implements Serializable{
 
     ArrayList<Double> inputArr;
     ArrayList<Double> outputArr;

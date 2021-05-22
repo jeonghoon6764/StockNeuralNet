@@ -1,14 +1,20 @@
 package com.jlee3688gatech;
 
+import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * This class represents Neural Net.
  * @version 1.0
  * @author Jeonghoon Lee
  */
-public class NeuralNet {
+public class NeuralNet implements Serializable{
 
+    String name;
+    String infoNote;
+    ArrayList<String[]> logs;
     ArrayList<PerceptronsLayer> NN;
     ArrayList<ArrayList<Double>> deltas;
     int inputSize;
@@ -17,15 +23,20 @@ public class NeuralNet {
     
     /**
      * Constructor for Neural Net class.
+     * @param name name of this Neural Network.
+     * @param infoNote note of this Neural Network.
      * @param inputSize size of input in Neural Networks.
      * @param outputSize size of output
      * @param numOfHiddenLayerNodeArr number of nodes in hidden layers.
      */
-    public NeuralNet(int inputSize, int outputSize, int[] numOfHiddenLayerNodeArr) {
+    public NeuralNet(String name, String infoNote, int inputSize, int outputSize, int[] numOfHiddenLayerNodeArr) {
         
+        this.name = name;
+        this.infoNote = infoNote;
         this.inputSize = inputSize;
         this.outputSize = outputSize;
         this.numOfHiddenLayerNodeArr = numOfHiddenLayerNodeArr;
+        this.logs = new ArrayList<String[]>();
 
         int[] numOfInputArr = new int[numOfHiddenLayerNodeArr.length + 1];
 
@@ -101,6 +112,70 @@ public class NeuralNet {
             NN.get(i).update(0.1, deltas.get(i));
         }
         return avgError / this.outputSize;
+    }
+
+    /**
+     * getter method for Neural Net name.
+     * @return Neural Net name.
+     */
+    public String getName() {
+        return this.name;
+    }
+
+    /**
+     * getter method for Neural Net note.
+     * @return Neural
+     */
+    public String getNote() {
+        return this.infoNote;
+    }
+
+    /**
+     * setter method for Neural Net note.
+     * @param str description.
+     */
+    public void setNote(String str) {
+        this.infoNote = str;
+    }
+
+    /**
+     * helper method for add logs.
+     * this will be log it with current time.
+     * @param str description of updates
+     */
+    public void addLog(String str) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-DD HH:mm:ss");
+        Date time = new Date();
+        String currTime = format.format(time);
+        String[] temp = new String[2];
+        temp[0] = currTime;
+        temp[1] = str;
+        logs.add(temp);
+    }
+
+    /**
+     * getter method for logs
+     * @return logs arrayList
+     */
+    public ArrayList<String[]> getLog() {
+        return this.logs;
+    }
+
+    /**
+     * helper method for return node nums in each layers.
+     * nodeInfo[0] = inputSize, nodeInfo[1] = hidden layer 1's node number
+     * nodeInfo[2] = hidden layer 2's node number ....
+     * nodeInfo[nodeInfo.len - 1] = output node numeber.
+     * @return nodeInfo (see above)
+     */
+    public int[] getNodesInfo() {
+        int[] nodeInfo = new int[numOfHiddenLayerNodeArr.length + 2];
+        nodeInfo[0] = this.inputSize;
+        for (int i = 0; i < numOfHiddenLayerNodeArr.length; i++) {
+            nodeInfo[i + 1] = numOfHiddenLayerNodeArr[i];
+        }
+        nodeInfo[nodeInfo.length - 1] = this.outputSize;
+        return nodeInfo;
     }
 }
 
