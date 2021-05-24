@@ -149,9 +149,6 @@ public class App
                 }
             }
         }
-        
-        
-
     }
 
     private static void selectModifyNote() {
