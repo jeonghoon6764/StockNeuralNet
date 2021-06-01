@@ -59,7 +59,6 @@ public class ExampleMaker {
 
     public ArrayList<Double> getInputExamples(ArrayList<String> dataType, int count) {
         
-        ArrayList<Double> getIn
         while(counter + count - 1 <= counterLimit) {
             for (int i = 0; i < count; i++) {
 
