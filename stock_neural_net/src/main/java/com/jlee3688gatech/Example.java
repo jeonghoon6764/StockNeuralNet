@@ -1,6 +1,7 @@
 package com.jlee3688gatech;
 
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 public class Example {
     private ArrayList<ArrayList<Double>> inputExample;

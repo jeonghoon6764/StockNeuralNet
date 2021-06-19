@@ -141,32 +141,32 @@ public class StockDatas {
         return this.target;
     }
 
-    public Calendar getTargetDate() {
-        return this.dates.get(target);
+    public Calendar getTargetDate(int count) {
+        return this.dates.get(target + count);
     }
 
-    public BigDecimal getTargetAdjClose() {
-        return this.adjCloseList.get(target);
+    public BigDecimal getTargetAdjClose(int count) {
+        return this.adjCloseList.get(target + count);
     }
 
-    public BigDecimal getTargetClose() {
-        return this.closeList.get(target);
+    public BigDecimal getTargetClose(int count) {
+        return this.closeList.get(target + count);
     }
 
-    public BigDecimal getTargetHigh() {
-        return this.highList.get(target);
+    public BigDecimal getTargetHigh(int count) {
+        return this.highList.get(target + count);
     }
 
-    public BigDecimal getTargetLow() {
-        return this.lowList.get(target);
+    public BigDecimal getTargetLow(int count) {
+        return this.lowList.get(target + count);
     }
 
-    public BigDecimal getTargetOpen() {
-        return this.openList.get(target);
+    public BigDecimal getTargetOpen(int count) {
+        return this.openList.get(target + count);
     }
 
-    public Long getTargetVolume() {
-        return this.volumeList.get(target);
+    public Long getTargetVolume(int count) {
+        return this.volumeList.get(target + count);
     }
 
     public void setTarget(int target) {

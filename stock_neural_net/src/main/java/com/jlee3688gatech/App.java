@@ -1,6 +1,8 @@
 package com.jlee3688gatech;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Scanner;
 
 /**
@@ -14,12 +16,34 @@ public class App
     private static PrintStrings ps;
     public static void main( String[] args )
     {
+        Calendar cal = UtilMethods.CalendarMaker("20170101000000");
+        Calendar tempCal = UtilMethods.CalendarMaker("20180101000000");
+        Calendar cal2 = Calendar.getInstance();
+        ArrayList<StockDatas> stockDatasArr = new ArrayList<StockDatas>();
+        try {
+            StockDatas goog = new StockDatas("GOOGLE", "GOOG", cal, cal2);
+            StockDatas amzn = new StockDatas("AMAZON", "AMZN", cal, cal2);
+            StockDatas tsla = new StockDatas("TESLA", "TSLA", cal, cal2);
 
-        SaveAndLoad sl = new SaveAndLoad();
+            stockDatasArr.add(goog);
+            stockDatasArr.add(amzn);
+            stockDatasArr.add(tsla);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
-        ArrayList<String> test = sl.getFileNamesInSaveDirectory();
-        System.out.println(test.get(0));
-        sl.removeFile("abc");
+        ExampleMaker exm = new ExampleMaker(stockDatasArr);
+        ArrayList<String> dataTypes = new ArrayList<String>();
+        dataTypes.add("adjclosed");
+        dataTypes.add("open");
+        dataTypes.add("low");
+        
+        System.out.println(exm.getExamples(0, 3, "adjclosed", 5, 10, dataTypes, 5));
+
+        
+
+        
 
         nNList = new ArrayList<NeuralNet>();
         sc = new Scanner(System.in);
