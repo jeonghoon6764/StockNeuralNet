@@ -73,9 +73,10 @@ public class NeuralNet implements Serializable{
     /**
      * method for back propagation learning.
      * @param expectOutput expectOutput from example
+     * @param learningRate learning Rate
      * @return avg error from learning.
      */
-    public double backPropLearning(ArrayList<Double> expectOutput) {
+    public double backPropLearning(ArrayList<Double> expectOutput, double learningRate) {
         
         deltas = new ArrayList<ArrayList<Double>>();
         double avgError = 0.0D;
@@ -109,7 +110,7 @@ public class NeuralNet implements Serializable{
         }
 
         for (int i = 0; i < deltas.size(); i++) {
-            NN.get(i).update(0.1, deltas.get(i));
+            NN.get(i).update(learningRate, deltas.get(i));
         }
         return avgError / this.outputSize;
     }

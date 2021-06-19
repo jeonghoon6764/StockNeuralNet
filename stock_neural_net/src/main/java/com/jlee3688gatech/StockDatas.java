@@ -1,5 +1,6 @@
 package com.jlee3688gatech;
 import java.io.IOException;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -8,7 +9,7 @@ import yahoofinance.Stock;
 import yahoofinance.YahooFinance;
 import yahoofinance.histquotes.Interval;
 
-public class StockDatas {
+public class StockDatas implements Serializable{
     private String name;
     private String ticker;
     private int target;
@@ -23,6 +24,7 @@ public class StockDatas {
     private ArrayList<Long> volumeList;
 
     public StockDatas(String name, String ticker, Calendar from, Calendar to) throws IOException {
+        to.add(Calendar.DATE, 1);
         this.name = name;
         this.ticker = ticker;
         this.target = 0;
@@ -61,7 +63,6 @@ public class StockDatas {
         this.target = 0;
 
         if (newDate.getTimeInMillis() < from.getTimeInMillis()) {
-            from.add(Calendar.DATE, -1);
             try {
                 st = YahooFinance.get(ticker, newDate, from, Interval.DAILY);
                 for (int i = 0; i < st.getHistory().size(); i++) {
@@ -74,7 +75,6 @@ public class StockDatas {
                     tempVolumeList.add(st.getHistory().get(i).getVolume());
                 }
             } catch (IOException e) {
-                from.add(Calendar.DATE, 1);
                 return false;
             }
             tempDates.addAll(this.dates);
@@ -96,6 +96,7 @@ public class StockDatas {
             return true;
         } else if (newDate.getTimeInMillis() > to.getTimeInMillis()) {
             to.add(Calendar.DATE, 1);
+            newDate.add(Calendar.DATE, 1);
             try {
                 st = YahooFinance.get(ticker, to, newDate, Interval.DAILY);
                 for (int i = 0; i < st.getHistory().size(); i++) {

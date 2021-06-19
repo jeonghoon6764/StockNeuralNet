@@ -88,7 +88,7 @@ public class ExampleMaker {
 
 
     private ArrayList<Double> getTargetOutputData(int tickerNum, int numOfInc, String dataType, int targetDataCountFrom, int targetDataCountTo) {
-        ArrayList<Double> temp = getTickerMultipleDatas(tickerNum, dataType, counter + targetDataCountFrom, counter + targetDataCountTo);
+        ArrayList<Double> temp = getTickerMultipleDatas(tickerNum, dataType, counter + targetDataCountFrom - 1, counter + targetDataCountTo);
         if (temp == null) {
             return null;
         }
@@ -126,7 +126,7 @@ public class ExampleMaker {
     }
 
     private ArrayList<Double> getTargetInputExample(ArrayList<String> dataTypes, int numOfDataFromCounter) {
-        ArrayList<Double> ret = unionAllTickerDatas(dataTypes, counter, numOfDataFromCounter);
+        ArrayList<Double> ret = unionAllTickerDatas(dataTypes, counter, counter + numOfDataFromCounter);
         return ret;
     }
 
@@ -211,8 +211,21 @@ public class ExampleMaker {
         }
     }
 
+    public ArrayList<String> getStockNameList() {
+        ArrayList<String> ret = new ArrayList<String>();
+        for (int i = 0; i < stockDatasArr.size(); i++) {
+            ret.add(stockDatasArr.get(i).getName());
+        }
+        return ret;
+    }
     
-
+    public ArrayList<String> getStockTickerList() {
+        ArrayList<String> ret = new ArrayList<String>();
+        for (int i = 0; i < stockDatasArr.size(); i++) {
+            ret.add(stockDatasArr.get(i).getTicker());
+        }
+        return ret;
+    }
 
     
 }
