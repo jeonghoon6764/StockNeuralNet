@@ -13,12 +13,14 @@ public class App
 {
     private static ArrayList<NeuralNet> nNList;
     private static ArrayList<StockDatas> stList;
+    private static ArrayList<RecentInputData> recentInputs;
     private static Scanner sc;
     private static PrintStrings ps;
     public static void main( String[] args )
     {
         nNList = new ArrayList<NeuralNet>();
         stList = new ArrayList<StockDatas>();
+        recentInputs = new ArrayList<RecentInputData>();
         sc = new Scanner(System.in);
         ps = new PrintStrings();
 
@@ -81,11 +83,180 @@ public class App
         ArrayList<StockDatas> stocksInput = new ArrayList<StockDatas>();
         for (int i = 0; i < stocksNum.size(); i++) {
             stocksInput.add(stList.get(stocksNum.get(i)));
-        } 
+        }
 
+        listStockDatas();
+        System.out.print("\nChoose target ticker : ");
+        Integer targetTicker = Integer.parseInt(sc.nextLine()) - 1;
+
+        System.out.print("\nLearning Rate : ");
+        Double learningRate = Double.parseDouble(sc.nextLine());
+
+        System.out.print("\nMax Iteration : ");
+        Integer maxIter = Integer.parseInt(sc.nextLine());
+
+        System.out.print("\nMinimum Error : ");
+        Double minError = Double.parseDouble(sc.nextLine());
+
+        ps.asteriskPrinter(null, null);
+        ps.asteriskPrinter(null, "SUMMARY");
+        ps.asteriskPrinter(null, null);
+
+        ps.asteriskPrinter(null, "Stock List");
+        for (int i = 0; i < stocksInput.size(); i++) {
+            Integer num = i;
+            num++;
+            if (i == targetTicker) {
+                ps.asteriskPrinter(num.toString(), stocksInput.get(i).getName() + "<Target>");
+            } else {
+                ps.asteriskPrinter(num.toString(), stocksInput.get(i).getName());
+            }
+        }
+        ps.asteriskPrinter(null, null);
+        ps.asteriskPrinter("Learning Rate", learningRate.toString());
+        ps.asteriskPrinter("Max Iteration", maxIter.toString());
+        ps.asteriskPrinter("Minimum Error", minError.toString());
+        ps.asteriskPrinter(null, null);
+
+        System.out.print("\n\n\n continue? (Y/n) : ");
+        char confirm = sc.nextLine().charAt(0);
+
+        if (confirm == 'Y') {
+
+
+            Learning learning = new Learning(nNList.get(nNnumber), stocksInput);
+            learning.makeExamples(targetTicker);
+            learning.makeExamples(targetTickerNum, 3, "adjclosed", 5, 10, 0.01, inputTypes, 5);
+            learning.backPropLearnNeuralNet(learningRate, maxIter, minError);
+        }
+    }
+
+    private static void learningHelper(int nNnumber, int targetTickerNum, ArrayList<StockDatas> stocksInput, double learningRate, int maxIteration, double minError) {
         Learning learning = new Learning(nNList.get(nNnumber), stocksInput);
-        learning.makeExamples(0);
-        learning.backPropLearnNeuralNet(0.1D, 100, 0.1D);
+        System.out.print("\nCustom mode (Y/n) : ");
+        char confirm = sc.nextLine().charAt(0);
+
+        Integer targetNumOfInc = 3;
+        String targetDataType = "adjclosed";
+        Integer targetDataCountFrom = 5;
+        Integer targetDataCountTo = 10;
+        Double incRate = 0.01;
+        ArrayList<String> inputTypes = selectInputTypes(false);
+        Integer numOfDataFromCounter = 5;
+
+        if (confirm == 'Y') {
+            System.out.print("\nTarget number of increase day [default = 3] : ");
+            targetNumOfInc = Integer.parseInt(sc.nextLine());
+
+            System.out.print("\nTarget data Type [default = adjclosed] : ");
+            targetDataType = sc.nextLine();
+
+            System.out.print("\nTarget data count from [default = 5] : ");
+            targetDataCountFrom = Integer.parseInt(sc.nextLine());
+
+            System.out.print("\nTarget data count to [default = 10] : ");
+            targetDataCountTo = Integer.parseInt(sc.nextLine());
+
+            System.out.print("\nminimum increase rate from base [default = 0.01] : ");
+            incRate = Double.parseDouble(sc.nextLine());
+
+            inputTypes = selectInputTypes(true);
+
+            System.out.print("\nNumber of data from counter [default = 5] : ");
+            numOfDataFromCounter = Integer.parseInt(sc.nextLine());
+        }
+
+        System.out.println("\n\n");
+
+        ps.asteriskPrinter(null, null);
+        ps.asteriskPrinter(null, "SUMMARY");
+        ps.asteriskPrinter("Target Increase day", targetNumOfInc.toString());
+        ps.asteriskPrinter("Target Data Type", targetDataType);
+        ps.asteriskPrinter("Target Data Count From", targetDataCountFrom.toString());
+        ps.asteriskPrinter("Target Data Count To", targetDataCountTo.toString());
+        ps.asteriskPrinter("Increase RATE", incRate.toString());
+        ps.asteriskPrinter("Number of Data from Counter", numOfDataFromCounter.toString());
+        ps.asteriskPrinter(null, null);
+        ps.asteriskPrinter(null, "INPUT Types");
+        for (int i = 0; i < inputTypes.size(); i++) {
+            Integer temp = i + 1;
+            ps.asteriskPrinter(temp.toString(), inputTypes.get(i));
+        }
+        ps.asteriskPrinter(null, null);
+
+        System.out.print("\n\n\n continue? (Y/n) : ");
+        char ans = sc.nextLine().charAt(0);
+
+        if (ans == 'Y') {
+            System.out.println("\n\nMaking Examples/recentInput...");
+            double trueRate = learning.makeExamples(targetTickerNum, targetNumOfInc, targetDataType,
+             targetDataCountFrom, targetDataCountTo, incRate, inputTypes, numOfDataFromCounter);
+            System.out.println("\n\nGetting Recent Input...");
+            RecentInputData recentInput = learning.getRecentInput();
+            
+            System.out.println("True rate : " + trueRate);
+            System.out.print("\n\n continue? (Y/n) : ");
+            ans = sc.nextLine().charAt(0);
+            
+            if (ans == 'Y') {
+                recentInputs.add(recentInput);
+                learning.backPropLearnNeuralNet(learningRate, maxIteration, minError);
+            }
+        }
+    }
+
+    private static ArrayList<String> selectInputTypes(boolean custom) {
+        ArrayList<String> inputTypes = new ArrayList<String>();
+        boolean[] userSelect = new boolean[6];
+        ArrayList<String> ret = new ArrayList<String>();
+
+        inputTypes.add("adjclosed");
+        inputTypes.add("close");
+        inputTypes.add("high");
+        inputTypes.add("low");
+        inputTypes.add("open");
+        inputTypes.add("volume");
+
+        if(!custom) {
+            return inputTypes;
+        }
+
+        for (int i = 0; i < inputTypes.size(); i++) {
+            Integer temp = i + 1;
+            System.out.println(temp.toString() + " : " + inputTypes.get(i));
+        }
+
+        System.out.print("\n\n\n choose type of inputs : ");
+        int num = Integer.parseInt(sc.nextLine());
+        num--;
+
+        userSelect[num] = true;
+
+        while(num != -10) {
+            for (int i = 0; i < inputTypes.size(); i++) {
+                Integer temp = i + 1;
+                if (userSelect[i]) {
+                    System.out.println(temp.toString() + " : " + inputTypes.get(i) + " <Selected>");
+                } else {
+                    System.out.println(temp.toString() + " : " + inputTypes.get(i));
+                }
+            }
+
+            System.out.print("\n\n\n choose type of inputs (-9 if done): ");
+            num = Integer.parseInt(sc.nextLine());
+            num--;
+            if (num != -10) {
+                userSelect[num] = !userSelect[num];
+            }
+        }
+
+        for (int i = 0; i < userSelect.length; i++) {
+            if (userSelect[i]) {
+                ret.add(inputTypes.get(i));
+            }
+        }
+
+        return ret;
     }
 
     private static void selectNeuralNetMenu() {

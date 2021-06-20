@@ -56,16 +56,26 @@ public class ExampleMaker {
         }
         counterLimit = stockDatasArr.get(0).lookUpTargetInDate(minTo)
             - stockDatasArr.get(0).lookUpTargetInDate(maxFrom);
-        System.out.println("SharedFrom  == " + sharedFrom.toString());
-        System.out.println("SharedTo == " + sharedTo.toString());
-        System.out.println("counterLimit == " + counterLimit);
     }
 
-    public ArrayList<ArrayList<Double>> getExamples(int targetTickerNum, int targetNumOfInc, String targetDataType, int targetDataCountFrom, int targetDataCountTo
+    public RecentInputData getRecentInput(ArrayList<String> inputDataTypes, int numOfRecentData) {
+        ArrayList<Double> recentInput = unionAllTickerDatas(inputDataTypes, counterLimit - numOfRecentData + 1, counterLimit + 1);
+
+        ArrayList<String> stocksNames = new ArrayList<String>();
+        for (int i = 0; i < stockDatasArr.size(); i++) {
+            stocksNames.add(stockDatasArr.get(i).getName());
+        }
+
+        RecentInputData ret = new RecentInputData(recentInput, stocksNames
+        , stockDatasArr.get(0).getTargetDate(counterLimit - numOfRecentData + 1), stockDatasArr.get(0).getTargetDate(counterLimit));
+        return ret;
+    }
+
+    public ArrayList<ArrayList<Double>> getExamples(int targetTickerNum, int targetNumOfInc, String targetDataType, int targetDataCountFrom, int targetDataCountTo, double incRate
         , ArrayList<String> inputDataTypes, int numOfDataFromCounter) {
             
         ArrayList<Double> input = getTargetInputExample(inputDataTypes, numOfDataFromCounter);
-        ArrayList<Double> output = getTargetOutputData(targetTickerNum, targetNumOfInc, targetDataType, targetDataCountFrom, targetDataCountTo);
+        ArrayList<Double> output = getTargetOutputData(targetTickerNum, targetNumOfInc, targetDataType, targetDataCountFrom, targetDataCountTo, incRate);
 
         if(input == null || output == null) {
             return null;
@@ -87,7 +97,7 @@ public class ExampleMaker {
     }
 
 
-    private ArrayList<Double> getTargetOutputData(int tickerNum, int numOfInc, String dataType, int targetDataCountFrom, int targetDataCountTo) {
+    private ArrayList<Double> getTargetOutputData(int tickerNum, int numOfInc, String dataType, int targetDataCountFrom, int targetDataCountTo, double incRate) {
         ArrayList<Double> temp = getTickerMultipleDatas(tickerNum, dataType, counter + targetDataCountFrom - 1, counter + targetDataCountTo);
         if (temp == null) {
             return null;
@@ -95,7 +105,7 @@ public class ExampleMaker {
 
         int countInc = 0;
         double base = temp.get(0);
-        if (base > temp.get(temp.size() - 1)) {
+        if ((base * (1 + incRate)) > temp.get(temp.size() - 1)) {
             return retFalse();
         } else {
             for (int i = 1; i < temp.size(); i++) {
@@ -225,6 +235,10 @@ public class ExampleMaker {
             ret.add(stockDatasArr.get(i).getTicker());
         }
         return ret;
+    }
+
+    public void resetCounter() {
+        this.counter = 0;
     }
 
     
