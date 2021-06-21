@@ -22,7 +22,7 @@ public class App
         stList = new ArrayList<StockDatas>();
         recentInputs = new ArrayList<RecentInputData>();
         sc = new Scanner(System.in);
-        ps = new PrintStrings();
+        ps = new PrintStrings(140);
 
         boolean continueLoop = true;
 
@@ -34,6 +34,7 @@ public class App
             System.out.println("1. Neural Net Menu.");
             System.out.println("2. StockDatas Menu.");
             System.out.println("3. Leaning NeuralNet");
+            System.out.println("4. Running NeuralNet");
             System.out.println("4. Exit.");
 
             int userSelect = Integer.parseInt(sc.nextLine());
@@ -44,11 +45,72 @@ public class App
                 selectStockDatasMenu();
             } else if (userSelect == 3) {
                 selectLearning();
+            } else if (userSelect == 4) {
+                runningNeuralNet();
             } else {
                 continueLoop = false;
             }
         }
         
+    }
+
+    private static void runningNeuralNet() {
+        if (nNList.size() == 0 || recentInputs.size() == 0) {
+            System.out.println("There is no Neural Net or RecentInputs currently exist.");
+            return;
+        }
+        ps.printCurrentAddress("Main Menu / Learning");
+        listNeuralNet();
+
+        System.out.print("Choose the NeuralNet: ");
+        int nNNumber = Integer.parseInt(sc.nextLine());
+        nNNumber--;
+
+        listRecentDatas();
+
+        System.out.print("Choose the RecentData: ");
+        int rDNumber = Integer.parseInt(sc.nextLine());
+        rDNumber--;
+
+        if (recentInputs.get(rDNumber).getNumOfInput() != nNList.get(nNNumber).inputSize) {
+            System.out.println("input size does not match. return to menu.");
+            return;
+        }
+
+        ps.asteriskPrinter(null, null);
+        ps.asteriskPrinter(null, "SUMMARY-Neural Net");
+        ps.asteriskPrinter("name", nNList.get(nNNumber).getName());
+        ps.asteriskPrinter("note", nNList.get(nNNumber).getNote());
+        ps.asteriskPrinter(null, null);
+        ps.asteriskPrinter(null, "SUMMARY-RecentData");
+        ps.asteriskPrinter("Date Created", UtilMethods.CalendarToString(recentInputs.get(rDNumber).getCreatedDate()));
+        ps.asteriskPrinter("Date Start from", UtilMethods.CalendarToString(recentInputs.get(rDNumber).getDateStartOf()));
+        ps.asteriskPrinter("Date End to", UtilMethods.CalendarToString(recentInputs.get(rDNumber).getDateEndOf()));
+        String str = recentInputs.get(rDNumber).getStockNames().get(0);
+        for (int i = 1; i < recentInputs.get(rDNumber).getStockNames().size(); i++) {
+            str += ", " + recentInputs.get(rDNumber).getStockNames().get(i);
+        }
+        ps.asteriskPrinter("Stocks", str);
+        ps.asteriskPrinter(null, null);
+
+        System.out.print("\n\n\n continue? (Y/n) : ");
+        char confirm = sc.nextLine().charAt(0);
+
+        if (confirm == 'Y') {
+            ArrayList<Double> retVal = nNList.get(nNNumber).feedFoward(recentInputs.get(rDNumber).getRecentInput());
+            Double trueValue = retVal.get(0);
+            Double falseValue = retVal.get(1);
+
+            ps.asteriskPrinter(null, null);
+            ps.asteriskPrinter(null, "Neural Net Result");
+            ps.asteriskPrinter("True Value : ", trueValue.toString());
+            ps.asteriskPrinter("False Value : ", falseValue.toString());
+            ps.asteriskPrinter(null, null);
+
+            System.out.println("press any key and enter to go main menu.");
+            sc.nextLine().charAt(0);
+        }
+
     }
 
     private static void selectLearning() {
@@ -67,7 +129,7 @@ public class App
         ArrayList<Integer> stocksNum = new ArrayList<Integer>();
         listStockDatas();
         System.out.print("Choose the StockData: ");
-        stocksNum.add(Integer.parseInt(sc.nextLine()));
+        stocksNum.add(Integer.parseInt(sc.nextLine()) - 1);
         String input = new String();
         while (!input.equals("-9")) {
             listStockDatas();
@@ -122,12 +184,7 @@ public class App
         char confirm = sc.nextLine().charAt(0);
 
         if (confirm == 'Y') {
-
-
-            Learning learning = new Learning(nNList.get(nNnumber), stocksInput);
-            learning.makeExamples(targetTicker);
-            learning.makeExamples(targetTickerNum, 3, "adjclosed", 5, 10, 0.01, inputTypes, 5);
-            learning.backPropLearnNeuralNet(learningRate, maxIter, minError);
+            learningHelper(nNnumber, targetTicker, stocksInput, learningRate, maxIter, minError);
         }
     }
 
@@ -184,7 +241,7 @@ public class App
         }
         ps.asteriskPrinter(null, null);
 
-        System.out.print("\n\n\n continue? (Y/n) : ");
+        System.out.print("\n\n\n continue? (Y/n/R) : ");
         char ans = sc.nextLine().charAt(0);
 
         if (ans == 'Y') {
@@ -193,15 +250,22 @@ public class App
              targetDataCountFrom, targetDataCountTo, incRate, inputTypes, numOfDataFromCounter);
             System.out.println("\n\nGetting Recent Input...");
             RecentInputData recentInput = learning.getRecentInput();
+
+            System.out.println("RecentData Start of : " + UtilMethods.CalendarToString(recentInput.getDateStartOf()));
+            System.out.println("RecentData End to : " + UtilMethods.CalendarToString(recentInput.getDateEndOf()));
             
             System.out.println("True rate : " + trueRate);
-            System.out.print("\n\n continue? (Y/n) : ");
+            System.out.print("\n\n continue? (Y/n/R) : ");
             ans = sc.nextLine().charAt(0);
             
             if (ans == 'Y') {
                 recentInputs.add(recentInput);
                 learning.backPropLearnNeuralNet(learningRate, maxIteration, minError);
+            } else if (ans == 'R') {
+                learningHelper(nNnumber, targetTickerNum, stocksInput, learningRate, maxIteration, minError);
             }
+        } else if (ans == 'R') {
+            learningHelper(nNnumber, targetTickerNum, stocksInput, learningRate, maxIteration, minError);
         }
     }
 
@@ -500,6 +564,12 @@ public class App
 
         if (input == 'Y') {
             selectSeeStockData();
+        }
+    }
+
+    private static void listRecentDatas() {
+        for (int i = 0; i < recentInputs.size(); i++) {
+            System.out.println((i + 1) + ": " + UtilMethods.CalendarToString(recentInputs.get(i).getCreatedDate()));
         }
     }
 

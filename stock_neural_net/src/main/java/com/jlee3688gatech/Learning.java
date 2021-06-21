@@ -36,7 +36,7 @@ public class Learning {
         }
 
         this.recentInput = exampleMaker.getRecentInput(inputDataTypes, numOfDataFromCounter);
-        System.out.println("recent input created");
+        System.out.println(numOfExample + " number of example created.");
 
         return (double)numOfTrue / (double)numOfExample;
     }
@@ -67,7 +67,7 @@ public class Learning {
 
     public void backPropLearnNeuralNet(double learningRate, int maxIteration, double minError) {
         if (checkAvailable()) {
-            double error = Double.MAX_VALUE;
+            Double error = Double.MAX_VALUE;
             int iteration = 0;
             while(error > minError && iteration < maxIteration) {
                 error = 0.0;
@@ -79,12 +79,13 @@ public class Learning {
                 iteration++;
 
                 String errorString = Double.toString(error);
-                errorString = errorString.substring(0, 5);
+                errorString = errorString.substring(0, 7);
 
                 String str = "iteration == " + iteration + "  " + "error == " + errorString;
                 System.out.println(str);
-                neuralNet.addLog(str);
             }
+            String str = "<Learning> Iteration: " + iteration + ", last iteration error: " + error.toString().substring(0, 7) + ", number of example : " + examples.size();
+            neuralNet.addLog(str);
         } else {
             System.out.println("NN or dataset(examples) does not match.");
         }
