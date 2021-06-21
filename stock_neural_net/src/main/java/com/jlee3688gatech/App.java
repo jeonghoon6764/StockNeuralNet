@@ -41,7 +41,7 @@ public class App
             System.out.println("2. StockDatas Menu.");
             System.out.println("3. Leaning NeuralNet");
             System.out.println("4. Running NeuralNet");
-            System.out.println("4. Exit.");
+            System.out.println("5. Exit.");
 
             int userSelect = Integer.parseInt(sc.nextLine());
 
@@ -374,7 +374,7 @@ public class App
 
         ps.printCurrentAddress("Main Menu / Stock Datas Menu");
         
-        if (nNList.size() > 0) {
+        if (stList.size() > 0) {
             ps.asteriskPrinter(null, "Exist Stock Datas");
             for (int i = 0; i < stList.size(); i++) {
                 ps.asteriskPrinter(stList.get(i).getName(), stList.get(i).getName());
@@ -516,7 +516,7 @@ public class App
     }
 
     private static void selectRemoveStockData() {
-        if (nNList.size() == 0) {
+        if (stList.size() == 0) {
             System.out.println("There is no Stock Datas currently exist.");
             return;
         }
