@@ -8,6 +8,12 @@ import java.util.Scanner;
 /**
  * TEST PURPOSE CODE
  * NO GUI
+ * 
+ * TLT
+ * GLD
+ * IYY
+ * NDAQ
+ * 
  */
 public class App 
 {
