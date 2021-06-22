@@ -100,13 +100,13 @@ public class App
 
     private static void macro_run() {
         autoBuildStockData(st.getTechStockList());
-        Map<String, String> sepList = st.getTechStockList1();
+        Map<String, String> sepList = st.getTechStockList2();
 
-        ArrayList<NeuralNet> automatic_nNList = new ArrayList<NeuralNet>();
+        
         for (int i = 0; i < stList.size(); i++) {
             if (sepList.containsKey(stList.get(i).getName())) {
                 int[] hiddenLayer = {280, 280, 280};
-                automatic_nNList.add(new NeuralNet(stList.get(i).getName(), "AUTO_GENERATED", 280, 2, hiddenLayer));
+                nNList.add(new NeuralNet(stList.get(i).getName(), "AUTO_GENERATED", 280, 2, hiddenLayer));
             }
         }
 
@@ -121,8 +121,8 @@ public class App
                 int targetTicker = i;
                 double learningRate = 0.01;
                 int maxIter = 300;
-                double minError = 0.01;
-                Learning learning = new Learning(automatic_nNList.get(num), stList);
+                double minError = 0.02;
+                Learning learning = new Learning(nNList.get(num), stList);
                 int targetNumOfInc = 2;
                 String targetDataType = "adjclosed";
                 int targetDataCountFrom = 5;
@@ -136,7 +136,7 @@ public class App
                 targetDataCountFrom, targetDataCountTo, incRate, inputTypes, numOfDataFromCounter));
                 RecentInputData rid = learning.getRecentInput();
                 learning.backPropLearnNeuralNet(learningRate, maxIter, minError);
-                ArrayList<Double> retVal = automatic_nNList.get(num).feedFoward(rid.getRecentInput());
+                ArrayList<Double> retVal = nNList.get(num).feedFoward(rid.getRecentInput());
                 trueRates.add(retVal.get(0));
                 falseRates.add(retVal.get(1));
                 companyNames.add(stList.get(i).getName());
