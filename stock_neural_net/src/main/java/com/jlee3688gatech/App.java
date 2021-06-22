@@ -105,7 +105,7 @@ public class App
         ArrayList<NeuralNet> automatic_nNList = new ArrayList<NeuralNet>();
         for (int i = 0; i < stList.size(); i++) {
             if (sepList.containsKey(stList.get(i).getName())) {
-                int[] hiddenLayer = {280};
+                int[] hiddenLayer = {280, 280, 280};
                 automatic_nNList.add(new NeuralNet(stList.get(i).getName(), "AUTO_GENERATED", 280, 2, hiddenLayer));
             }
         }
@@ -120,7 +120,7 @@ public class App
             if (sepList.containsKey(stList.get(i).getName())) {
                 int targetTicker = i;
                 double learningRate = 0.01;
-                int maxIter = 200;
+                int maxIter = 300;
                 double minError = 0.01;
                 Learning learning = new Learning(automatic_nNList.get(num), stList);
                 int targetNumOfInc = 2;
