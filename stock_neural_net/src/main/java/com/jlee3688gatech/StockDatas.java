@@ -9,6 +9,11 @@ import yahoofinance.Stock;
 import yahoofinance.YahooFinance;
 import yahoofinance.histquotes.Interval;
 
+/**
+ * class for holding stock data.
+ * @version 1.0
+ * @author Jeonghoon Lee
+ */
 public class StockDatas implements Serializable{
     private String name;
     private String ticker;
@@ -23,6 +28,14 @@ public class StockDatas implements Serializable{
     private ArrayList<BigDecimal> openList;
     private ArrayList<Long> volumeList;
 
+    /**
+     * Constructor for StockDatas class.
+     * @param name company name
+     * @param ticker ticker symbol of company
+     * @param from date from
+     * @param to date to
+     * @throws IOException exception if the data fails to load.
+     */
     public StockDatas(String name, String ticker, Calendar from, Calendar to) throws IOException {
         to.add(Calendar.DATE, 1);
         this.name = name;
@@ -51,6 +64,11 @@ public class StockDatas implements Serializable{
         this.to = dates.get(dates.size() - 1);
     }
 
+    /**
+     * update Stock data, this will take the date, and update.
+     * @param newDate date user wants to update.
+     * @return true if success, otherwise false
+     */
     public boolean updateStockData(Calendar newDate) {
         Stock st;
         ArrayList<Calendar> tempDates = new ArrayList<Calendar>();
@@ -73,6 +91,7 @@ public class StockDatas implements Serializable{
                     tempLowList.add(st.getHistory().get(i).getLow());
                     tempOpenList.add(st.getHistory().get(i).getOpen());
                     tempVolumeList.add(st.getHistory().get(i).getVolume());
+                    System.out.println("...");
                 }
             } catch (IOException e) {
                 return false;
@@ -107,6 +126,7 @@ public class StockDatas implements Serializable{
                     tempLowList.add(st.getHistory().get(i).getLow());
                     tempOpenList.add(st.getHistory().get(i).getOpen());
                     tempVolumeList.add(st.getHistory().get(i).getVolume());
+                    System.out.println("...");
                 }
             } catch (IOException e) {
                 to.add(Calendar.DATE, -1);
@@ -126,38 +146,80 @@ public class StockDatas implements Serializable{
         }
     }
 
+    /**
+     * helper method for searching target idx number.
+     * @param targetDate date user want to search
+     * @return idx number (target's idx)
+     */
     public int lookUpTargetInDate(Calendar targetDate) {
         return dates.indexOf(targetDate);
     }
 
+    /**
+     * getter for name
+     * @return name
+     */
     public String getName() {
         return this.name;
     }
 
+    /**
+     * getter for symbol
+     * @return ticker symbol
+     */
     public String getTicker() {
         return this.ticker;
     }
 
+    /**
+     * getter for target
+     * @return target idx number.
+     */
     public int getTarget() {
         return this.target;
     }
 
+    /**
+     * getter for targer's date
+     * @param count idx number from target
+     * @return date of target + count idx's
+     */
     public Calendar getTargetDate(int count) {
         return this.dates.get(target + count);
     }
 
+    /**
+     * getter for target adjclose
+     * @param count count from target
+     * @return target's adjclose value.
+     */
     public BigDecimal getTargetAdjClose(int count) {
         return this.adjCloseList.get(target + count);
     }
 
+    /**
+     * getter for target close
+     * @param count count from target
+     * @return target's close value.
+     */
     public BigDecimal getTargetClose(int count) {
         return this.closeList.get(target + count);
     }
 
+    /**
+     * getter for target high
+     * @param count count from target
+     * @return target's high value.
+     */
     public BigDecimal getTargetHigh(int count) {
         return this.highList.get(target + count);
     }
 
+    /**
+     * getter for target low
+     * @param count count from target
+     * @return target's low value.
+     */
     public BigDecimal getTargetLow(int count) {
         return this.lowList.get(target + count);
     }

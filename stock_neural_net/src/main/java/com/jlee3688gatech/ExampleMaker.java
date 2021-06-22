@@ -98,7 +98,7 @@ public class ExampleMaker {
 
 
     private ArrayList<Double> getTargetOutputData(int tickerNum, int numOfInc, String dataType, int targetDataCountFrom, int targetDataCountTo, double incRate) {
-        ArrayList<Double> temp = getTickerMultipleDatas(tickerNum, dataType, counter + targetDataCountFrom - 1, counter + targetDataCountTo);
+        ArrayList<Double> temp = getTickerMultipleDatas(tickerNum, dataType, counter + targetDataCountFrom - 1, counter + targetDataCountTo + 1);
         if (temp == null) {
             return null;
         }

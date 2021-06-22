@@ -3,6 +3,9 @@ package com.jlee3688gatech;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Scanner;
 
 /**
@@ -22,6 +25,7 @@ public class App
     private static ArrayList<RecentInputData> recentInputs;
     private static Scanner sc;
     private static PrintStrings ps;
+    private static StockList st;
     public static void main( String[] args )
     {
         nNList = new ArrayList<NeuralNet>();
@@ -29,6 +33,8 @@ public class App
         recentInputs = new ArrayList<RecentInputData>();
         sc = new Scanner(System.in);
         ps = new PrintStrings(140);
+        st = new StockList();
+
 
         boolean continueLoop = true;
 
@@ -41,7 +47,8 @@ public class App
             System.out.println("2. StockDatas Menu.");
             System.out.println("3. Leaning NeuralNet");
             System.out.println("4. Running NeuralNet");
-            System.out.println("5. Exit.");
+            System.out.println("5. Automatic_Macro");
+            System.out.println("6. Exit.");
 
             int userSelect = Integer.parseInt(sc.nextLine());
 
@@ -53,11 +60,114 @@ public class App
                 selectLearning();
             } else if (userSelect == 4) {
                 runningNeuralNet();
+            } else if (userSelect == 5) {
+                macro_run();
             } else {
                 continueLoop = false;
             }
         }
-        
+    }
+
+    private static void autoBuildStockData(Map<String, String> ListToDo) {
+        Map<String, String> failingList = new HashMap<String,String>();
+
+        for (String name : ListToDo.keySet()) {
+            String ticker = ListToDo.get(name);
+            Calendar from = UtilMethods.CalendarMaker("20000101");
+            Calendar to = Calendar.getInstance();
+
+            try {
+                StockDatas tempStock = new StockDatas(name, ticker, from, to);
+                stList.add(tempStock);
+            } catch (IOException e) {
+                System.out.println("!!!failing to add data. this will retry later.!!!");
+                failingList.put(name, ticker);
+                
+            }
+        }
+
+        if (failingList.size() > 0) {
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            autoBuildStockData(failingList);
+        }
+    }
+
+
+
+    private static void macro_run() {
+        autoBuildStockData(st.getTechStockList());
+        Map<String, String> sepList = st.getTechStockList1();
+
+        ArrayList<NeuralNet> automatic_nNList = new ArrayList<NeuralNet>();
+        for (int i = 0; i < stList.size(); i++) {
+            if (sepList.containsKey(stList.get(i).getName())) {
+                int[] hiddenLayer = {280};
+                automatic_nNList.add(new NeuralNet(stList.get(i).getName(), "AUTO_GENERATED", 280, 2, hiddenLayer));
+            }
+        }
+
+        ArrayList<Double> trueRatesInExample = new ArrayList<Double>();
+        ArrayList<Double> trueRates = new ArrayList<Double>();
+        ArrayList<Double> falseRates = new ArrayList<Double>();
+        ArrayList<String> companyNames = new ArrayList<String>();
+
+        int num = 0;
+        for (int i = 0; i < stList.size(); i++) {
+            if (sepList.containsKey(stList.get(i).getName())) {
+                int targetTicker = i;
+                double learningRate = 0.01;
+                int maxIter = 200;
+                double minError = 0.01;
+                Learning learning = new Learning(automatic_nNList.get(num), stList);
+                int targetNumOfInc = 2;
+                String targetDataType = "adjclosed";
+                int targetDataCountFrom = 5;
+                int targetDataCountTo = 6;
+                double incRate = 0.02;
+                ArrayList<String> inputTypes = new ArrayList<String>();
+                inputTypes.add("adjclosed");
+                inputTypes.add("volume");
+                Integer numOfDataFromCounter = 5;
+                trueRatesInExample.add(learning.makeExamples(targetTicker, targetNumOfInc, targetDataType,
+                targetDataCountFrom, targetDataCountTo, incRate, inputTypes, numOfDataFromCounter));
+                RecentInputData rid = learning.getRecentInput();
+                learning.backPropLearnNeuralNet(learningRate, maxIter, minError);
+                ArrayList<Double> retVal = automatic_nNList.get(num).feedFoward(rid.getRecentInput());
+                trueRates.add(retVal.get(0));
+                falseRates.add(retVal.get(1));
+                companyNames.add(stList.get(i).getName());
+
+                System.out.println((i + 1) + "th calculation finished.");
+                num++;
+            } else {
+                System.out.println("skip " + (i + 1) + "th calculation.");
+            }
+        }
+
+        ps.asteriskPrinter(null, null);
+        ps.asteriskPrinter(null, "SUMMARY");
+        for (int i = 0; i < companyNames.size(); i++) {
+            ps.asteriskPrinter(null, null);
+            ps.asteriskPrinter(null, companyNames.get(i));
+            ps.asteriskPrinter("true ratio in example", trueRatesInExample.get(i).toString());
+            ps.asteriskPrinter("TRUE RATE", trueRates.get(i).toString());
+            ps.asteriskPrinter("FALSE RATE", falseRates.get(i).toString());
+        }
+        ps.asteriskPrinter(null, null);
+
+        if (trueRatesInExample.size() == trueRates.size()) {
+            System.out.println("!!!!!!");
+        }
+        if (trueRates.size() == falseRates.size()) {
+            System.out.println("!!!!");
+        }
+        if (falseRates.size() == companyNames.size()) {
+            System.out.println("!!");
+        }
     }
 
     private static void runningNeuralNet() {
@@ -118,6 +228,8 @@ public class App
         }
 
     }
+
+    
 
     private static void selectLearning() {
         if (nNList.size() == 0 || stList.size() == 0) {
