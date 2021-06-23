@@ -26,6 +26,7 @@ public class App
     private static Scanner sc;
     private static PrintStrings ps;
     private static StockList st;
+
     public static void main( String[] args )
     {
         nNList = new ArrayList<NeuralNet>();
@@ -68,43 +69,40 @@ public class App
         }
     }
 
-    private static void autoBuildStockData(Map<String, String> ListToDo) {
-        Map<String, String> failingList = new HashMap<String,String>();
+    private static void autoBuildStockData() {
 
-        for (String name : ListToDo.keySet()) {
-            String ticker = ListToDo.get(name);
+        StockList st = new StockList();
+
+        for (int i = 0; i < st.getSize(); i++) {
+            String name = st.getNameAndTicker(i).get(0);
+            String ticker = st.getNameAndTicker(i).get(1);
             Calendar from = UtilMethods.CalendarMaker("20000101");
-            Calendar to = Calendar.getInstance();
+            Calendar to = UtilMethods.CalendarMaker("20210622");
 
-            try {
-                StockDatas tempStock = new StockDatas(name, ticker, from, to);
-                stList.add(tempStock);
-            } catch (IOException e) {
-                System.out.println("!!!failing to add data. this will retry later.!!!");
-                failingList.put(name, ticker);
-                
+            while(true) {
+                try {
+                    StockDatas tempStock = new StockDatas(name, ticker, from, to);
+                    stList.add(tempStock);
+                    break;
+                } catch (IOException e) {
+                    try {
+                        Thread.sleep(5000);
+                    } catch (InterruptedException ie) {
+                        ie.printStackTrace();
+                    }
+                }
             }
         }
 
-        if (failingList.size() > 0) {
-            try {
-                Thread.sleep(5000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            autoBuildStockData(failingList);
-        }
     }
 
-
-
     private static void macro_run() {
-        autoBuildStockData(st.getTechStockList());
-        Map<String, String> sepList = st.getTechStockList2();
-
+        autoBuildStockData();
+        ArrayList<String> sepList = st.getSeparateNameList(1, 0);
+        //ArrayList<String> sepList = st.getSeparateNameList(2, 1);
         
         for (int i = 0; i < stList.size(); i++) {
-            if (sepList.containsKey(stList.get(i).getName())) {
+            if (sepList.contains(stList.get(i).getName())) {
                 int[] hiddenLayer = {280, 280, 280};
                 nNList.add(new NeuralNet(stList.get(i).getName(), "AUTO_GENERATED", 280, 2, hiddenLayer));
             }
@@ -117,11 +115,11 @@ public class App
 
         int num = 0;
         for (int i = 0; i < stList.size(); i++) {
-            if (sepList.containsKey(stList.get(i).getName())) {
+            if (sepList.contains(stList.get(i).getName())) {
                 int targetTicker = i;
-                double learningRate = 0.01;
+                double learningRate = 0.1;
                 int maxIter = 300;
-                double minError = 0.02;
+                double minError = 0.01;
                 Learning learning = new Learning(nNList.get(num), stList);
                 int targetNumOfInc = 2;
                 String targetDataType = "adjclosed";
