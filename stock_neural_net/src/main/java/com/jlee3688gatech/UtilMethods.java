@@ -21,5 +21,18 @@ public class UtilMethods {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         return formatter.format(cal.getTime());
     }
+
+    /**
+     * The Directory separator ("\", "/") depends on which OS user use.
+     * this method will check user's OS and set Directory separator (slash variable)
+     */
+    public static String getOSSlash() {
+        String osName = System.getProperty("os.name").toLowerCase();
+        if (osName.contains("win")) {
+            return "\\";
+        } else {
+            return "/";
+        }
+    }
     
 }

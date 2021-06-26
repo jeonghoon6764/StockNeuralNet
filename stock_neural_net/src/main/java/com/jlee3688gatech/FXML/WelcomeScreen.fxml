@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.media.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <MenuBar prefHeight="25.0" prefWidth="600.0">
+        <menus>
+            <Menu mnemonicParsing="false" text="File">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="New" />
+                  <MenuItem mnemonicParsing="false" text="Load" />
+                  <MenuItem mnemonicParsing="false" text="Save" />
+               </items>
+            </Menu>
+          <Menu mnemonicParsing="false" text="Stock">
+            <items>
+              <MenuItem mnemonicParsing="false" text="New" />
+                  <MenuItem mnemonicParsing="false" text="Load All" />
+                  <MenuItem mnemonicParsing="false" text="Save All" />
+                  <MenuItem mnemonicParsing="false" text="View" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="NeuralNet">
+            <items>
+              <MenuItem mnemonicParsing="false" text="New" />
+                  <MenuItem mnemonicParsing="false" text="Load" />
+                  <MenuItem mnemonicParsing="false" text="Save" />
+                  <MenuItem mnemonicParsing="false" text="View" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Networking">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Get NeuralNets" />
+                  <MenuItem mnemonicParsing="false" text="Send NeuralNet" />
+                  <MenuItem mnemonicParsing="false" text="Learn NeuralNet with" />
+            </items>
+          </Menu>
+            <Menu mnemonicParsing="false" text="Running">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Run" />
+                  <MenuItem mnemonicParsing="false" text="Run with Specific Date" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Help">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="About" />
+               </items>
+            </Menu>
+        </menus>
+      </MenuBar>
+      <AnchorPane layoutY="25.0" prefHeight="376.0" prefWidth="600.0">
+         <children>
+            <ImageView fx:id="neuralNetAnimation" fitHeight="110.0" fitWidth="190.0" layoutX="205.0" layoutY="78.0" pickOnBounds="true" preserveRatio="true" />
+         </children>
+      </AnchorPane>
+   </children>
+</Pane>

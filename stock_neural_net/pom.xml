@@ -7,6 +7,7 @@
   <version>1.0</version>
   <name>stock_neural_net</name>
   <url>http://maven.apache.org</url>
+  
   <dependencies>
     <dependency>
       <groupId>org.slf4j</groupId>
@@ -29,5 +30,34 @@
       <artifactId>YahooFinanceAPI</artifactId>
       <version>3.15.0</version>
     </dependency>
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-controls</artifactId>
+      <version>17-ea+13</version>
+    </dependency>
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-fxml</artifactId>
+      <version>17-ea+13</version>
+    </dependency>
+    <dependency>
+        <groupId>org.openjfx</groupId>
+        <artifactId>javafx-graphics </artifactId>
+        <version>11</version>
+        <classifier>win</classifier>
+    </dependency>
+    <dependency>
+        <groupId>org.openjfx</groupId>
+        <artifactId>javafx-graphics </artifactId>
+        <version>11</version>
+        <classifier>linux</classifier>
+    </dependency>
+    <dependency>
+        <groupId>org.openjfx</groupId>
+        <artifactId>javafx-graphics </artifactId>
+        <version>11</version>
+        <classifier>mac</classifier>
+    </dependency>
+    
   </dependencies>
 </project>
