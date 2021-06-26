@@ -4,22 +4,19 @@ import java.util.ArrayList;
 
 public class NeuralNetSetOutput {
     private ArrayList<String> stockNames;
-    private ArrayList<Double> truthRatios;
     private ArrayList<Double> trueValues;
     private ArrayList<Double> falseValues;
     private int size;
 
     public NeuralNetSetOutput() {
         this.stockNames = new ArrayList<String>();
-        this.truthRatios = new ArrayList<Double>();
         this.trueValues = new ArrayList<Double>();
         this.falseValues = new ArrayList<Double>();
         this.size = 0;
     }
 
-    public void addOutput(String stockName, double truthRatio, double trueValue, double falseValue) {
+    public void addOutput(String stockName, double trueValue, double falseValue) {
         this.stockNames.add(stockName);
-        this.truthRatios.add(truthRatio);
         this.trueValues.add(trueValue);
         this.falseValues.add(falseValue);
         this.size++;
@@ -31,10 +28,6 @@ public class NeuralNetSetOutput {
 
     public String getStockName(int i) {
         return this.stockNames.get(i);
-    }
-
-    public double getTruthRatio(int i) {
-        return this.truthRatios.get(i);
     }
 
     public double getTrueValue(int i) {

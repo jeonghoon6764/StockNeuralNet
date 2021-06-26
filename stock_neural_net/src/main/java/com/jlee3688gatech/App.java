@@ -49,7 +49,8 @@ public class App
             System.out.println("3. Leaning NeuralNet");
             System.out.println("4. Running NeuralNet");
             System.out.println("5. Automatic_Macro");
-            System.out.println("6. Exit.");
+            System.out.println("6. AutomaticGetRecent");
+            System.out.println("7. Exit.");
 
             int userSelect = Integer.parseInt(sc.nextLine());
 
@@ -63,21 +64,89 @@ public class App
                 runningNeuralNet();
             } else if (userSelect == 5) {
                 macro_run();
+            } else if (userSelect == 6) {
+                autoGet();
             } else {
                 continueLoop = false;
             }
         }
     }
 
-    private static void autoBuildStockData() {
+    private static void autoGet() {
+        autoBuildStockData("20210610", "20210625");
+        
+        SaveAndLoad sl1 = new SaveAndLoad();
+        sl1.addCurrAddr("NeuralNetData");
+        sl1.addCurrAddr("1.0");
+        SaveAndLoad sl2 = new SaveAndLoad();
+        sl2.addCurrAddr("NeuralNetData");
+        sl2.addCurrAddr("2.0");
+
+        ArrayList<String> fileNames1 = sl1.getFileNamesInSaveDirectory();
+        ArrayList<String> fileNames2 = sl2.getFileNamesInSaveDirectory();
+
+        ArrayList<NeuralNet> nNList1 = new ArrayList<NeuralNet>();
+        ArrayList<NeuralNet> nNList2 = new ArrayList<NeuralNet>();
+
+        for (int i = 0; i < fileNames1.size(); i++) {
+            System.out.println("load " + fileNames1.get(i) + "file now...");
+            NeuralNet loadFile = (NeuralNet)sl1.loadFile(fileNames1.get(i));
+            nNList1.add(loadFile);
+        }
+        for (int i = 0; i < fileNames2.size(); i++) {
+            System.out.println("load " + fileNames2.get(i) + "file now...");
+            NeuralNet loadFile = (NeuralNet)sl2.loadFile(fileNames2.get(i));
+            nNList2.add(loadFile);
+        }
+
+        NeuralNetSet ns1 = new NeuralNetSet(nNList1);
+        NeuralNetSet ns2 = new NeuralNetSet(nNList2);
+
+        ExampleMaker ex = new ExampleMaker(stList);
+
+        ArrayList<String> inputTypes = new ArrayList<String>();
+        inputTypes.add("adjclosed");
+        inputTypes.add("volume");
+        RecentInputData rid = ex.getRecentInput(inputTypes, 5);
+        System.out.println("rid start from" + UtilMethods.CalendarToString(rid.getDateStartOf()));
+        System.out.println("rid end to" + UtilMethods.CalendarToString(rid.getDateEndOf()));
+
+        NeuralNetSetOutput ns1Out = ns1.getRecentOutputData(rid);
+        NeuralNetSetOutput ns2Out = ns2.getRecentOutputData(rid);
+
+        for (int i = 0; i < ns1Out.getSize(); i++) {
+            ps.asteriskPrinter(null, null);
+            ps.asteriskPrinter("1.0", ns1Out.getStockName(i));
+            Double temp = ns1Out.getTrueValue(i);
+            ps.asteriskPrinter("TRUE VALUE", temp.toString());
+            temp = ns1Out.getFalseValue(i);
+            ps.asteriskPrinter("FALSE VALUE", temp.toString());
+        }
+        ps.asteriskPrinter(null, null);
+        System.out.println("\n\n\n");
+
+        for (int i = 0; i < ns2Out.getSize(); i++) {
+            ps.asteriskPrinter(null, null);
+            ps.asteriskPrinter("2.0", ns2Out.getStockName(i));
+            Double temp = ns2Out.getTrueValue(i);
+            ps.asteriskPrinter("TRUE VALUE", temp.toString());
+            temp = ns2Out.getFalseValue(i);
+            ps.asteriskPrinter("FALSE VALUE", temp.toString());
+        }
+        ps.asteriskPrinter(null, null);
+        System.out.println("\n\n\n");
+    }
+
+    
+    private static void autoBuildStockData(String dateFrom, String dateTo) {
 
         StockList st = new StockList();
 
         for (int i = 0; i < st.getSize(); i++) {
             String name = st.getNameAndTicker(i).get(0);
             String ticker = st.getNameAndTicker(i).get(1);
-            Calendar from = UtilMethods.CalendarMaker("20000101");
-            Calendar to = UtilMethods.CalendarMaker("20210622");
+            Calendar from = UtilMethods.CalendarMaker(dateFrom);
+            Calendar to = UtilMethods.CalendarMaker(dateTo);
 
             while(true) {
                 try {
@@ -97,7 +166,7 @@ public class App
     }
 
     private static void macro_run() {
-        autoBuildStockData();
+        autoBuildStockData("20000101", "20210622");
         ArrayList<String> sepList = st.getSeparateNameList(1, 0);
         //ArrayList<String> sepList = st.getSeparateNameList(2, 1);
         
