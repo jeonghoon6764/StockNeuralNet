@@ -6,10 +6,9 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jlee3688gatech.WelcomeScreenController">
    <children>
-      <MenuBar prefHeight="25.0" prefWidth="600.0">
+      <MenuBar disable="true" prefHeight="25.0" prefWidth="600.0">
         <menus>
             <Menu mnemonicParsing="false" text="File">
                <items>
@@ -56,7 +55,10 @@
       </MenuBar>
       <AnchorPane layoutY="25.0" prefHeight="376.0" prefWidth="600.0">
          <children>
-            <ImageView fx:id="neuralNetAnimation" fitHeight="110.0" fitWidth="190.0" layoutX="205.0" layoutY="78.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="neuralNetAnimation" fitHeight="110.0" fitWidth="190.0" layoutX="205.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true" />
+            <TextArea fx:id="warningTextArea" editable="false" layoutX="19.0" layoutY="157.0" prefHeight="171.0" prefWidth="563.0" wrapText="true" />
+            <CheckBox fx:id="checkReadAndUnderstood" layoutX="19.0" layoutY="338.0" mnemonicParsing="false" onAction="#userCheckRadioBox" text="By checking this box, I confirm having read, understood the warning." />
+            <Button fx:id="continueButton" disable="true" layoutX="491.0" layoutY="334.0" mnemonicParsing="false" onAction="#userClickContinue" prefHeight="25.0" prefWidth="91.0" text="Continue" />
          </children>
       </AnchorPane>
    </children>

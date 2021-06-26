@@ -25,6 +25,7 @@ public class MainController extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("FXML" + slash + "WelcomeScreen.fxml"));
         primaryStage.setTitle("Inspiration of Blockhead");
         primaryStage.setScene(new Scene(root, 600, 400));
+        primaryStage.setResizable(false);
         primaryStage.show();
     }
     /**
