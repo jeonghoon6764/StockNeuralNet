@@ -8,8 +8,16 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jlee3688gatech.WelcomeScreenController">
    <children>
-      <MenuBar disable="true" prefHeight="25.0" prefWidth="600.0">
-        <menus>
+      <AnchorPane layoutY="25.0" prefHeight="376.0" prefWidth="600.0">
+         <children>
+            <ImageView fx:id="neuralNetAnimation" fitHeight="110.0" fitWidth="190.0" layoutX="205.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true" />
+            <TextArea fx:id="warningTextArea" editable="false" layoutX="19.0" layoutY="157.0" prefHeight="171.0" prefWidth="563.0" wrapText="true" />
+            <CheckBox fx:id="checkReadAndUnderstood" layoutX="19.0" layoutY="338.0" mnemonicParsing="false" onAction="#userCheckRadioBox" text="By checking this box, I confirm having read, understood the warning." />
+            <Button fx:id="continueButton" disable="true" layoutX="491.0" layoutY="334.0" mnemonicParsing="false" onAction="#userClickContinue" prefHeight="25.0" prefWidth="91.0" text="Continue" />
+         </children>
+      </AnchorPane>
+      <MenuBar disable="true" layoutY="2.0" prefHeight="25.0" prefWidth="600.0">
+         <menus>
             <Menu mnemonicParsing="false" text="File">
                <items>
                   <MenuItem mnemonicParsing="false" text="New" />
@@ -17,30 +25,25 @@
                   <MenuItem mnemonicParsing="false" text="Save" />
                </items>
             </Menu>
-          <Menu mnemonicParsing="false" text="Stock">
-            <items>
-              <MenuItem mnemonicParsing="false" text="New" />
-                  <MenuItem mnemonicParsing="false" text="Load All" />
-                  <MenuItem mnemonicParsing="false" text="Save All" />
-                  <MenuItem mnemonicParsing="false" text="View" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="NeuralNet">
-            <items>
-              <MenuItem mnemonicParsing="false" text="New" />
-                  <MenuItem mnemonicParsing="false" text="Load" />
-                  <MenuItem mnemonicParsing="false" text="Save" />
-                  <MenuItem mnemonicParsing="false" text="View" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Networking">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Get NeuralNets" />
+            <Menu mnemonicParsing="false" text="Edit">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Add Note on NeuralNet" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Network">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Get NeuralNets" />
                   <MenuItem mnemonicParsing="false" text="Send NeuralNet" />
                   <MenuItem mnemonicParsing="false" text="Learn NeuralNet with" />
-            </items>
-          </Menu>
-            <Menu mnemonicParsing="false" text="Running">
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Learn">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Learn NeuralNet Set" />
+                  <MenuItem mnemonicParsing="false" text="Learn with Specific Date" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Run">
                <items>
                   <MenuItem mnemonicParsing="false" text="Run" />
                   <MenuItem mnemonicParsing="false" text="Run with Specific Date" />
@@ -51,15 +54,7 @@
                   <MenuItem mnemonicParsing="false" text="About" />
                </items>
             </Menu>
-        </menus>
+         </menus>
       </MenuBar>
-      <AnchorPane layoutY="25.0" prefHeight="376.0" prefWidth="600.0">
-         <children>
-            <ImageView fx:id="neuralNetAnimation" fitHeight="110.0" fitWidth="190.0" layoutX="205.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true" />
-            <TextArea fx:id="warningTextArea" editable="false" layoutX="19.0" layoutY="157.0" prefHeight="171.0" prefWidth="563.0" wrapText="true" />
-            <CheckBox fx:id="checkReadAndUnderstood" layoutX="19.0" layoutY="338.0" mnemonicParsing="false" onAction="#userCheckRadioBox" text="By checking this box, I confirm having read, understood the warning." />
-            <Button fx:id="continueButton" disable="true" layoutX="491.0" layoutY="334.0" mnemonicParsing="false" onAction="#userClickContinue" prefHeight="25.0" prefWidth="91.0" text="Continue" />
-         </children>
-      </AnchorPane>
    </children>
 </Pane>

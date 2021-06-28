@@ -12,8 +12,8 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import javafx.scene.Node;
 
 /**
  * Welcome Screen Controller.
@@ -25,7 +25,6 @@ public class WelcomeScreenController {
     private String slash;
     private static boolean runThread;
 
-    @FXML
     private Image[] neuralNetImages;
 
     @FXML
@@ -45,7 +44,7 @@ public class WelcomeScreenController {
      */
     @FXML
     private void initialize() {
-        this.slash = UtilMethods.getOSSlash();
+        this.slash = UtilMethods.slash;
         runThread = true;
         setWarningText();
         neuralNetImages = new Image[8];
@@ -117,12 +116,13 @@ public class WelcomeScreenController {
      */
     public void userClickContinue(ActionEvent actionEvent) throws IOException {
         getAndSetRunThreadVar(false);
-        //FXMLLoader loader = new FXMLLoader(getClass().getResource("WelcomeScreen.fxml"));
-        //Parent root = loader.load();
-        //WelcomeScreenController controller = loader.<WelcomeScreenController>getController();
-        //Scene scene = new Scene(root, 600, 400);
-        //Stage stage = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
-        //stage.setScene(scene);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXML" + slash + "MainScreen.fxml"));
+        Parent root = loader.load();
+        MainScreenController controller = loader.<MainScreenController>getController();
+        Scene scene = new Scene(root, 600, 400);
+        Stage stage = (Stage) ((Node) (actionEvent.getSource())).getScene().getWindow();
+        stage.setResizable(false);
+        stage.setScene(scene);
     }
 
     /**

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.media.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <AnchorPane layoutY="25.0" prefHeight="377.0" prefWidth="600.0">
+         <children>
+            <Label layoutX="266.0" layoutY="14.0" text="OutputDatas" />
+            <HBox alignment="CENTER_RIGHT" layoutY="351.0" prefHeight="25.0" prefWidth="600.0">
+               <children>
+                  <Label alignment="CENTER" text="version" />
+               </children>
+            </HBox>
+            <Button disable="true" layoutX="469.0" layoutY="324.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="121.0" text="Continue" />
+            <Button layoutX="342.0" layoutY="324.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="121.0" text="Cancel" />
+            <ProgressBar layoutX="382.0" layoutY="78.0" prefWidth="200.0" progress="0.0" />
+            <Button layoutX="463.0" layoutY="119.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="121.0" text="Calculate" />
+            <Label alignment="CENTER_RIGHT" layoutX="543.0" layoutY="96.0" prefHeight="17.0" prefWidth="39.0" text="0 %" />
+            <Label layoutX="409.0" layoutY="52.0" text="True existence in output set" />
+            <Label layoutX="23.0" layoutY="52.0" text="Number of date to calculate Output" />
+            <TextField layoutX="219.0" layoutY="48.0" prefHeight="25.0" prefWidth="33.0" promptText="2" />
+            <Label layoutX="23.0" layoutY="88.0" text="Minimum Increase Date" />
+            <Label layoutX="23.0" layoutY="123.0" text="Total Increase Rate" />
+            <TextField layoutX="161.0" layoutY="84.0" prefHeight="25.0" prefWidth="91.0" promptText="2" />
+            <TextField layoutX="142.0" layoutY="119.0" prefHeight="25.0" prefWidth="110.0" promptText="0.02" />
+            <TextArea layoutX="24.0" layoutY="174.0" prefHeight="137.0" prefWidth="232.0" promptText="Any description here" />
+            <TextArea layoutX="353.0" layoutY="174.0" prefHeight="137.0" prefWidth="232.0" />
+            <Label layoutX="81.0" layoutY="150.0" text="Neural Net Description" />
+            <Label layoutX="420.0" layoutY="150.0" text="Final Confirmation" />
+         </children></AnchorPane>
+      <MenuBar prefHeight="25.0" prefWidth="600.0">
+         <menus>
+            <Menu mnemonicParsing="false" text="File">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="New" />
+                  <MenuItem mnemonicParsing="false" text="Load" />
+                  <MenuItem mnemonicParsing="false" text="Save" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Edit">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Add Note on NeuralNet" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Network">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Get NeuralNets" />
+                  <MenuItem mnemonicParsing="false" text="Send NeuralNet" />
+                  <MenuItem mnemonicParsing="false" text="Learn NeuralNet with" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Learn">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Learn NeuralNet Set" />
+                  <MenuItem mnemonicParsing="false" text="Learn with Specific Date" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Run">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Run" />
+                  <MenuItem mnemonicParsing="false" text="Run with Specific Date" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Help">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="About" />
+               </items>
+            </Menu>
+         </menus>
+      </MenuBar>
+   </children>
+</Pane>

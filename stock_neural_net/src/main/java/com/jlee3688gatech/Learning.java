@@ -53,8 +53,8 @@ public class Learning {
     }
 
     private boolean checkAvailable() {
-        int nNInputSize = neuralNet.inputSize;
-        int nNOutputSize = neuralNet.outputSize;
+        int nNInputSize = neuralNet.getInputSize();
+        int nNOutputSize = neuralNet.getOutputSize();
 
         if (examples.get(0).get(0).size() != nNInputSize) {
             return false;
@@ -84,8 +84,6 @@ public class Learning {
                 String str = "iteration == " + iteration + "  " + "error == " + errorString;
                 System.out.println(str);
             }
-            String str = "<Learning> Iteration: " + iteration + ", last iteration error: " + error.toString().substring(0, 7) + ", number of example : " + examples.size();
-            neuralNet.addLog(str);
         } else {
             System.out.println("NN or dataset(examples) does not match.");
         }

@@ -5,6 +5,13 @@ import java.util.Calendar;
 
 public class UtilMethods {
 
+    public static String slash;
+    public static String version = "1.0.0";
+
+    public static void initialize() {
+        setOSSlash();
+    }
+
     public static Calendar CalendarMaker(String date) {
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.YEAR, Integer.parseInt(date.substring(0, 4)));
@@ -26,12 +33,12 @@ public class UtilMethods {
      * The Directory separator ("\", "/") depends on which OS user use.
      * this method will check user's OS and set Directory separator (slash variable)
      */
-    public static String getOSSlash() {
+    public static void setOSSlash() {
         String osName = System.getProperty("os.name").toLowerCase();
         if (osName.contains("win")) {
-            return "\\";
+            slash = "\\";
         } else {
-            return "/";
+            slash = "/";
         }
     }
     

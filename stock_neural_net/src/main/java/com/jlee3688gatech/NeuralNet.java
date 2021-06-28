@@ -12,31 +12,34 @@ import java.util.Date;
  */
 public class NeuralNet implements Serializable{
 
-    String name;
-    String infoNote;
-    ArrayList<String[]> logs;
-    ArrayList<PerceptronsLayer> NN;
-    ArrayList<ArrayList<Double>> deltas;
-    int inputSize;
-    int outputSize;
-    int[] numOfHiddenLayerNodeArr;
+    
+    
+    private ArrayList<PerceptronsLayer> NN;
+    private ArrayList<ArrayList<Double>> deltas;
+    private String targetName;
+    private String targetTicker;
+    private int inputSize;
+    private int outputSize;
+    private int[] numOfHiddenLayerNodeArr;
+
     
     /**
      * Constructor for Neural Net class.
      * @param name name of this Neural Network.
-     * @param infoNote note of this Neural Network.
      * @param inputSize size of input in Neural Networks.
      * @param outputSize size of output
      * @param numOfHiddenLayerNodeArr number of nodes in hidden layers.
+     * @param targetName target stock's name.
+     * @param targetTicker target stock's ticker.
      */
-    public NeuralNet(String name, String infoNote, int inputSize, int outputSize, int[] numOfHiddenLayerNodeArr) {
+    public NeuralNet(int inputSize, int outputSize, int[] numOfHiddenLayerNodeArr, String targetName, String targetTicker) {
+
+        this.targetName = targetName;
+        this.targetTicker = targetTicker;
         
-        this.name = name;
-        this.infoNote = infoNote;
         this.inputSize = inputSize;
         this.outputSize = outputSize;
         this.numOfHiddenLayerNodeArr = numOfHiddenLayerNodeArr;
-        this.logs = new ArrayList<String[]>();
 
         int[] numOfInputArr = new int[numOfHiddenLayerNodeArr.length + 1];
 
@@ -78,7 +81,7 @@ public class NeuralNet implements Serializable{
      */
     public double backPropLearning(ArrayList<Double> expectOutput, double learningRate) {
         
-        deltas = new ArrayList<ArrayList<Double>>();
+        this.deltas = new ArrayList<ArrayList<Double>>();
         double avgError = 0.0D;
         ArrayList<ArrayList<Double>> deltas = new ArrayList<ArrayList<Double>>();
         ArrayList<Double> gPrimes = NN.get(NN.size() - 1).sigmoidActivationDeriv();
@@ -116,51 +119,37 @@ public class NeuralNet implements Serializable{
     }
 
     /**
-     * getter method for Neural Net name.
-     * @return Neural Net name.
+     * getter method for inputSize
+     * @return inputSize
      */
-    public String getName() {
-        return this.name;
+    public int getInputSize() {
+        return this.inputSize;
     }
 
     /**
-     * getter method for Neural Net note.
-     * @return Neural
+     * getter method for outputSize
+     * @return outputSize
      */
-    public String getNote() {
-        return this.infoNote;
+    public int getOutputSize() {
+        return this.outputSize;
     }
 
     /**
-     * setter method for Neural Net note.
-     * @param str description.
+     * getter for targetName
+     * @return targetName
      */
-    public void setNote(String str) {
-        this.infoNote = str;
+    public String getTargetName() {
+        return this.targetName;
     }
 
     /**
-     * helper method for add logs.
-     * this will be log it with current time.
-     * @param str description of updates
+     * getter for targetTicker
+     * @return targetTicker
      */
-    public void addLog(String str) {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-DD HH:mm:ss");
-        Date time = new Date();
-        String currTime = format.format(time);
-        String[] temp = new String[2];
-        temp[0] = currTime;
-        temp[1] = str;
-        logs.add(temp);
+    public String getTargetTicker() {
+        return this.targetTicker;
     }
 
-    /**
-     * getter method for logs
-     * @return logs arrayList
-     */
-    public ArrayList<String[]> getLog() {
-        return this.logs;
-    }
 
     /**
      * helper method for return node nums in each layers.

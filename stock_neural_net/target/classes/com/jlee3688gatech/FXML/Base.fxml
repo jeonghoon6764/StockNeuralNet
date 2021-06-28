@@ -5,7 +5,6 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <MenuBar prefHeight="25.0" prefWidth="600.0">
@@ -53,6 +52,36 @@
             </Menu>
         </menus>
       </MenuBar>
-      <AnchorPane layoutY="25.0" prefHeight="377.0" prefWidth="600.0" />
+      <AnchorPane layoutY="25.0" prefHeight="377.0" prefWidth="600.0">
+         <children>
+            <TextField layoutX="66.0" layoutY="35.0" prefHeight="25.0" prefWidth="86.0" />
+            <Label layoutX="22.0" layoutY="39.0" text="Name" />
+            <ListView layoutX="189.0" layoutY="32.0" prefHeight="292.0" prefWidth="194.0" />
+            <ListView layoutX="392.0" layoutY="32.0" prefHeight="292.0" prefWidth="194.0" />
+            <Label layoutX="260.0" layoutY="13.0" text="Indicators" />
+            <Label layoutX="463.0" layoutY="13.0" text="Targets" />
+            <VBox layoutX="14.0" layoutY="234.0" prefHeight="90.0" prefWidth="150.0">
+               <children>
+                  <HBox prefHeight="30.0" prefWidth="150.0">
+                     <children>
+                        <CheckBox mnemonicParsing="false" text="AdjClosed" />
+                        <CheckBox mnemonicParsing="false" text="Close" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="30.0" prefWidth="150.0">
+                     <children>
+                        <CheckBox mnemonicParsing="false" text="High" />
+                        <CheckBox mnemonicParsing="false" text="Low" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="30.0" prefWidth="150.0">
+                     <children>
+                        <CheckBox mnemonicParsing="false" text="Open" />
+                        <CheckBox mnemonicParsing="false" text="Volume" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children></AnchorPane>
    </children>
 </Pane>

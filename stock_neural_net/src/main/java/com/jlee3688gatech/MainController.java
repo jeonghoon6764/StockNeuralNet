@@ -1,38 +1,45 @@
 package com.jlee3688gatech;
 
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
+import java.util.ArrayList;
 
-/**
- * This class is main method for starting the Program.
- * @author Jeonghoon Lee
- * @version 1.0
- */
-public class MainController extends Application {
-    private String slash;
+public class MainController {
 
-    /**
-     * Start method for play this simulator
-     * @param primaryStage stage of FX
-     * @throws Exception which is will throw exeption to method that called this method.
-     */
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-        slash = UtilMethods.getOSSlash();
-        Parent root = FXMLLoader.load(getClass().getResource("FXML" + slash + "WelcomeScreen.fxml"));
-        primaryStage.setTitle("Inspiration of Blockhead");
-        primaryStage.setScene(new Scene(root, 600, 400));
-        primaryStage.setResizable(false);
-        primaryStage.show();
+    public static ArrayList<NeuralNetSet> neuralNetSetsList = new ArrayList<NeuralNetSet>();
+    public static ArrayList<StockDatas> stockDatasList = new ArrayList<StockDatas>();
+
+    public static ArrayList<String> getNeuralNetSetsName() {
+        //ArrayList<String> namesList = new ArrayList<String>();
+        //for (int i = 0; i < neuralNetSetsList.size(); i++) {
+        //    namesList.add(neuralNetSetsList.get(i).getName());
+        //}
+        //return namesList;
+
+        ArrayList<String> namesList = new ArrayList<String>();
+        namesList.add("T");
+        namesList.add("E");
+        namesList.add("S");
+        namesList.add("T");
+
+        return namesList;
+
     }
-    /**
-     * main method for MainController this will launch the start() method.
-     * @param args arguments arrays.
-     */
-    public static void main(String[] args) {
-        launch(args);
+
+    public static ArrayList<String> getStockDatasNameAndTicker() {
+        //ArrayList<String> stockNamesAndTickers = new ArrayList<String>();
+        //for (int i = 0; i < stockDatasList.size(); i++) {
+        //    String str = stockDatasList.get(i).getName() + " : " + stockDatasList.get(i).getTicker();
+        //    stockNamesAndTickers.add(str);
+        //}
+        //return stockNamesAndTickers;
+
+        ArrayList<String> ret = new ArrayList<String>();
+        ret.add("T : T");
+        ret.add("E : E");
+        ret.add("S : S");
+        ret.add("T : T");
+
+        return ret;
     }
+
+    
 }

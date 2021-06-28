@@ -243,5 +243,17 @@ public class StockDatas implements Serializable{
     public Calendar getToDate() {
         return this.to;
     }
+
+    public String getInfoString() {
+        //String str = new String();
+        //str += "Name : " + name + "\n";
+        //str += "Ticker Symbol : " + ticker + "\n";
+        //str += "Data start from : " + UtilMethods.CalendarToString(from) + "\n";
+        //str += "Data end to : " + UtilMethods.CalendarToString(to) + "\n";
+        //return str;
+
+        String str = "TEST2";
+        return str;
+    }
     
 }

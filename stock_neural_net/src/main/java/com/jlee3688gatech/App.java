@@ -29,7 +29,8 @@ public class App
 
     public static void main( String[] args )
     {
-        MainController.main(args);
+        UtilMethods.initialize();
+        StartController.main(args);
         nNList = new ArrayList<NeuralNet>();
         stList = new ArrayList<StockDatas>();
         recentInputs = new ArrayList<RecentInputData>();
