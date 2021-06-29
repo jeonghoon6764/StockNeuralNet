@@ -59,9 +59,9 @@
                   <Label alignment="CENTER" text="version" />
                </children>
             </HBox>
-            <Button fx:id="clickAddNeuralNetButton" layoutX="14.0" layoutY="326.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="76.0" text="Add" />
+            <Button layoutX="14.0" layoutY="326.0" mnemonicParsing="false" onAction="#userClickaddNeuralNetButton" prefHeight="25.0" prefWidth="76.0" text="Add" />
             <Button layoutX="91.0" layoutY="326.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="76.0" text="Remove" />
-            <Button layoutX="172.0" layoutY="326.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="39.0" text="Add" />
+            <Button layoutX="172.0" layoutY="326.0" mnemonicParsing="false" onAction="#userClickaddStocksButton" prefHeight="25.0" prefWidth="39.0" text="Add" />
             <Button layoutX="212.0" layoutY="326.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="59.0" text="Remove" />
             <Button layoutX="272.0" layoutY="326.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="59.0" text="Update" />
             <TextArea fx:id="informationTextArea" editable="false" layoutX="335.0" layoutY="39.0" prefHeight="195.0" prefWidth="253.0" wrapText="true" />

@@ -1,10 +1,13 @@
 package com.jlee3688gatech;
 
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 /**
  * This class is main method for starting the Program.
@@ -22,11 +25,19 @@ public class StartController extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         slash = UtilMethods.slash;
-        Parent root = FXMLLoader.load(getClass().getResource("FXML" + slash + "WelcomeScreen.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXML" + slash + "WelcomeScreen.fxml"));
+        Parent root = loader.load();
         primaryStage.setTitle("Inspiration of Blockhead");
         primaryStage.setScene(new Scene(root, 600, 400));
         primaryStage.setResizable(false);
         primaryStage.show();
+        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>(){
+            @Override
+            public void handle(WindowEvent e) {
+                Platform.exit();
+                System.exit(0);
+            }
+        });
     }
     /**
      * main method for MainController this will launch the start() method.

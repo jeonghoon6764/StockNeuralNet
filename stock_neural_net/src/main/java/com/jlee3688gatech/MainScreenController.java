@@ -4,7 +4,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -12,6 +17,9 @@ import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
+import javafx.scene.Node;
 
 public class MainScreenController {
 
@@ -25,16 +33,13 @@ public class MainScreenController {
     private Image[] neuralNetImages;
 
     @FXML
-    private ListView neuralNetSetListView;
+    private ListView<String> neuralNetSetListView;
 
     @FXML
-    private ListView stocksListView;
+    private ListView<String> stocksListView;
 
     @FXML
     private TextArea informationTextArea;
-
-    @FXML
-    private Button clickAddNeuralNetButton;
 
     /**
      * Initializer method.
@@ -80,11 +85,46 @@ public class MainScreenController {
         neuralNetSetListView.getSelectionModel().clearSelection();
         if (!stocksListView.getSelectionModel().isEmpty()) {
             int idx = stocksListView.getSelectionModel().getSelectedIndex();
-            informationTextArea.setText(MainController.neuralNetSetsList.get(idx).getInfoString());
+            informationTextArea.setText(MainController.stockDatasList.get(idx).getInfoString());
         } else {
             informationTextArea.setText("");
         }
     }
+
+    /**
+     * ActionEvent method. when user click continue button
+     * @param actionEvent Action event
+     * @throws IOException IO Exceprion
+     */
+    public void userClickaddNeuralNetButton(ActionEvent actionEvent) throws IOException {
+        getAndSetRunThreadVar(false);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXML" + slash + "NeuralNetSetAdd1.fxml"));
+        Parent root = loader.load();
+        Scene scene = new Scene(root, 600, 400);
+        Stage stage = (Stage) ((Node) (actionEvent.getSource())).getScene().getWindow();
+        stage.setResizable(false);
+        stage.setScene(scene);
+    }
+
+    /**
+     * ActionEvent method. when user click continue button
+     * @param actionEvent Action event
+     * @throws IOException IO Exceprion
+     */
+    public void userClickaddStocksButton(ActionEvent actionEvent) throws IOException {
+        
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXML" + slash + "StockAdd.fxml"));
+        Parent root = loader.load();
+        Scene scene = new Scene(root, 320, 160);
+        Stage stage = new Stage();
+        StockAddController controller = loader.<StockAddController>getController();
+        controller.setStockListView(stocksListView);
+        stage.setResizable(false);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    
 
     
 

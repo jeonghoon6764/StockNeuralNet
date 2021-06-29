@@ -12,7 +12,7 @@ public class UtilMethods {
         setOSSlash();
     }
 
-    public static Calendar CalendarMaker(String date) {
+    public static Calendar CalendarMaker(String date){
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.YEAR, Integer.parseInt(date.substring(0, 4)));
         cal.set(Calendar.MONTH, Integer.parseInt(date.substring(4, 6)) - 1);
@@ -26,6 +26,11 @@ public class UtilMethods {
 
     public static String CalendarToString(Calendar cal) {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        return formatter.format(cal.getTime());
+    }
+
+    public static String calendarToSimpleString(Calendar cal) {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
         return formatter.format(cal.getTime());
     }
 

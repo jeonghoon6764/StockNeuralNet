@@ -36,8 +36,7 @@ public class StockDatas implements Serializable{
      * @param to date to
      * @throws IOException exception if the data fails to load.
      */
-    public StockDatas(String name, String ticker, Calendar from, Calendar to) throws IOException {
-        to.add(Calendar.DATE, 1);
+    public StockDatas(String name, String ticker, Calendar from, Calendar to) throws Exception {
         this.name = name;
         this.ticker = ticker;
         this.target = 0;
@@ -50,6 +49,9 @@ public class StockDatas implements Serializable{
         this.volumeList = new ArrayList<Long>();
         
         Stock st = YahooFinance.get(ticker, from, to, Interval.DAILY);
+        if (st.getHistory().size() == 0) {
+            throw new Exception();
+        }
         
         for (int i = 0; i < st.getHistory().size(); i++) {
             this.dates.add(st.getHistory().get(i).getDate());
@@ -245,15 +247,13 @@ public class StockDatas implements Serializable{
     }
 
     public String getInfoString() {
-        //String str = new String();
-        //str += "Name : " + name + "\n";
-        //str += "Ticker Symbol : " + ticker + "\n";
-        //str += "Data start from : " + UtilMethods.CalendarToString(from) + "\n";
-        //str += "Data end to : " + UtilMethods.CalendarToString(to) + "\n";
-        //return str;
-
-        String str = "TEST2";
+        String str = new String();
+        str += "Name : " + name + "\n";
+        str += "Ticker Symbol : " + ticker + "\n";
+        str += "Data start from : " + UtilMethods.CalendarToString(from) + "\n";
+        str += "Data end to : " + UtilMethods.CalendarToString(to) + "\n";
         return str;
+
     }
     
 }

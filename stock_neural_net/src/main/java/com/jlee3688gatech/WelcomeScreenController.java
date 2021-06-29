@@ -2,7 +2,9 @@ package com.jlee3688gatech;
 
 import java.io.IOException;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,6 +15,8 @@ import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import javafx.stage.Window;
+import javafx.stage.WindowEvent;
 import javafx.scene.Node;
 
 /**
@@ -54,7 +58,7 @@ public class WelcomeScreenController {
         }
         ChangeNeuralNetImgClass thread0 = new ChangeNeuralNetImgClass();
         thread0.start();
-
+        
     }
 
     /**
@@ -91,6 +95,7 @@ public class WelcomeScreenController {
                     Thread.sleep(100);
                 }
             }catch(Exception e) {
+                System.out.println("thread close");
                 getAndSetRunThreadVar(false);
             }
         }

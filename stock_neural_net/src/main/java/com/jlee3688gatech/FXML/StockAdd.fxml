@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="160.0" prefWidth="320.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jlee3688gatech.StockAddController">
+   <children>
+      <AnchorPane layoutY="-2.0" prefHeight="160.0" prefWidth="320.0">
+         <children>
+            <TextField fx:id="companyNameTextField" layoutX="105.0" layoutY="14.0" onKeyTyped="#textFieldChanged" prefHeight="25.0" prefWidth="94.0" promptText="Microsoft" />
+            <TextField fx:id="tickerSymbolTextField" layoutX="105.0" layoutY="41.0" onKeyTyped="#textFieldChanged" prefHeight="25.0" prefWidth="94.0" promptText="MSFT" />
+            <TextField fx:id="dateStartTextField" layoutX="105.0" layoutY="68.0" onKeyTyped="#textFieldChanged" prefHeight="25.0" prefWidth="94.0" promptText="20010101" />
+            <TextField fx:id="dateEndTextField" layoutX="105.0" layoutY="95.0" onKeyTyped="#textFieldChanged" prefHeight="25.0" prefWidth="94.0" />
+            <Label layoutX="13.0" layoutY="45.0" text="Ticker Symbol" />
+            <Label layoutX="14.0" layoutY="72.0" text="Date Start From" />
+            <Label layoutX="14.0" layoutY="99.0" text="Date End To" />
+            <Label layoutX="13.0" layoutY="14.0" text="Company Name" />
+            <Button layoutX="14.0" layoutY="128.0" mnemonicParsing="false" onAction="#userClickCancel" prefHeight="25.0" prefWidth="145.0" text="Cancel" />
+            <Button fx:id="proceedButton" disable="true" layoutX="171.0" layoutY="128.0" mnemonicParsing="false" onAction="#userClickProceed" prefHeight="25.0" prefWidth="145.0" text="Proceed" />
+            <ImageView fx:id="yahooDownImageView" fitHeight="110.0" fitWidth="110.0" layoutX="206.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true" />
+         </children></AnchorPane>
+   </children>
+</Pane>
