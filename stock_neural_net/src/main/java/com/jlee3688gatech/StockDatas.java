@@ -37,6 +37,7 @@ public class StockDatas implements Serializable{
      * @throws IOException exception if the data fails to load.
      */
     public StockDatas(String name, String ticker, Calendar from, Calendar to) throws Exception {
+        to.add(Calendar.DATE, 1);
         this.name = name;
         this.ticker = ticker;
         this.target = 0;
@@ -252,6 +253,7 @@ public class StockDatas implements Serializable{
         str += "Ticker Symbol : " + ticker + "\n";
         str += "Data start from : " + UtilMethods.CalendarToString(from) + "\n";
         str += "Data end to : " + UtilMethods.CalendarToString(to) + "\n";
+        str += "Number of data : " + this.dates.size() + "\n";
         return str;
 
     }

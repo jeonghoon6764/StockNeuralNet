@@ -62,8 +62,8 @@
             <Button layoutX="14.0" layoutY="326.0" mnemonicParsing="false" onAction="#userClickaddNeuralNetButton" prefHeight="25.0" prefWidth="76.0" text="Add" />
             <Button layoutX="91.0" layoutY="326.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="76.0" text="Remove" />
             <Button layoutX="172.0" layoutY="326.0" mnemonicParsing="false" onAction="#userClickaddStocksButton" prefHeight="25.0" prefWidth="39.0" text="Add" />
-            <Button layoutX="212.0" layoutY="326.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="59.0" text="Remove" />
-            <Button layoutX="272.0" layoutY="326.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="59.0" text="Update" />
+            <Button layoutX="212.0" layoutY="326.0" mnemonicParsing="false" onAction="#userClickRemoveStocksButton" prefHeight="25.0" prefWidth="59.0" text="Remove" />
+            <Button layoutX="272.0" layoutY="326.0" mnemonicParsing="false" onAction="#userClickUpdateStocksButton" prefHeight="25.0" prefWidth="59.0" text="Update" />
             <TextArea fx:id="informationTextArea" editable="false" layoutX="335.0" layoutY="39.0" prefHeight="195.0" prefWidth="253.0" wrapText="true" />
             <Label layoutX="430.0" layoutY="18.0" text="Information" />
             <ImageView fx:id="neuralNetAnimation" fitHeight="110.0" fitWidth="190.0" layoutX="367.0" layoutY="241.0" pickOnBounds="true" preserveRatio="true" />

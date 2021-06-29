@@ -38,5 +38,16 @@ public class MainController {
         return stockNamesAndTickers;
     }
 
+    public static ArrayList<String> getStockDatasSpecific() {
+        ArrayList<String> stockDatasSpecific = new ArrayList<String>();
+        for (int i = 0; i < stockDatasList.size(); i++) {
+            String str = stockDatasList.get(i).getName() + " : " + stockDatasList.get(i).getTicker();
+            str += "      " + UtilMethods.CalendarToString(stockDatasList.get(i).getFromDate());
+            str += " ~ " + UtilMethods.CalendarToString(stockDatasList.get(i).getToDate());
+            stockDatasSpecific.add(str);
+        }
+        return stockDatasSpecific;
+    }
+
     
 }

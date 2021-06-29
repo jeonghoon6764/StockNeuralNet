@@ -10,10 +10,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -111,6 +113,21 @@ public class MainScreenController {
      * @param actionEvent Action event
      * @throws IOException IO Exceprion
      */
+    public void userClickUpdateStocksButton(ActionEvent actionEvent) throws IOException {
+        getAndSetRunThreadVar(false);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXML" + slash + "StockUpdate.fxml"));
+        Parent root = loader.load();
+        Scene scene = new Scene(root, 600, 400);
+        Stage stage = (Stage) ((Node) (actionEvent.getSource())).getScene().getWindow();
+        stage.setResizable(false);
+        stage.setScene(scene);
+    }
+
+    /**
+     * ActionEvent method. when user click continue button
+     * @param actionEvent Action event
+     * @throws IOException IO Exceprion
+     */
     public void userClickaddStocksButton(ActionEvent actionEvent) throws IOException {
         
         FXMLLoader loader = new FXMLLoader(getClass().getResource("FXML" + slash + "StockAdd.fxml"));
@@ -124,9 +141,20 @@ public class MainScreenController {
         stage.show();
     }
 
-    
+    /**
+     * ActionEvent method. when user click remove stock button
+     * @param actionEvent Action event
+     * @throws IOException IO Exceprion
+     */
+    public void userClickRemoveStocksButton(ActionEvent actionEvent) throws IOException {
 
-    
+        if (!stocksListView.getSelectionModel().isEmpty()) {
+            int idx = stocksListView.getSelectionModel().getSelectedIndex();
+            MainController.stockDatasList.remove(idx);
+            stocksListView.setItems(FXCollections.observableArrayList(MainController.getStockDatasNameAndTicker()));
+            informationTextArea.setText("");
+        }
+    }
 
     /**
      * Method for make animation of Neural Net picture.
