@@ -4,11 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Random;
-
-import javax.sound.sampled.UnsupportedAudioFileException;
-
-import org.slf4j.helpers.Util;
-
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -24,11 +19,15 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.scene.Node;
 
+/**
+ * Controller method for StockUpdateView
+ * @version 1.0
+ * @author Jeonghoon Lee
+ */
 public class StockUpdateController {
     @FXML
     private ListView<String> stocksListView;
@@ -38,23 +37,27 @@ public class StockUpdateController {
     private Button startUpdateButton;
     @FXML
     private ImageView yahooDownImageView;
+    @FXML
+    private Button selectAllButton;
+    @FXML
+    private Button clearSelectionButton;
+    @FXML
+    private Button backButton;
 
-    private boolean runThread;
+
     private String slash;
     private Image[] yahooDownImages;
-    private boolean[] flagVars;
+    private boolean threadVar;
+    private int currTarget;
     
-    
-
-
-
     /**
      * init FXML method
      */
     @FXML
     private void initialize() {
+        this.currTarget = -1;
         this.slash = UtilMethods.slash;
-        flagVars = new boolean[MainController.stockDatasList.size()];
+        this.threadVar = false;
         showInitListView();
         startUpdateButton.setDisable(true);
         stocksListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
@@ -69,9 +72,36 @@ public class StockUpdateController {
         yahooDownImageView.setImage(yahooDownImages[0]);
     }
 
+    /**
+     * Method for initialize ListView
+     */
     private void showInitListView() {
         ArrayList<String> nameAndTicker = MainController.getStockDatasSpecific();
         stocksListView.setItems(FXCollections.observableArrayList(nameAndTicker));
+    }
+
+    /**
+     * getter or/and setter synchronized method for runThread variable.
+     * @param val value. if null this will work as getter method.
+     * @return value of threadVar variable.
+     */
+    public synchronized boolean getAndSetRunThreadVar(Boolean val) {
+        if (val != null) {
+            threadVar = val;
+        }
+        return threadVar;
+    }
+
+    /**
+     * getter or/and setter synchronized method for currTarget variable.
+     * @param val value. if null this will work as getter method.
+     * @return value of currTarget variable.
+     */
+    public synchronized int getAndSetCurrTarget(Integer i) {
+        if (i != null) {
+            currTarget = i;
+        }
+        return currTarget;
     }
 
     /**
@@ -91,100 +121,9 @@ public class StockUpdateController {
             } catch (Exception e) {
                 getAndSetRunThreadVar(false);
             }
-        }
-    }
-
-    public synchronized boolean getAndSetFlagVar(Boolean val, int idx) {
-        if (val != null) {
-            this.flagVars[idx] = val;
-        }
-        return this.flagVars[idx];
-    }
-
-    private class UpdateStockDatasClass extends Thread {
-        private int idx;
-        private Calendar date;
-
-        public UpdateStockDatasClass(int idx, Calendar date) {
-            this.idx = idx;
-            this.date = date;
-        }
-
-        @FXML
-        public void run() {
-            getAndSetFlagVar(true, idx);
-            BlinkListViewClass tempThread = new BlinkListViewClass(idx);
-            tempThread.start();
-            MainController.stockDatasList.get(idx).updateStockData(date);
-            getAndSetFlagVar(false, idx);
-        }
-    }
-
-    private class BlinkListViewClass extends Thread {
-        private int idx;
-
-        public BlinkListViewClass(int idx) {
-            this.idx = idx;
-        }
-
-        @FXML
-        public void run() {
-            while(getAndSetFlagVar(null, idx)) {
-                try {
-                    if (stocksListView.getSelectionModel().isSelected(idx)) {
-                        Platform.runLater(() -> {
-                            stocksListView.getSelectionModel().clearSelection(idx);
-                        });
-                    } else {
-                        Platform.runLater(() -> {
-                            stocksListView.getSelectionModel().select(idx);
-                        });
-                    }
-                    BlinkListViewClass.sleep(200);
-                } catch (Exception e) {
-                    break;
-                }
-            }
-            stocksListView.getSelectionModel().select(idx);
-        }
-    }
-
-    private class UpdateStockDatasMasterClass extends Thread{
-        private int delay = 0;
-        private ObservableList<Integer> selectionList;
-
-        public UpdateStockDatasMasterClass(int delay, ObservableList<Integer> selectionList) {
-            this.delay = delay;
-            this.selectionList = selectionList;
-        }
-
-        @FXML
-        public void run() {
-            for (int i = 0; i < selectionList.size(); i++) {
-                UpdateStockDatasClass temp = new UpdateStockDatasClass(selectionList.get(i), UtilMethods.CalendarMaker(dateToUpdateTextField.getText()));
-                temp.start();
-                try {
-                    UpdateStockDatasMasterClass.sleep(delay);
-                } catch (Exception e) {}
-            }
-        }
-    }
-
-    public class CheckAllFlagVarAreFalseClass extends Thread {
-        public void run() {
-            while (true) {
-                boolean total = false;
-                for (int i = 0; i < flagVars.length; i++) {
-                    total |= getAndSetFlagVar(null, i);
-                }
-                if (!total) {
-                    break;
-                }
-                try {
-                    CheckAllFlagVarAreFalseClass.sleep(1000);
-                } catch (Exception e) {}
-            }
-            getAndSetRunThreadVar(false);
+            Platform.runLater(() -> {
+                yahooDownImageView.setImage(yahooDownImages[0]);
+            });
         }
     }
 
@@ -194,15 +133,98 @@ public class StockUpdateController {
      * @throws IOException IO Exceprion
      */
     public void userClickStartUpdate(ActionEvent actionEvent) throws IOException {
-        getAndSetRunThreadVar(true);
-        ChangeYahooDownImgclass thread0 = new ChangeYahooDownImgclass();
-        thread0.start();
-        ObservableList<Integer> selectionList = stocksListView.getSelectionModel().getSelectedIndices();
-        UpdateStockDatasMasterClass updateStockDatasMasterClass = new UpdateStockDatasMasterClass(3000, selectionList);   
-        updateStockDatasMasterClass.start();
-        CheckAllFlagVarAreFalseClass checkAllFlagVarAreFalseClass = new CheckAllFlagVarAreFalseClass();
-        checkAllFlagVarAreFalseClass.start();
+        dateToUpdateTextField.setDisable(true);
+        startUpdateButton.setDisable(true);
+        backButton.setDisable(true);
+        clearSelectionButton.setDisable(true);
+        selectAllButton.setDisable(true);
+
+        ObservableList<Integer> selectedList = stocksListView.getSelectionModel().getSelectedIndices();
+        ArrayList<Integer> copy = new ArrayList<>();
+        for (int i = 0; i < selectedList.size(); i++) {
+            copy.add(selectedList.get(i));
+        }
+        UpdateStartClass updateStartClass = new UpdateStartClass(copy);
+        updateStartClass.start();
     }
+
+    /**
+     * class for updatestart method.
+     * for separating thread purpose.
+     */
+    public class UpdateStartClass extends Thread{
+        private ArrayList<Integer> selectedList;
+
+        public UpdateStartClass (ArrayList<Integer> selectedList) {
+            this.selectedList = selectedList;
+        }
+
+        public void run() {
+            getAndSetRunThreadVar(true);
+            ChangeYahooDownImgclass changeYahooDownImgclass = new ChangeYahooDownImgclass();
+            changeYahooDownImgclass.start();
+
+            for (int i = 0; i < selectedList.size(); i++) {
+                getAndSetCurrTarget(selectedList.get(i));
+                BlinkBlinkTargetClass blinkBlinkTargetClass = new BlinkBlinkTargetClass(selectedList.get(i), 200);
+                blinkBlinkTargetClass.start();
+                MainController.stockDatasList.get(selectedList.get(i)).updateStockData(UtilMethods.CalendarMaker(dateToUpdateTextField.getText()));
+                Platform.runLater(() -> {
+                    showInitListView();
+                    for (int j = 0; j < selectedList.size(); j++) {
+                        stocksListView.getSelectionModel().select(selectedList.get(j));
+                    }
+                });
+                try {
+                    Thread.sleep(1000);
+                } catch (Exception e) {}
+            }
+            getAndSetRunThreadVar(false);
+            getAndSetCurrTarget(-1);
+            dateToUpdateTextField.setDisable(false);
+            startUpdateButton.setDisable(false);
+            backButton.setDisable(false);
+            clearSelectionButton.setDisable(false);
+            selectAllButton.setDisable(false);
+        }
+    }
+
+    /**
+     * class for make some effect (select/clear)
+     * for separating thread purpose.
+     */
+    public class BlinkBlinkTargetClass extends Thread {
+        private int blinkTarget;
+        private int delay;
+
+        public BlinkBlinkTargetClass(int blinkTarget, int delay) {
+            this.blinkTarget = blinkTarget;
+            this.delay = delay;
+        }
+
+        public void run() {
+            
+            
+            while(blinkTarget == getAndSetCurrTarget(null)) {
+                if (stocksListView.getSelectionModel().isSelected(blinkTarget)) {
+                    Platform.runLater(() -> {
+                        stocksListView.getSelectionModel().clearSelection(blinkTarget);
+                    });
+                } else {
+                    Platform.runLater(() -> {
+                        stocksListView.getSelectionModel().select(blinkTarget);
+                    });
+                }
+                try {
+                    BlinkBlinkTargetClass.sleep(delay);
+                } catch (Exception e) {}
+            }
+            Platform.runLater(() -> {
+                stocksListView.getSelectionModel().select(blinkTarget);
+            });
+        }
+    }
+    
 
 
     /**
@@ -237,18 +259,6 @@ public class StockUpdateController {
         Stage stage = (Stage) ((Node) (actionEvent.getSource())).getScene().getWindow();
         stage.setResizable(false);
         stage.setScene(scene);
-    }
-
-    /**
-     * getter/setter of runThread variable.
-     * @param var if just want to get variable, put null.
-     * @return runThread variable.
-     */
-    private synchronized boolean getAndSetRunThreadVar(Boolean var) {
-        if (var != null) {
-            runThread = var;
-        }
-        return runThread;
     }
 
     /**
@@ -303,6 +313,5 @@ public class StockUpdateController {
         }
         return true;
     }
-
 
 }

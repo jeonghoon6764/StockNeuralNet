@@ -94,7 +94,6 @@ public class StockDatas implements Serializable{
                     tempLowList.add(st.getHistory().get(i).getLow());
                     tempOpenList.add(st.getHistory().get(i).getOpen());
                     tempVolumeList.add(st.getHistory().get(i).getVolume());
-                    System.out.println("...");
                 }
             } catch (IOException e) {
                 return false;
@@ -129,12 +128,12 @@ public class StockDatas implements Serializable{
                     tempLowList.add(st.getHistory().get(i).getLow());
                     tempOpenList.add(st.getHistory().get(i).getOpen());
                     tempVolumeList.add(st.getHistory().get(i).getVolume());
-                    System.out.println("...");
                 }
             } catch (IOException e) {
                 to.add(Calendar.DATE, -1);
                 return false;
             }
+            to.add(Calendar.DATE, -1);
             this.dates.addAll(tempDates);
             this.adjCloseList.addAll(tempAdjCloseList);
             this.closeList.addAll(tempCloseList);
@@ -254,6 +253,7 @@ public class StockDatas implements Serializable{
         str += "Data start from : " + UtilMethods.CalendarToString(from) + "\n";
         str += "Data end to : " + UtilMethods.CalendarToString(to) + "\n";
         str += "Number of data : " + this.dates.size() + "\n";
+        
         return str;
 
     }
