@@ -152,6 +152,22 @@ public class StockAddController {
     public class makeStockDatasClass extends Thread{
 
         public void run() {
+            for (int i = 0; i < MainController.stockDatasList.size(); i++) {
+                if (tickerSymbol.equals(MainController.stockDatasList.get(i).getTicker())) {
+                    getAndSetRunThreadVar(false);
+                    Platform.runLater(() -> {
+                        yahooDownImageView.setImage(yahooDownFailImage);
+                    });
+                    try {
+                        makeStockDatasClass.sleep(1000);
+                    } catch (InterruptedException ie) {
+                    }
+                    Platform.runLater(() -> {
+                        thisStage.close();
+                    });
+                    return;
+                }
+            }
             try {
                 StockDatas stockDatas = new StockDatas(companyName, tickerSymbol, UtilMethods.CalendarMaker(startDate), UtilMethods.CalendarMaker(endDate));
                 MainController.addStockToStockDatasList(stockDatas);

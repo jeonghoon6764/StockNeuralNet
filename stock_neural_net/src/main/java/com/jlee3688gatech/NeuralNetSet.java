@@ -6,56 +6,92 @@ import java.util.Calendar;
 public class NeuralNetSet {
     private ArrayList<NeuralNet> neuralNetList;
     private String name;
-    private ArrayList<String[]> log;
+    private int numOfInputDate;
+    private int numOfDateOutput;
+    private int minIncreaseDate;
+    private double rateOfTotalIncrease;
+    private ArrayList<String> referenceList;
+    private ArrayList<String[]> logs;
     private ArrayList<String> orders;
+    private ArrayList<String[]> notes;
 
-    public NeuralNetSet(ArrayList<NeuralNet> neuralNetList, String name, ArrayList<String> orders) {
+    public NeuralNetSet(ArrayList<NeuralNet> neuralNetList, String name, ArrayList<String> orders, int numOfInputDate
+    , int numOfDateOutput, int minIncreaseDate, double rateOfTotalIncrease, ArrayList<String> referenceList) {
+        this.referenceList = referenceList;
+        this.numOfInputDate = numOfInputDate;
+        this.numOfDateOutput = numOfDateOutput;
+        this.minIncreaseDate = minIncreaseDate;
+        this.rateOfTotalIncrease = rateOfTotalIncrease;
         this.neuralNetList = neuralNetList;
         this.orders = orders;
         this.name = name;
-        this.log = new ArrayList<String[]>();
+        this.logs = new ArrayList<String[]>();
+        this.notes = new ArrayList<>();
         addLog("NeuralNet set is made.");
     }
 
     public String getInfoString() {
-        //String str = new String();
-        //str += "Name: " + name + "\n";
-        //str += "Number of NeuralNet: " + neuralNetList.size() + "\n \n";
-        //str += "### Stocks included ###";
-        //for (int i = 0; i < orders.size(); i++) {
-        //    str += "\n" + orders.get(i);
-        //}
-        //str += "\n\n";
-        //str += "### NeuralNet Targets ###\n";
-        //for (int i = 0; i < neuralNetList.size(); i++) {
-        //    str += "neuralnet" + (i + 1) + ": " + neuralNetList.get(i).getTargetName() + " (" + neuralNetList.get(i).getTargetTicker() + ")\n";
-        //}
-        //str += "\n### logs ###\n";
-        //for (int i = 0; i < log.size(); i++) {
-        //    str += log.get(i)[0] + " : " + log.get(i)[1] + "\n";
-        //}
+        String str = new String();
+        str += "Name: " + name + "\n \n";
+        str += "Number of NeuralNet: " + neuralNetList.size() + "\n \n";
+        str += "Number of Input Date: " + numOfInputDate + "\n \n";
+        str += "Number of Hidden layers: " + neuralNetList.get(0).getNumOfHiddenLayer() + "\n \n";
+        str += "Number of date to calculate output: " + numOfDateOutput + "\n \n";
+        str += "Minimum Increase Date: " + minIncreaseDate + "\n \n";
+        str += "Total Increase Rate: " + rateOfTotalIncrease + "\n \n";
 
-        String str = "testNN";
+
+        str += "### reference ###";
+        for (int i = 0; i < referenceList.size(); i++) {
+            str += "\n" + referenceList.get(i);
+        }
+        str += "\n\n";
+
+        str += "### Stocks included ###";
+        for (int i = 0; i < orders.size(); i++) {
+            str += "\n" + orders.get(i);
+            for (int j = 0; j < neuralNetList.size(); j++) {
+                if (neuralNetList.get(j).getTargetTicker().equals(orders.get(i))) {
+                    str += "<TARGET>";
+                    break;
+                }
+            }
+        }
+        if (notes.size() > 0) {
+            str += "\n\n### notes ###\n";
+            for (int i = 0; i < notes.size(); i++) {
+                str += notes.get(i)[0] + " : " + notes.get(i)[1] + "\n";
+            }
+        }
+        
+        str += "\n### logs ###\n";
+        for (int i = 0; i < logs.size(); i++) {
+            str += logs.get(i)[0] + " : " + logs.get(i)[1] + "\n";
+        }
 
         return str;
     }
 
     public void addLog(String str) {
-        String[] logs = new String[2];
-        logs[0] = UtilMethods.CalendarToString(Calendar.getInstance());
-        logs[1] = str;
+        String[] log = new String[2];
+        log[0] = UtilMethods.CalendarToString(Calendar.getInstance());
+        log[1] = str;
+        logs.add(log);
     }
 
-    public ArrayList<String[]> getLog() {
-        return this.log;
+    public void addNote(String str) {
+        String[] note = new String[2];
+        note[0] = UtilMethods.CalendarToString(Calendar.getInstance());
+        note[1] = str;
+        notes.add(note);
     }
 
-    public ArrayList<String> getNeuralNetNameList() {
-        ArrayList<String> neuralNetNameList = new ArrayList<String>();
-        for (int i = 0; i < neuralNetList.size(); i++) {
-            neuralNetNameList.add(neuralNetList.get(i).getName());
-        }
-        return neuralNetNameList;
+    public ArrayList<String[]> getLogs() {
+        return this.logs;
+    }
+
+    public ArrayList<String[]> getNotes() {
+        return this.notes;
     }
 
     public String getName() {
@@ -66,17 +102,17 @@ public class NeuralNetSet {
         return this.neuralNetList;
     }
 
-    public NeuralNetSetOutput getRecentOutputData(RecentInputData recentInput) {
-        NeuralNetSetOutput ret = new NeuralNetSetOutput();
-        ArrayList<Double> recentInputList = recentInput.getRecentInput();
-
-        for (int i = 0; i < neuralNetList.size(); i++) {
-            ArrayList<Double> output = neuralNetList.get(i).feedFoward(recentInputList);
-            ret.addOutput(neuralNetList.get(i).getName(), output.get(0), output.get(1));
-        }
-
-        return ret;
-    }
+    //public NeuralNetSetOutput getRecentOutputData(RecentInputData recentInput) {
+    //    NeuralNetSetOutput ret = new NeuralNetSetOutput();
+    //    ArrayList<Double> recentInputList = recentInput.getRecentInput();
+//
+    //    for (int i = 0; i < neuralNetList.size(); i++) {
+    //        ArrayList<Double> output = neuralNetList.get(i).feedFoward(recentInputList);
+    //        ret.addOutput(neuralNetList.get(i).getName(), output.get(0), output.get(1));
+    //    }
+//
+    //    return ret;
+    //}
 
     
     

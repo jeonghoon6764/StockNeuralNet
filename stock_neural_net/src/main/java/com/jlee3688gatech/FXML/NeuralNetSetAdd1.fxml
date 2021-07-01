@@ -56,7 +56,7 @@
                </children>
             </HBox>
             <Button fx:id="continueButton" layoutX="469.0" layoutY="324.0" mnemonicParsing="false" onAction="#userClickContinue" prefHeight="25.0" prefWidth="121.0" text="Continue" />
-            <Button layoutX="342.0" layoutY="324.0" mnemonicParsing="false" onAction="#userClickBack" prefHeight="25.0" prefWidth="121.0" text="Cancel" />
+            <Button layoutX="342.0" layoutY="324.0" mnemonicParsing="false" onAction="#userClickBack" prefHeight="25.0" prefWidth="121.0" text="Back" />
             <ListView fx:id="targetsListView" layoutX="398.0" layoutY="46.0" onMouseClicked="#checkContinueButtonWithMouseEvent" prefHeight="265.0" prefWidth="188.0" />
             <ListView fx:id="indicatorsListView" layoutX="206.0" layoutY="46.0" onMouseClicked="#clickMouseInIndicatorsListView" prefHeight="265.0" prefWidth="188.0" />
             <TextField fx:id="neuralSetNameTextField" layoutX="59.0" layoutY="46.0" onKeyTyped="#checkContinueButtonWithKeyEvent" prefHeight="25.0" prefWidth="141.0" promptText="NeuralNet Set1" />

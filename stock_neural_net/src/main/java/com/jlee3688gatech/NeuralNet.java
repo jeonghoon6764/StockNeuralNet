@@ -16,7 +16,6 @@ public class NeuralNet implements Serializable{
     
     private ArrayList<PerceptronsLayer> NN;
     private ArrayList<ArrayList<Double>> deltas;
-    private String targetName;
     private String targetTicker;
     private int inputSize;
     private int outputSize;
@@ -32,9 +31,8 @@ public class NeuralNet implements Serializable{
      * @param targetName target stock's name.
      * @param targetTicker target stock's ticker.
      */
-    public NeuralNet(int inputSize, int outputSize, int[] numOfHiddenLayerNodeArr, String targetName, String targetTicker) {
+    public NeuralNet(int inputSize, int outputSize, int[] numOfHiddenLayerNodeArr, String targetTicker) {
 
-        this.targetName = targetName;
         this.targetTicker = targetTicker;
         
         this.inputSize = inputSize;
@@ -135,19 +133,19 @@ public class NeuralNet implements Serializable{
     }
 
     /**
-     * getter for targetName
-     * @return targetName
-     */
-    public String getTargetName() {
-        return this.targetName;
-    }
-
-    /**
      * getter for targetTicker
      * @return targetTicker
      */
     public String getTargetTicker() {
         return this.targetTicker;
+    }
+
+    /**
+     * getter method for number of hidden layers.
+     * @return
+     */
+    public int getNumOfHiddenLayer() {
+        return this.numOfHiddenLayerNodeArr.length;
     }
 
 

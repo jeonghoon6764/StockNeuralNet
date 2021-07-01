@@ -39,23 +39,25 @@ public class PrintStrings {
      * helper method for printing the scripts
      * @param header header
      * @param str description
+     * @return String
      */
-    public void asteriskPrinter(String header, String str) {
+    public String asteriskPrinter(String header, String str) {
+        String ret = new String();
         if ((header != null && header.length() + 6 > size) || size <= 2) {
-            return;
+            return "";
         }
         if (str == null) {
             for (int i = 0; i < size; i++) {
-                System.out.print("#");
+                ret += "#";
             }
-            System.out.print("\n");
+            ret += "\n";
         } else {
             int preCounter = 2;
-            System.out.print("# ");
+            ret += "# ";
             
             if (header != null) {
                 preCounter += header.length();
-                System.out.print(header + ": ");
+                ret += header + ": ";
                 preCounter += 2;
             }
             
@@ -65,31 +67,32 @@ public class PrintStrings {
             while (strCounter < str.length()) {
                 int counter = 0;
                 if (line > 0) {
-                    System.out.print("# ");
+                    ret += "# ";
                     counter += 2;
                     for (int i = 0; i < header.length(); i++) {
-                        System.out.print(" ");
+                        ret += " ";
                         counter++;
                     }
-                    System.out.print("  ");
+                    ret += "  ";
                     counter += 2;
                 } else {
                     counter += preCounter;
                 }
                 while (counter + 2 < size) {
                     if (strCounter < str.length()) {
-                        System.out.print(str.charAt(strCounter));
+                        ret += (str.charAt(strCounter));
                         strCounter++;
                         counter++;
                     } else {
-                        System.out.print(" ");
+                        ret += " ";
                         counter++;
                     }
                 }
-                System.out.println(" #");
+                ret += " #\n";
                 line++;
             }
         }
+        return ret;
     }
 
 }

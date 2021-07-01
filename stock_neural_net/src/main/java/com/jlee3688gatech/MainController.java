@@ -13,18 +13,10 @@ public class MainController {
     }
 
     public static ArrayList<String> getNeuralNetSetsName() {
-        //ArrayList<String> namesList = new ArrayList<String>();
-        //for (int i = 0; i < neuralNetSetsList.size(); i++) {
-        //    namesList.add(neuralNetSetsList.get(i).getName());
-        //}
-        //return namesList;
-
         ArrayList<String> namesList = new ArrayList<String>();
-        namesList.add("T");
-        namesList.add("E");
-        namesList.add("S");
-        namesList.add("T");
-
+        for (int i = 0; i < neuralNetSetsList.size(); i++) {
+            namesList.add(neuralNetSetsList.get(i).getName());
+        }
         return namesList;
 
     }

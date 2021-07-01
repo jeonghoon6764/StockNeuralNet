@@ -52,6 +52,9 @@ public class NeuralNetSetAdd1Controller {
     private String slash;
 
 
+    /**
+     * FXML initializer
+     */
     @FXML
     private void initialize() {
         continueButton.setDisable(true);
@@ -60,10 +63,11 @@ public class NeuralNetSetAdd1Controller {
         showIndicatorsInListView();
         indicatorsListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         targetsListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        
-
     }
 
+    /**
+     * method for showing indicators.
+     */
     private void showIndicatorsInListView() {
         indicatorsListView.setItems(FXCollections.observableArrayList(nameAndTicker));
     }
@@ -108,10 +112,49 @@ public class NeuralNetSetAdd1Controller {
      * @throws IOException IO Exceprion
      */
     public void userClickContinue(ActionEvent actionEvent) throws IOException {
-        
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXML" + slash + "MainScreen.fxml"));
+
+        ObservableList<Integer> indicatorList = indicatorsListView.getSelectionModel().getSelectedIndices();
+        ObservableList<Integer> targetList = targetsListView.getSelectionModel().getSelectedIndices();
+
+        ArrayList<String> indicatorTickerList = new ArrayList<>();
+        ArrayList<String> targetTickerList = new ArrayList<>();
+        ArrayList<String> referenceList = new ArrayList<>();
+
+        for (int i = 0; i < indicatorList.size(); i++) {
+            indicatorTickerList.add(MainController.stockDatasList.get(indicatorList.get(i)).getTicker());
+        }
+        for (int i = 0; i < targetList.size(); i++) {
+            targetTickerList.add(indicatorTickerList.get(targetList.get(i)));
+        }
+
+        if (adjClosedChkBox.isSelected()) {
+            referenceList.add("adjClosed");
+        }
+        if (closedChkBox.isSelected()) {
+            referenceList.add("close");
+        }
+        if (highChkBox.isSelected()) {
+            referenceList.add("high");
+        }
+        if (lowChkBox.isSelected()) {
+            referenceList.add("low");
+        }
+        if (openChkBox.isSelected()) {
+            referenceList.add("open");
+        }
+        if (volumeChkBox.isSelected()) {
+            referenceList.add("volume");
+        }
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXML" + slash + "NeuralNetSetAdd2.fxml"));
         Parent root = loader.load();
-        MainScreenController controller = loader.<MainScreenController>getController();
+        NeuralNetSetAdd2Controller controller = loader.<NeuralNetSetAdd2Controller>getController();
+        controller.setIndicatorStocksList(indicatorTickerList);
+        controller.setIndicatorStocksTargetList(targetTickerList);
+        controller.setReferenceList(referenceList);
+        controller.setNeuralNetName(neuralSetNameTextField.getText());
+        controller.setNeuralNetNumOfInput(Integer.parseInt(numOfInputTextField.getText()));
+        controller.setNeuralNetNumOfHiddenLayers(Integer.parseInt(numOfHiddenLayerTextField.getText()));
         Scene scene = new Scene(root, 600, 400);
         Stage stage = (Stage) ((Node) (actionEvent.getSource())).getScene().getWindow();
         stage.setResizable(false);
@@ -145,6 +188,9 @@ public class NeuralNetSetAdd1Controller {
         enableContinueButton();
     }
 
+    /**
+     * method for enabling continue button.
+     */
     private void enableContinueButton() {
         if (checkListView() && checkCheckBox() && checkTextField()) {
             Platform.runLater(() -> {
@@ -157,6 +203,10 @@ public class NeuralNetSetAdd1Controller {
         }
     }
 
+    /**
+     * Method for check LiistViews.
+     * @return
+     */
     private boolean checkListView() {
         if (indicatorsListView.getSelectionModel().getSelectedIndices().size() != 0
          && targetsListView.getSelectionModel().getSelectedIndices().size() != 0) {
@@ -165,6 +215,10 @@ public class NeuralNetSetAdd1Controller {
          return false;
     }
     
+    /**
+     * Method for check checkbox.
+     * @return
+     */
     private boolean checkCheckBox() {
         if (adjClosedChkBox.isSelected() || closedChkBox.isSelected() || highChkBox.isSelected()
          || lowChkBox.isSelected() || openChkBox.isSelected() || volumeChkBox.isSelected()) {
