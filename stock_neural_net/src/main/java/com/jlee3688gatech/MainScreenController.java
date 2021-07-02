@@ -3,6 +3,7 @@ package com.jlee3688gatech;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -194,5 +195,57 @@ public class MainScreenController {
         }
         return runThread;
     }
+
+
+    /**
+     * ActionEvent method. when user click remove stock button
+     * @param actionEvent Action event
+     * @throws IOException IO Exceprion
+     */
+    public void menuFileNew(ActionEvent actionEvent) throws IOException {
+
+        MainController.neuralNetSetsList = new ArrayList<>();
+        MainController.stockDatasList = new ArrayList<>();
+
+        Platform.runLater(() -> {
+            showNeuralNet();
+            showStocksList();
+        });
+    }
+
+    /**
+     * ActionEvent method. when user click remove stock button
+     * @param actionEvent Action event
+     * @throws IOException IO Exceprion
+     */
+    public void menuFileLoad(ActionEvent actionEvent) throws IOException {
+
+        getAndSetRunThreadVar(false);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXML" + slash + "Load.fxml"));
+        Parent root = loader.load();
+        Scene scene = new Scene(root, 600, 400);
+        Stage stage = (Stage) ((Node) (stocksListView)).getScene().getWindow();
+        stage.setResizable(false);
+        stage.setScene(scene);
+    }
+
+    /**
+     * ActionEvent method. when user click continue button
+     * @param actionEvent Action event
+     * @throws IOException IO Exceprion
+     */
+    public void menuFileSave(ActionEvent actionEvent) throws IOException {
+        
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXML" + slash + "Save.fxml"));
+        Parent root = loader.load();
+        Scene scene = new Scene(root, 600, 400);
+        Stage stage = new Stage();
+        SaveController controller = loader.<SaveController>getController();
+        stage.setResizable(false);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    
     
 }

@@ -52,6 +52,9 @@ public class SaveAndLoad {
                 e.getStackTrace();
             }
         }
+        System.out.println(saveFileAddress);
+        System.out.println(address);
+        System.out.println(currAddr);
     }
 
     /**
@@ -77,6 +80,11 @@ public class SaveAndLoad {
             ret.add(file.getName());
         }
         return ret;
+    }
+
+    public boolean isDirectory(String fileName) {
+       File file = new File(saveFileAddress + currAddr + slash + fileName);
+       return file.isDirectory();
     }
 
     /**
@@ -120,6 +128,14 @@ public class SaveAndLoad {
     }
 
     /**
+     * getter method for currAddrDirectories.
+     * @return currAddrDirectories
+     */
+    public ArrayList<String> getCurrAddrDirectories() {
+        return currAddrDirectories;
+    }
+
+    /**
      * Helper method for adding directory name in currAddrDirectories(ArrayList)
      * @param directoryName name of directory.
      */
@@ -151,6 +167,14 @@ public class SaveAndLoad {
             currAddr += slash;
             currAddr += currAddrDirectories.get(i);
         }
+    }
+
+    /**
+     * getter method for save file addr
+     * @return saveFileAddr
+     */
+    public String getSaveFileAddr() {
+        return this.saveFileAddress;
     }
 
     /**

@@ -7,6 +7,7 @@ public class UtilMethods {
 
     public static String slash;
     public static String version = "1.0.0";
+    public static int doubleClickSpeed = 300;
 
     public static void initialize() {
         setOSSlash();
