@@ -128,6 +128,12 @@ public class LoadController {
                         removeButton.setDisable(true);
                         loadButton.setDisable(true);
                     });
+                } else {
+                    Platform.runLater(() -> {
+                        try {
+                            loadHelper(idx);
+                        } catch (IOException e) {}
+                    });
                 }
             }
         }
@@ -190,24 +196,55 @@ public class LoadController {
      * @throws IOException IO Exceprion
      */
     public void userClickedLoad(ActionEvent actionEvent) throws IOException {
+        loadHelper(listView.getSelectionModel().getSelectedIndex());
+    }
 
-        SaveFileStructure loadFile = (SaveFileStructure)saveAndLoad.loadFile(
-            saveAndLoad.getFileNamesInSaveDirectory().get(listView.getSelectionModel().getSelectedIndex()));
-
-        MainController.getAndSetNeuralNetSetsList(loadFile.getNeuralNetSetList());
-        MainController.getAndSetStockDatasList(loadFile.getStockDatasList());
-        mainScreenController.getAndSetRunThreadVar(false);
-        Stage thisStage = (Stage) ((Node) (actionEvent.getSource())).getScene().getWindow();
-        thisStage.close();
-
-
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXML" + UtilMethods.slash + "MainScreen.fxml"));
+    private void loadHelper(int fileListViewIdx) throws IOException{
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXML" + UtilMethods.slash + "Loading.fxml"));
         Parent root = loader.load();
-        MainScreenController controller = loader.<MainScreenController>getController();
+        LoadingScreenController controller = loader.<LoadingScreenController>getController();
+        LoadThread loadThread = new LoadThread(saveAndLoad.getFileNamesInSaveDirectory().get(fileListViewIdx), controller);
+        Stage thisStage = (Stage) loadButton.getScene().getWindow();
+        thisStage.close();
+        loadThread.start();
         Scene scene = new Scene(root, 600, 400);
         Stage mainStage = (Stage)mainPane.getScene().getWindow();
         mainStage.setResizable(false);
         mainStage.setScene(scene);
+    }
+
+    public class LoadThread extends Thread{
+
+        private String loadFileName;
+        private LoadingScreenController loadingScreenController;
+
+        public LoadThread(String loadFileName, LoadingScreenController loadingScreenController) {
+            this.loadFileName = loadFileName;
+            this.loadingScreenController = loadingScreenController;
+        }
+
+        public void run() {
+            mainScreenController.getAndSetRunThreadVar(false);
+            SaveFileStructure loadFile = (SaveFileStructure)saveAndLoad.loadFile(loadFileName);
+            MainController.getAndSetNeuralNetSetsList(loadFile.getNeuralNetSetList());
+            MainController.getAndSetStockDatasList(loadFile.getStockDatasList());
+
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("FXML" + UtilMethods.slash + "MainScreen.fxml"));
+            Parent root = null;
+            try {
+                root = loader.load();
+            } catch (IOException e) {}
+            Scene scene = new Scene(root, 600, 400);
+            Stage mainStage = (Stage)loadingScreenController.getNewMainPane().getScene().getWindow();
+            mainStage.setResizable(false);
+
+            Platform.runLater(() -> {
+                mainStage.setScene(scene);
+            });
+            
+            loadingScreenController.getAndSetThreadRunVar(false);
+        }
     }
 
     
