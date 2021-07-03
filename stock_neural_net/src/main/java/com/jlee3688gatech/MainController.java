@@ -5,8 +5,22 @@ import java.util.Calendar;
 
 public class MainController {
 
-    public static ArrayList<NeuralNetSet> neuralNetSetsList = new ArrayList<NeuralNetSet>();
-    public static ArrayList<StockDatas> stockDatasList = new ArrayList<StockDatas>();
+    private static ArrayList<NeuralNetSet> neuralNetSetsList = new ArrayList<NeuralNetSet>();
+    private static ArrayList<StockDatas> stockDatasList = new ArrayList<StockDatas>();
+
+    public synchronized static ArrayList<NeuralNetSet> getAndSetNeuralNetSetsList (ArrayList<NeuralNetSet> neuralNetSets) {
+        if (neuralNetSets != null) {
+            neuralNetSetsList = neuralNetSets;
+        }
+        return neuralNetSetsList;
+    }
+
+    public synchronized static ArrayList<StockDatas> getAndSetStockDatasList (ArrayList<StockDatas> stockDatasSets) {
+        if (stockDatasSets != null) {
+            stockDatasList = stockDatasSets;
+        }
+        return stockDatasList;
+    }
 
     public static void addStockToStockDatasList(StockDatas stockDatas) {
         stockDatasList.add(stockDatas);

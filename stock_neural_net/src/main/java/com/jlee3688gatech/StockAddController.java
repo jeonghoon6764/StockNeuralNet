@@ -152,8 +152,8 @@ public class StockAddController {
     public class makeStockDatasClass extends Thread{
 
         public void run() {
-            for (int i = 0; i < MainController.stockDatasList.size(); i++) {
-                if (tickerSymbol.equals(MainController.stockDatasList.get(i).getTicker())) {
+            for (int i = 0; i < MainController.getAndSetStockDatasList(null).size(); i++) {
+                if (tickerSymbol.equals(MainController.getAndSetStockDatasList(null).get(i).getTicker())) {
                     getAndSetRunThreadVar(false);
                     Platform.runLater(() -> {
                         yahooDownImageView.setImage(yahooDownFailImage);

@@ -12,6 +12,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.scene.Node;
 
@@ -35,6 +36,7 @@ public class SaveController {
 
     private int currentSelected;
     private int doubleClickSpeed;
+    private Pane mainPane;
 
     /**
      * Initializer method.
@@ -86,7 +88,9 @@ public class SaveController {
         return currentSelected;
     }
 
-
+    public void setMainPane(Pane mainPane) {
+        this.mainPane = mainPane;
+    }
     
 
 
@@ -108,6 +112,9 @@ public class SaveController {
 
                 getAndSetCurrentSelected(-1);
             } else {
+                if (idx < 0) {
+                    return;
+                }
                 if (saveAndLoad.isDirectory(saveAndLoad.getFileNamesInSaveDirectory().get(idx))) {
                     saveAndLoad.addCurrAddr(saveAndLoad.getFileNamesInSaveDirectory().get(idx));
                     showListView();
@@ -214,7 +221,7 @@ public class SaveController {
     public class SaveFile extends Thread {
 
         public void run() {
-            SaveFileStructure saveFileStructure = new SaveFileStructure(MainController.neuralNetSetsList, MainController.stockDatasList);
+            SaveFileStructure saveFileStructure = new SaveFileStructure(MainController.getAndSetNeuralNetSetsList(null), MainController.getAndSetStockDatasList(null));
 
             String fileName = textField.getText();
             int numOfFile = 0;
@@ -226,7 +233,7 @@ public class SaveController {
             }
     
             fileName = tempFileName;
-            saveAndLoad.saveFile(fileName, saveFileStructure);
+            saveAndLoad.saveFile(fileName + ".ser", saveFileStructure);
         }
     }
 
@@ -238,7 +245,7 @@ public class SaveController {
     public void userClickedSave(ActionEvent actionEvent) throws IOException {
         Stage stage = (Stage) ((Node) (actionEvent.getSource())).getScene().getWindow();
         stage.close();
-
+        mainPane.setDisable(false);
         SaveFile saveFile = new SaveFile();
         saveFile.start();
     }
@@ -253,5 +260,6 @@ public class SaveController {
     public void userClickCancel(ActionEvent actionEvent) throws IOException {
         Stage stage = (Stage) ((Node) (actionEvent.getSource())).getScene().getWindow();
         stage.close();
+        mainPane.setDisable(false);
     }
 }

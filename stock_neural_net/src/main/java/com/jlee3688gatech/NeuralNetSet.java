@@ -1,9 +1,10 @@
 package com.jlee3688gatech;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class NeuralNetSet {
+public class NeuralNetSet implements Serializable {
     private ArrayList<NeuralNet> neuralNetList;
     private String name;
     private int numOfInputDate;

@@ -20,6 +20,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.scene.Node;
@@ -43,6 +44,9 @@ public class MainScreenController {
 
     @FXML
     private TextArea informationTextArea;
+    
+    @FXML
+    private Pane mainPane;
 
     /**
      * Initializer method.
@@ -78,7 +82,7 @@ public class MainScreenController {
         stocksListView.getSelectionModel().clearSelection();
         if (!neuralNetSetListView.getSelectionModel().isEmpty()) {
             int idx = neuralNetSetListView.getSelectionModel().getSelectedIndex();
-            informationTextArea.setText(MainController.neuralNetSetsList.get(idx).getInfoString());
+            informationTextArea.setText(MainController.getAndSetNeuralNetSetsList(null).get(idx).getInfoString());
         } else {
             informationTextArea.setText("");
         }
@@ -88,7 +92,7 @@ public class MainScreenController {
         neuralNetSetListView.getSelectionModel().clearSelection();
         if (!stocksListView.getSelectionModel().isEmpty()) {
             int idx = stocksListView.getSelectionModel().getSelectedIndex();
-            informationTextArea.setText(MainController.stockDatasList.get(idx).getInfoString());
+            informationTextArea.setText(MainController.getAndSetStockDatasList(null).get(idx).getInfoString());
         } else {
             informationTextArea.setText("");
         }
@@ -151,7 +155,7 @@ public class MainScreenController {
 
         if (!stocksListView.getSelectionModel().isEmpty()) {
             int idx = stocksListView.getSelectionModel().getSelectedIndex();
-            MainController.stockDatasList.remove(idx);
+            MainController.getAndSetStockDatasList(null).remove(idx);
             stocksListView.setItems(FXCollections.observableArrayList(MainController.getStockDatasNameAndTicker()));
             informationTextArea.setText("");
         }
@@ -189,7 +193,7 @@ public class MainScreenController {
      * @param var if just want to get variable, put null.
      * @return runThread variable.
      */
-    private synchronized static boolean getAndSetRunThreadVar(Boolean var) {
+    public synchronized boolean getAndSetRunThreadVar(Boolean var) {
         if (var != null) {
             runThread = var;
         }
@@ -204,12 +208,13 @@ public class MainScreenController {
      */
     public void menuFileNew(ActionEvent actionEvent) throws IOException {
 
-        MainController.neuralNetSetsList = new ArrayList<>();
-        MainController.stockDatasList = new ArrayList<>();
+        MainController.getAndSetNeuralNetSetsList(new ArrayList<>());
+        MainController.getAndSetStockDatasList(new ArrayList<>());
 
         Platform.runLater(() -> {
             showNeuralNet();
             showStocksList();
+            informationTextArea.setText("");
         });
     }
 
@@ -220,13 +225,24 @@ public class MainScreenController {
      */
     public void menuFileLoad(ActionEvent actionEvent) throws IOException {
 
-        getAndSetRunThreadVar(false);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("FXML" + slash + "Load.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root, 600, 400);
-        Stage stage = (Stage) ((Node) (stocksListView)).getScene().getWindow();
+        Stage stage = new Stage();
+        LoadController controller = loader.<LoadController>getController();
+        controller.setMainPane(mainPane);
+        controller.setMainScreenController(this);
+        mainPane.setDisable(true);
         stage.setResizable(false);
         stage.setScene(scene);
+        stage.show();
+
+        stage.setOnCloseRequest(new EventHandler<WindowEvent>(){
+            @Override
+            public void handle(WindowEvent e) {
+                mainPane.setDisable(false);
+            }
+        });
     }
 
     /**
@@ -241,9 +257,18 @@ public class MainScreenController {
         Scene scene = new Scene(root, 600, 400);
         Stage stage = new Stage();
         SaveController controller = loader.<SaveController>getController();
+        controller.setMainPane(mainPane);
+        mainPane.setDisable(true);
         stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
+
+        stage.setOnCloseRequest(new EventHandler<WindowEvent>(){
+            @Override
+            public void handle(WindowEvent e) {
+                mainPane.setDisable(false);
+            }
+        });
     }
 
     

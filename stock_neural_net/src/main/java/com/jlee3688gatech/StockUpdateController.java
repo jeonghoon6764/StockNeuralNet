@@ -168,7 +168,7 @@ public class StockUpdateController {
                 getAndSetCurrTarget(selectedList.get(i));
                 BlinkBlinkTargetClass blinkBlinkTargetClass = new BlinkBlinkTargetClass(selectedList.get(i), 200);
                 blinkBlinkTargetClass.start();
-                MainController.stockDatasList.get(selectedList.get(i)).updateStockData(UtilMethods.CalendarMaker(dateToUpdateTextField.getText()));
+                MainController.getAndSetStockDatasList(null).get(selectedList.get(i)).updateStockData(UtilMethods.CalendarMaker(dateToUpdateTextField.getText()));
                 Platform.runLater(() -> {
                     showInitListView();
                     for (int j = 0; j < selectedList.size(); j++) {

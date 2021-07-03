@@ -123,7 +123,7 @@ public class NeuralNetSetAdd2Controller {
 
         NeuralNetSet neuralNetSet = new NeuralNetSet(neuralNetList, neuralNetName, indicatorStocksList, neuralNetNumOfInput, Integer.parseInt(numOfDateOutputTextField.getText())
         , Integer.parseInt(minIncreaseDateTextField.getText()), Double.parseDouble(totalIncreaseRateTextField.getText()), referenceList);
-        MainController.neuralNetSetsList.add(neuralNetSet);
+        MainController.getAndSetNeuralNetSetsList(null).add(neuralNetSet);
         neuralNetSet.addNote(descriptionTextArea.getText());
 
         userClickBack(actionEvent);
@@ -176,9 +176,9 @@ public class NeuralNetSetAdd2Controller {
             ArrayList<Integer> tempStockDatasTargetIndices = new ArrayList<>();
 
             for (int i = 0; i < indicatorStocksList.size(); i++) {
-                for (int j = 0; j < MainController.stockDatasList.size(); j++) {
-                    if (indicatorStocksList.get(i).equals(MainController.stockDatasList.get(j).getTicker())) {
-                        tempStockDatasList.add(MainController.stockDatasList.get(j));
+                for (int j = 0; j < MainController.getAndSetStockDatasList(null).size(); j++) {
+                    if (indicatorStocksList.get(i).equals(MainController.getAndSetStockDatasList(null).get(j).getTicker())) {
+                        tempStockDatasList.add(MainController.getAndSetStockDatasList(null).get(j));
                         break;
                     }
                 }

@@ -121,7 +121,7 @@ public class NeuralNetSetAdd1Controller {
         ArrayList<String> referenceList = new ArrayList<>();
 
         for (int i = 0; i < indicatorList.size(); i++) {
-            indicatorTickerList.add(MainController.stockDatasList.get(indicatorList.get(i)).getTicker());
+            indicatorTickerList.add(MainController.getAndSetStockDatasList(null).get(indicatorList.get(i)).getTicker());
         }
         for (int i = 0; i < targetList.size(); i++) {
             targetTickerList.add(indicatorTickerList.get(targetList.get(i)));
