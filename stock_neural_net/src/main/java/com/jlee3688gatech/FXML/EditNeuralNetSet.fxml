@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.media.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jlee3688gatech.EditNeuralNetSetController">
+   <children>
+      <MenuBar prefHeight="25.0" prefWidth="600.0">
+        <menus>
+            <Menu mnemonicParsing="false" text="File">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="New" />
+                  <MenuItem mnemonicParsing="false" text="Load" />
+                  <MenuItem mnemonicParsing="false" text="Save" />
+               </items>
+            </Menu>
+          <Menu mnemonicParsing="false" text="Edit">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Add Note on NeuralNet" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Network">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Get NeuralNets" />
+                  <MenuItem mnemonicParsing="false" text="Send NeuralNet" />
+                  <MenuItem mnemonicParsing="false" text="Learn NeuralNet with" />
+            </items>
+          </Menu>
+            <Menu mnemonicParsing="false" text="Learn">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Learn NeuralNet Set" />
+                  <MenuItem mnemonicParsing="false" text="Learn with Specific Date" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Run">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Run" />
+                  <MenuItem mnemonicParsing="false" text="Run with Specific Date" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Help">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="About" />
+               </items>
+            </Menu>
+        </menus>
+      </MenuBar>
+      <AnchorPane layoutY="25.0" prefHeight="377.0" prefWidth="600.0">
+         <children>
+            <HBox alignment="CENTER_RIGHT" layoutY="351.0" prefHeight="25.0" prefWidth="600.0">
+               <children>
+                  <Label alignment="CENTER" text="version" />
+               </children>
+            </HBox>
+            <Button layoutX="470.0" layoutY="320.0" mnemonicParsing="false" onAction="#userClickBack" prefHeight="25.0" prefWidth="121.0" text="Back" />
+            <ListView fx:id="noteListView" layoutX="129.0" layoutY="20.0" prefHeight="323.0" prefWidth="265.0" />
+            <ListView fx:id="neuralNetListView" layoutX="14.0" layoutY="20.0" onMouseClicked="#userClickNeuralNetListView" prefHeight="323.0" prefWidth="112.0" />
+            <TextArea fx:id="textArea" layoutX="403.0" layoutY="20.0" onKeyTyped="#userTypeTextArea" prefHeight="268.0" prefWidth="188.0" wrapText="true" />
+            <Button fx:id="addButton" layoutX="551.0" layoutY="292.0" mnemonicParsing="false" onAction="#userClickAddButton" prefHeight="25.0" prefWidth="39.0" text="Add" />
+         </children></AnchorPane>
+   </children>
+</Pane>

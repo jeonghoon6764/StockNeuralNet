@@ -271,6 +271,20 @@ public class MainScreenController {
         });
     }
 
-    
-    
+
+    /**
+     * ActionEvent method. when user click continue button
+     * @param actionEvent Action event
+     * @throws IOException IO Exceprion
+     */
+    public void menuEditAddaNote(ActionEvent actionEvent) throws IOException {
+        getAndSetRunThreadVar(false);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXML" + slash + "EditNeuralNetSet.fxml"));
+        Parent root = loader.load();
+        Scene scene = new Scene(root, 600, 400);
+        Stage stage = (Stage) mainPane.getScene().getWindow();
+        stage.setResizable(false);
+        stage.setScene(scene);
+        System.out.println("s");
+    }
 }
