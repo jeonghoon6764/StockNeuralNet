@@ -87,6 +87,26 @@ public class NeuralNetSet implements Serializable {
         notes.add(note);
     }
 
+    public int getNumOfInputDate() {
+        return this.numOfInputDate;
+    }
+
+    public int getNumOfDateOutput() {
+        return this.numOfDateOutput;
+    }
+
+    public int getMinIncreaseDate() {
+        return this.minIncreaseDate;
+    }
+
+    public ArrayList<String> getReferenceList() {
+        return this.referenceList;
+    }
+
+    public double getRateOfTotalIncrease() {
+        return this.rateOfTotalIncrease;
+    }
+
     public ArrayList<String[]> getLogs() {
         return this.logs;
     }
@@ -101,6 +121,10 @@ public class NeuralNetSet implements Serializable {
 
     public ArrayList<NeuralNet> getNeuralNets() {
         return this.neuralNetList;
+    }
+
+    public ArrayList<String> getOrders() {
+        return this.orders;
     }
 
     //public NeuralNetSetOutput getRecentOutputData(RecentInputData recentInput) {

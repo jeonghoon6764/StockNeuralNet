@@ -48,6 +48,7 @@ public class StockAddController {
     private String tickerSymbol;
     private String startDate;
     private String endDate;
+    private Learn1Controller learnController;
 
     /**
      * init FXML method
@@ -79,6 +80,10 @@ public class StockAddController {
                 }
             });
         });
+    }
+
+    public void setLearn1Controller(Learn1Controller learnController) {
+        this.learnController = learnController;
     }
 
     /**
@@ -181,7 +186,12 @@ public class StockAddController {
                 }
                 Platform.runLater(() -> {
                     thisStage.close();
-                    stockListView.setItems(FXCollections.observableArrayList(MainController.getStockDatasNameAndTicker()));
+                    if (stockListView != null) {
+                        stockListView.setItems(FXCollections.observableArrayList(MainController.getStockDatasNameAndTicker()));
+                    }
+                    if (learnController != null) {
+                        learnController.showRequiredStocks();
+                    }
                 });
             } catch (Exception e) {
                 getAndSetRunThreadVar(false);

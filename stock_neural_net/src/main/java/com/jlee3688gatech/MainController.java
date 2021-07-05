@@ -22,7 +22,15 @@ public class MainController {
         return stockDatasList;
     }
 
-    public static void addStockToStockDatasList(StockDatas stockDatas) {
+    public synchronized static void addStockToStockDatasList(StockDatas stockDatas) {
+        ArrayList<String> tickerList = new ArrayList<>();
+        for (int i = 0; i < stockDatasList.size(); i++) {
+            tickerList.add(stockDatasList.get(i).getTicker());
+        }
+
+        if (tickerList.contains(stockDatas.getTicker())) {
+            return;
+        }
         stockDatasList.add(stockDatas);
     }
 

@@ -50,6 +50,7 @@ public class ExampleMaker {
         sharedFrom = maxFrom;
         sharedTo = minTo;
 
+
         for (int i = 0; i < stockDatasArr.size(); i++) {
             //targets.add(stockDatasArr.get(i).lookUpTargetInDate(maxFrom));
             stockDatasArr.get(i).setTarget(stockDatasArr.get(i).lookUpTargetInDate(maxFrom));

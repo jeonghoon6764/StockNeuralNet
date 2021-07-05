@@ -8,15 +8,27 @@ public class Learning {
     private ExampleMaker exampleMaker;
     private ArrayList<ArrayList<ArrayList<Double>>> examples;
     private RecentInputData recentInput;
+    private ArrayList<StockDatas> stockDatasArr;
     
     public Learning(NeuralNet neuralNet, ArrayList<StockDatas> stockDatasArr) {
+        this.stockDatasArr = stockDatasArr;
         this.neuralNet = neuralNet;
         exampleMaker = new ExampleMaker(stockDatasArr);
         this.examples = new ArrayList<ArrayList<ArrayList<Double>>>();
     }
 
-    public double makeExamples(int targetTickerNum, int targetNumOfInc, String targetDataType, int targetDataCountFrom
+    public double makeExamples(int targetNumOfInc, String targetDataType, int targetDataCountFrom
     , int targetDataCountTo, double incRate, ArrayList<String> inputDataTypes, int numOfDataFromCounter) {
+
+        int targetTickerNum = -1;
+
+        for (int i = 0; i < stockDatasArr.size(); i++) {
+            if (neuralNet.getTargetTicker().equals(stockDatasArr.get(i).getTicker())) {
+                targetTickerNum = i;
+            }
+        }
+
+
 
         int numOfExample = 0;
         int numOfTrue = 0;
@@ -49,7 +61,7 @@ public class Learning {
         inputTypes.add("low");
         inputTypes.add("open");
         inputTypes.add("volume");
-        return makeExamples(targetTickerNum, 3, "adjclosed", 5, 10, 0.01, inputTypes, 5);
+        return makeExamples(3, "adjclosed", 5, 10, 0.01, inputTypes, 5);
     }
 
     private boolean checkAvailable() {
@@ -87,6 +99,10 @@ public class Learning {
         } else {
             System.out.println("NN or dataset(examples) does not match.");
         }
+    }
+
+    public int getNumOfExample() {
+        return this.examples.size();
     }
 
     public ArrayList<String> getStockNames() {

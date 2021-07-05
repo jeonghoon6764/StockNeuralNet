@@ -6,20 +6,20 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jlee3688gatech.MainScreenController">
+<Pane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jlee3688gatech.Learn2Controller">
    <children>
       <MenuBar prefHeight="25.0" prefWidth="600.0">
         <menus>
             <Menu mnemonicParsing="false" text="File">
                <items>
-                  <MenuItem mnemonicParsing="false" onAction="#menuFileNew" text="New" />
-                  <MenuItem mnemonicParsing="false" onAction="#menuFileLoad" text="Load" />
-                  <MenuItem mnemonicParsing="false" onAction="#menuFileSave" text="Save" />
+                  <MenuItem mnemonicParsing="false" text="New" />
+                  <MenuItem mnemonicParsing="false" text="Load" />
+                  <MenuItem mnemonicParsing="false" text="Save" />
                </items>
             </Menu>
           <Menu mnemonicParsing="false" text="Edit">
             <items>
-              <MenuItem mnemonicParsing="false" onAction="#menuEditAddaNote" text="Add Note on NeuralNet" />
+              <MenuItem mnemonicParsing="false" text="Add Note on NeuralNet" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Network">
@@ -57,18 +57,20 @@
                   <Label alignment="CENTER" text="version" />
                </children>
             </HBox>
-            <Button layoutX="490.0" layoutY="326.0" mnemonicParsing="false" onAction="#userClickaddStocksButton" prefHeight="25.0" prefWidth="96.0" text="Add" />
-            <Button layoutX="210.0" layoutY="326.0" mnemonicParsing="false" onAction="#userClickUpdateStocksButton" prefHeight="25.0" prefWidth="96.0" text="Update" />
+            <Button fx:id="proceedButton" layoutX="490.0" layoutY="326.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="96.0" text="Proceed" />
+            <Button layoutX="210.0" layoutY="326.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="96.0" text="Update" />
             <Label layoutX="421.0" layoutY="13.0" text="Information" />
-            <ImageView fx:id="neuralNetAnimation" fitHeight="110.0" fitWidth="190.0" layoutX="396.0" layoutY="209.0" pickOnBounds="true" preserveRatio="true" />
             <Label layoutX="258.0" layoutY="18.0" text="Date To" />
-            <ListView fx:id="stocksListView1" layoutX="5.0" layoutY="39.0" onMouseClicked="#stocksMouseClicked" prefHeight="280.0" prefWidth="299.0" />
-            <TextField layoutX="436.0" layoutY="34.0" />
-            <TextField layoutX="436.0" layoutY="67.0" />
-            <Label layoutX="335.0" layoutY="38.0" text="Date Overlap From" />
-            <Label layoutX="335.0" layoutY="71.0" text="Date Overlap To" />
-            <TextField layoutX="436.0" layoutY="100.0" />
-            <Label layoutX="338.0" layoutY="104.0" prefHeight="17.0" prefWidth="96.0" text="Number of Datas" />
+            <ListView fx:id="stocksListView" layoutX="5.0" layoutY="39.0" prefHeight="280.0" prefWidth="299.0" />
+            <TextField fx:id="overlapFromTextField" editable="false" layoutX="429.0" layoutY="90.0" />
+            <TextField fx:id="overlapToTextField" editable="false" layoutX="429.0" layoutY="123.0" />
+            <Label layoutX="328.0" layoutY="94.0" text="Date Overlap From" />
+            <Label layoutX="328.0" layoutY="127.0" text="Date Overlap To" />
+            <TextField fx:id="numOfDatasTextField" editable="false" layoutX="430.0" layoutY="243.0" />
+            <Label layoutX="325.0" layoutY="247.0" prefHeight="17.0" prefWidth="96.0" text="Number of Datas" />
+            <Button fx:id="getExampleButton" layoutX="484.0" layoutY="157.0" mnemonicParsing="false" onAction="#userClickGetExampleButton" prefHeight="25.0" prefWidth="96.0" text="Get Examples" />
+            <TextField fx:id="trueExistanceRateTextField" editable="false" layoutX="430.0" layoutY="277.0" />
+            <Label layoutX="311.0" layoutY="281.0" prefHeight="17.0" prefWidth="109.0" text="Truth existance Rate" />
          </children></AnchorPane>
    </children>
 </Pane>

@@ -6,20 +6,20 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jlee3688gatech.MainScreenController">
+<Pane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jlee3688gatech.Learn1Controller">
    <children>
       <MenuBar prefHeight="25.0" prefWidth="600.0">
         <menus>
             <Menu mnemonicParsing="false" text="File">
                <items>
-                  <MenuItem mnemonicParsing="false" onAction="#menuFileNew" text="New" />
-                  <MenuItem mnemonicParsing="false" onAction="#menuFileLoad" text="Load" />
-                  <MenuItem mnemonicParsing="false" onAction="#menuFileSave" text="Save" />
+                  <MenuItem mnemonicParsing="false" text="New" />
+                  <MenuItem mnemonicParsing="false" text="Load" />
+                  <MenuItem mnemonicParsing="false" text="Save" />
                </items>
             </Menu>
           <Menu mnemonicParsing="false" text="Edit">
             <items>
-              <MenuItem mnemonicParsing="false" onAction="#menuEditAddaNote" text="Add Note on NeuralNet" />
+              <MenuItem mnemonicParsing="false" text="Add Note on NeuralNet" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Network">
@@ -52,19 +52,19 @@
          <children>
             <ListView fx:id="neuralNetSetListView" layoutX="11.0" layoutY="39.0" onMouseClicked="#neuralNetSetMouseClicked" prefHeight="280.0" prefWidth="103.0" />
             <Label contentDisplay="CENTER" layoutX="25.0" layoutY="14.0" prefHeight="25.0" prefWidth="76.0" text="NeuralNet Set" />
-            <ListView fx:id="stocksListView" layoutX="117.0" layoutY="39.0" onMouseClicked="#stocksMouseClicked" prefHeight="280.0" prefWidth="244.0" />
-            <Label layoutX="142.0" layoutY="18.0" text="Requred" />
+            <ListView fx:id="stocksListView" layoutX="117.0" layoutY="39.0" prefHeight="280.0" prefWidth="244.0" />
+            <Label layoutX="222.0" layoutY="18.0" text="Stocks" />
             <HBox alignment="CENTER_RIGHT" layoutY="351.0" prefHeight="25.0" prefWidth="600.0">
                <children>
                   <Label alignment="CENTER" text="version" />
                </children>
             </HBox>
-            <Button layoutX="299.0" layoutY="326.0" mnemonicParsing="false" onAction="#userClickaddStocksButton" prefHeight="25.0" prefWidth="63.0" text="Add" />
-            <Button layoutX="490.0" layoutY="326.0" mnemonicParsing="false" onAction="#userClickUpdateStocksButton" prefHeight="25.0" prefWidth="96.0" text="Update" />
+            <Button fx:id="addButton" layoutX="299.0" layoutY="326.0" mnemonicParsing="false" onAction="#userClickaddStocksButton" prefHeight="25.0" prefWidth="63.0" text="Add" />
+            <Button fx:id="nextButton" layoutX="490.0" layoutY="326.0" mnemonicParsing="false" onAction="#userClickNext" prefHeight="25.0" prefWidth="96.0" text="Next" />
             <TextArea fx:id="informationTextArea" editable="false" layoutX="369.0" layoutY="39.0" prefHeight="151.0" prefWidth="219.0" wrapText="true" />
             <Label layoutX="430.0" layoutY="18.0" text="Information" />
             <ImageView fx:id="neuralNetAnimation" fitHeight="110.0" fitWidth="190.0" layoutX="395.0" layoutY="209.0" pickOnBounds="true" preserveRatio="true" />
-            <Label layoutX="264.0" layoutY="18.0" text="Stocks" />
+            <Button layoutX="11.0" layoutY="326.0" mnemonicParsing="false" onAction="#userClickBack" prefHeight="25.0" prefWidth="96.0" text="Back" />
          </children></AnchorPane>
    </children>
 </Pane>

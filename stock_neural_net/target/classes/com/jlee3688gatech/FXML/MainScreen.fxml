@@ -31,7 +31,7 @@
           </Menu>
             <Menu mnemonicParsing="false" text="Learn">
                <items>
-                  <MenuItem mnemonicParsing="false" text="Learn NeuralNet Set" />
+                  <MenuItem mnemonicParsing="false" onAction="#menuLearnNeuralNetSet" text="Learn NeuralNet Set" />
                   <MenuItem mnemonicParsing="false" text="Learn with Specific Date" />
                </items>
             </Menu>

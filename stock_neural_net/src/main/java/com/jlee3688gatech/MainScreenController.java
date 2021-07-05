@@ -285,6 +285,15 @@ public class MainScreenController {
         Stage stage = (Stage) mainPane.getScene().getWindow();
         stage.setResizable(false);
         stage.setScene(scene);
-        System.out.println("s");
+    }
+
+    public void menuLearnNeuralNetSet(ActionEvent actionEvent) throws IOException {
+        getAndSetRunThreadVar(false);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXML" + slash + "Learn1.fxml"));
+        Parent root = loader.load();
+        Scene scene = new Scene(root, 600, 400);
+        Stage stage = (Stage) mainPane.getScene().getWindow();
+        stage.setResizable(false);
+        stage.setScene(scene);
     }
 }
