@@ -57,8 +57,8 @@
                   <Label alignment="CENTER" text="version" />
                </children>
             </HBox>
-            <Button fx:id="proceedButton" layoutX="490.0" layoutY="326.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="96.0" text="Proceed" />
-            <Button layoutX="210.0" layoutY="326.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="96.0" text="Update" />
+            <Button fx:id="proceedButton" layoutX="490.0" layoutY="326.0" mnemonicParsing="false" onAction="#userClickProceedButton" prefHeight="25.0" prefWidth="96.0" text="Proceed" />
+            <Button layoutX="5.0" layoutY="326.0" mnemonicParsing="false" onAction="#userClickBack" prefHeight="25.0" prefWidth="96.0" text="Back" />
             <Label layoutX="421.0" layoutY="13.0" text="Information" />
             <Label layoutX="258.0" layoutY="18.0" text="Date To" />
             <ListView fx:id="stocksListView" layoutX="5.0" layoutY="39.0" prefHeight="280.0" prefWidth="299.0" />
@@ -71,6 +71,7 @@
             <Button fx:id="getExampleButton" layoutX="484.0" layoutY="157.0" mnemonicParsing="false" onAction="#userClickGetExampleButton" prefHeight="25.0" prefWidth="96.0" text="Get Examples" />
             <TextField fx:id="trueExistanceRateTextField" editable="false" layoutX="430.0" layoutY="277.0" />
             <Label layoutX="311.0" layoutY="281.0" prefHeight="17.0" prefWidth="109.0" text="Truth existance Rate" />
+            <ImageView fx:id="calculatorImageView" fitHeight="50.0" fitWidth="50.0" layoutX="428.0" layoutY="154.0" pickOnBounds="true" preserveRatio="true" />
          </children></AnchorPane>
    </children>
 </Pane>

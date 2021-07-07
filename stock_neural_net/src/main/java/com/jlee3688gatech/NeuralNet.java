@@ -80,7 +80,7 @@ public class NeuralNet implements Serializable{
     public double backPropLearning(ArrayList<Double> expectOutput, double learningRate) {
         
         this.deltas = new ArrayList<ArrayList<Double>>();
-        double avgError = 0.0D;
+        double totError = 0.0D;
         ArrayList<ArrayList<Double>> deltas = new ArrayList<ArrayList<Double>>();
         ArrayList<Double> gPrimes = NN.get(NN.size() - 1).sigmoidActivationDeriv();
         ArrayList<Double> errors = new ArrayList<Double>();
@@ -88,7 +88,7 @@ public class NeuralNet implements Serializable{
         for (int i = 0; i < this.outputSize; i++) {
             double error = expectOutput.get(i) - NN.get(NN.size() - 1).getOutput().get(i);
             errors.add(i, error);
-            avgError += Math.abs(error);           
+            totError += Math.abs(error);           
         }
         ArrayList<Double> gPrimexErrors = new ArrayList<Double>();
         for (int i = 0; i < outputSize; i++) {
@@ -113,7 +113,7 @@ public class NeuralNet implements Serializable{
         for (int i = 0; i < deltas.size(); i++) {
             NN.get(i).update(learningRate, deltas.get(i));
         }
-        return avgError / this.outputSize;
+        return totError;
     }
 
     /**

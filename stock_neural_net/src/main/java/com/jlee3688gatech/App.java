@@ -1,6 +1,8 @@
 package com.jlee3688gatech;
 
 import java.io.IOException;
+import java.lang.management.ManagementFactory;
+import com.sun.management.OperatingSystemMXBean;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -29,6 +31,7 @@ public class App
 
     public static void main( String[] args )
     {
+
         UtilMethods.initialize();
         StartController.main(args);
         nNList = new ArrayList<NeuralNet>();

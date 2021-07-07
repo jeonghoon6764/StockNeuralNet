@@ -225,7 +225,7 @@ public class Learn1Controller {
      * @throws IOException IO Exceprion
      */
     public void userClickNext(ActionEvent actionEvent) throws IOException {
-
+        getAndSetRunThreadVar(false);
         NeuralNetSet selectedNeuralNetSet = MainController.getAndSetNeuralNetSetsList(null).get(neuralNetSetListView.getSelectionModel().getSelectedIndex());
         ArrayList<StockDatas> stockDatasList = new ArrayList<>();
 
@@ -240,12 +240,6 @@ public class Learn1Controller {
             }
         }
 
-        for (int i = 0; i < selectedNeuralNetSet.getOrders().size(); i++) {
-            System.out.println("//////////////////////////////////////////////");
-            System.out.println(selectedNeuralNetSet.getOrders().get(i));
-            System.out.println(stockDatasList.get(i).getTicker());
-        }
-
         FXMLLoader loader = new FXMLLoader(getClass().getResource("FXML" + slash + "Learn2.fxml"));
         Parent root = loader.load();
         Learn2Controller controller = loader.<Learn2Controller>getController();
@@ -256,5 +250,4 @@ public class Learn1Controller {
         stage.setResizable(false);
         stage.setScene(scene);
     }
-
 }

@@ -7,7 +7,6 @@ public class Learning {
     private NeuralNet neuralNet;
     private ExampleMaker exampleMaker;
     private ArrayList<ArrayList<ArrayList<Double>>> examples;
-    private RecentInputData recentInput;
     private ArrayList<StockDatas> stockDatasArr;
     
     public Learning(NeuralNet neuralNet, ArrayList<StockDatas> stockDatasArr) {
@@ -47,8 +46,11 @@ public class Learning {
             , inputDataTypes, numOfDataFromCounter);
         }
 
-        this.recentInput = exampleMaker.getRecentInput(inputDataTypes, numOfDataFromCounter);
         System.out.println(numOfExample + " number of example created.");
+
+        if (numOfExample == 0) {
+            return 0;
+        }
 
         return (double)numOfTrue / (double)numOfExample;
     }
@@ -62,6 +64,10 @@ public class Learning {
         inputTypes.add("open");
         inputTypes.add("volume");
         return makeExamples(3, "adjclosed", 5, 10, 0.01, inputTypes, 5);
+    }
+
+    public String getNeuralNetTarget() {
+        return neuralNet.getTargetTicker();
     }
 
     private boolean checkAvailable() {
@@ -112,10 +118,4 @@ public class Learning {
     public ArrayList<String> getStockTickers() {
         return exampleMaker.getStockTickerList();
     }
-
-    public RecentInputData getRecentInput() {
-        return this.recentInput;
-    }
-
-    
 }
