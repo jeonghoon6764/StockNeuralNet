@@ -57,7 +57,7 @@
                   <Label alignment="CENTER" text="version" />
                </children>
             </HBox>
-            <Button fx:id="proceedButton" layoutX="490.0" layoutY="326.0" mnemonicParsing="false" onAction="#userClickProceedButton" prefHeight="25.0" prefWidth="96.0" text="Proceed" />
+            <Button fx:id="proceedButton" disable="true" layoutX="490.0" layoutY="326.0" mnemonicParsing="false" onAction="#userClickProceedButton" prefHeight="25.0" prefWidth="96.0" text="Proceed" />
             <Button layoutX="5.0" layoutY="326.0" mnemonicParsing="false" onAction="#userClickBack" prefHeight="25.0" prefWidth="96.0" text="Back" />
             <Label layoutX="421.0" layoutY="13.0" text="Information" />
             <Label layoutX="258.0" layoutY="18.0" text="Date To" />

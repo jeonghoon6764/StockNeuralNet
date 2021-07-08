@@ -70,6 +70,8 @@ public class Learn2Controller {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("FXML" + slash + "Learn3.fxml"));
         Parent root = loader.load();
         Learn3Controller controller = loader.<Learn3Controller>getController();
+        controller.setLearningList(learningList);
+        controller.setNeuralNetSet(neuralNetSet);
         Scene scene = new Scene(root, 600, 400);
         Stage stage = (Stage) ((Node) (actionEvent.getSource())).getScene().getWindow();
         stage.setResizable(false);

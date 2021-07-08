@@ -5,14 +5,21 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
+import javafx.stage.Stage;
+import javafx.scene.Node;
 
 public class Learn3Controller {
     @FXML
@@ -30,8 +37,6 @@ public class Learn3Controller {
     @FXML
     private Button requestRemoveThreadButton;
     @FXML
-    private Button seeThreadWorkButton;
-    @FXML
     private Button finButton;
     @FXML
     private ImageView cpuImageView;
@@ -47,15 +52,22 @@ public class Learn3Controller {
     private int maxIteration;
     private double minError;
     private ArrayList<Learning> learningList;
-
     private int currActivatedThread;
     private int targetNumOfThread;
+    private Status[] learningStatus;
+    private ArrayList<LearningThreadClass> threadList;
+    private ShowThreadListViewClass showThreadListViewClass;
+    private NeuralNetSet neuralNetSet;
 
-    private int nextTarget;
+    enum Status {
+        INITIALIZING, READY, LEARNING, FINISHED
+    }
 
 
     @FXML
     private void initialize() {
+        showThreadListViewClass = new ShowThreadListViewClass();
+        threadList = new ArrayList<>();
         currActivatedThread = 0;
         targetNumOfThread = 0;
         this.slash = UtilMethods.slash;
@@ -65,27 +77,167 @@ public class Learn3Controller {
             String addr = slash + "Images" + slash + "CPUs" + slash + "CPU" + i + ".png";
             cpuImageArr[i] = new Image(getClass().getResource(addr).toExternalForm());
         }
+        Platform.runLater(() -> {
+            showToDoListView();
+        });
+    }
+
+    public void setNeuralNetSet(NeuralNetSet neuralNetSet) {
+        this.neuralNetSet = neuralNetSet;
     }
 
     public void setLearningList(ArrayList<Learning> learningList) {
         this.learningList = learningList;
+        this.learningStatus = new Status[learningList.size()];
+
+        for (int i = 0; i < learningStatus.length; i++) {
+            learningStatus[i] = Status.INITIALIZING;
+        }
+    }
+
+    private void showToDoListView() {
+        ArrayList<String> showList = new ArrayList<>();
+
+        for (int i = 0; i < learningList.size(); i++) {
+            String str = "Learning <" + learningList.get(i).getNeuralNetTarget() + ">: " + getAndSetLearningStatus(i, null).toString();
+            showList.add(str);
+        }
+
+        Platform.runLater(() -> {
+            todoListView.setItems(FXCollections.observableArrayList(showList));
+        });
+
     }
 
     public class LearningThreadClass extends Thread {
-        private Learning learning;
-        public LearningThreadClass (Learning learning) {
-            this.learning = learning;
+        private int idx;
+        private boolean run;
+        public LearningThreadClass (int idx) {
+            run = false;
+            this.idx = idx;
+        }
+        public void run() {
+            run = true;
+            getAndSetCurrActivatedThread(1);
+            learningList.get(idx).setShowThreadListViewClass(showThreadListViewClass);
+            synchronized(showThreadListViewClass) {
+                showThreadListViewClass.notifyAll();
+            }
+            learningList.get(idx).backPropLearnNeuralNet(learningRate, maxIteration, minError);
+            
+            getAndSetLearningStatus(idx, Status.FINISHED);
+            showToDoListView();
+            getAndSetCurrActivatedThread(-1);
+            checkAndRunThreads();
+            run = false;
+            synchronized(showThreadListViewClass) {
+                showThreadListViewClass.notifyAll();
+            }
+            checkEnd();
         }
 
-        public void run() {
+        public synchronized boolean getRun() {
+            return this.run;
+        }
+
+        public synchronized double getCurrError() {
+            return learningList.get(idx).getCurrError();
+        }
+
+        public String getNeuralNetTarget() {
+            return learningList.get(idx).getNeuralNetTarget();
+        }
+    }
+
+    public void checkEnd() {
+        boolean allFinished = true;
+        for (int i = 0; i < learningStatus.length; i++) {
+            if (getAndSetLearningStatus(i, null) != Status.FINISHED) {
+                allFinished = false;
+                break;
+            }
+        }
+        
+        if (allFinished) {
+            Platform.runLater(() -> {
+                finButton.setDisable(false);
+            });
+        }
+    }
+
+
+    public class ShowThreadListViewClass extends Thread {
+        public synchronized void run() {
+            while(getAndSetRunThreadVar(null)) {
+                ArrayList<String> strList = new ArrayList<>();
+
+                for (int i = 0; i < threadList.size(); i++) {
+                    if (threadList.get(i).getRun()) {
+                        String currErrorStr = String.format("%.5f", threadList.get(i).getCurrError());
+                        strList.add("Thread" + (i + 1) + ": Target<" + threadList.get(i).getNeuralNetTarget() + "> current Error rate :" + currErrorStr);
+                    }
+                }
+                Platform.runLater(() -> {
+                    threadListView.setItems(FXCollections.observableArrayList(strList));
+                });
+                try {
+                    wait();
+                } catch (InterruptedException e) {}
+            }
             
         }
     }
 
-    public void checkAndRunThreads() {
-        if (getAndSetTargetNumOfThread(null) > getAndSetCurrActivatedThread(null)) {
-
+    public void userClickedFinish(ActionEvent actionEvent) throws IOException {
+        String str = new String();
+        str += "<LEARNING>" + " ";
+        str += "Learning Rate: " + learningRate + ", ";
+        str += "Max iteration: " + maxIteration + ", ";
+        str += "Minimum Error: " + minError;
+        neuralNetSet.addLog(str);
+        getAndSetRunThreadVar(false);
+        synchronized(showThreadListViewClass) {
+            showThreadListViewClass.notifyAll();
         }
+        
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXML" + slash + "MainScreen.fxml"));
+        Parent root = loader.load();
+        MainScreenController controller = loader.<MainScreenController>getController();
+        Scene scene = new Scene(root, 600, 400);
+        Stage stage = (Stage) ((Node) (actionEvent.getSource())).getScene().getWindow();
+        stage.setResizable(false);
+        stage.setScene(scene);
+    }
+
+
+    public synchronized void checkAndRunThreads() {
+        if (getAndSetTargetNumOfThread(null) > getAndSetCurrActivatedThread(null)) {
+            int idx = -1;
+            for (int i = 0; i < learningStatus.length; i++) {
+                if (getAndSetLearningStatus(i, null) == Status.READY) {
+                    idx = i;
+                    break;
+                }
+            }
+            if (idx == -1) {
+                return;
+            }
+            getAndSetLearningStatus(idx, Status.LEARNING);
+            showToDoListView();
+            LearningThreadClass learningThreadClass = new LearningThreadClass(idx);
+            threadList.add(learningThreadClass);
+            learningThreadClass.start();
+            synchronized (showThreadListViewClass) {
+                showThreadListViewClass.notifyAll();
+            }
+        }
+    }
+
+    public synchronized Status getAndSetLearningStatus(int idx, Status status) {
+        if (status != null) {
+            learningStatus[idx] = status;
+        }
+        return learningStatus[idx];
     }
 
     public synchronized int getAndSetTargetNumOfThread(Integer val) {
@@ -112,11 +264,13 @@ public class Learn3Controller {
     public void userClickRequestMoreThread(ActionEvent actionEvent) throws IOException {
         getAndSetTargetNumOfThread(1);
         showNumOfThreadTextField();
+        checkAndRunThreads();
     }
 
     public void userClickRequestRemoveThread(ActionEvent actionEvent) throws IOException {
         getAndSetTargetNumOfThread(-1);
         showNumOfThreadTextField();
+        checkAndRunThreads();
     }
 
 
@@ -126,12 +280,20 @@ public class Learn3Controller {
         this.learningRate = Double.parseDouble(learningRateTextField.getText());
         this.maxIteration = Integer.parseInt(maxIterationTextField.getText());
         this.minError = Double.parseDouble(minErrorTextField.getText());
+        
 
+        for (int i = 0; i < learningStatus.length; i++) {
+            getAndSetLearningStatus(i, Status.READY);
+        }
+        showToDoListView();
         getAndSetRunThreadVar(true);
         CPUImageChangeClass cpuImageChangeClass = new CPUImageChangeClass();
         cpuImageChangeClass.start();
+        showThreadListViewClass.start();
 
-        
+        for (int i = 0; i < learningStatus.length; i++) {
+            learningStatus[i] = Status.READY;
+        }
 
         Platform.runLater(() -> {
             
@@ -141,7 +303,6 @@ public class Learn3Controller {
             buildToDoButton.setDisable(true);
             requestMoreThreadButton.setDisable(false);
             requestRemoveThreadButton.setDisable(false);
-            seeThreadWorkButton.setDisable(false);
         });
         showNumOfThreadTextField();
     }
@@ -231,7 +392,6 @@ public class Learn3Controller {
             buildToDoButton.setDisable(true);
             requestMoreThreadButton.setDisable(true);
             requestRemoveThreadButton.setDisable(true);
-            seeThreadWorkButton.setDisable(true);
             finButton.setDisable(true);
         });
     }

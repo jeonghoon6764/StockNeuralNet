@@ -1,6 +1,11 @@
 package com.jlee3688gatech;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+
+import com.jlee3688gatech.Learn3Controller.ShowThreadListViewClass;
+
+import org.slf4j.helpers.Util;
 
 public class Learning {
 
@@ -8,12 +13,19 @@ public class Learning {
     private ExampleMaker exampleMaker;
     private ArrayList<ArrayList<ArrayList<Double>>> examples;
     private ArrayList<StockDatas> stockDatasArr;
+    private Double currError;
+    private ShowThreadListViewClass showThreadListViewClass;
     
     public Learning(NeuralNet neuralNet, ArrayList<StockDatas> stockDatasArr) {
+        this.currError = 1.0;
         this.stockDatasArr = stockDatasArr;
         this.neuralNet = neuralNet;
         exampleMaker = new ExampleMaker(stockDatasArr);
         this.examples = new ArrayList<ArrayList<ArrayList<Double>>>();
+    }
+
+    public void setShowThreadListViewClass(ShowThreadListViewClass showThreadListViewClass) {
+        this.showThreadListViewClass = showThreadListViewClass;
     }
 
     public double makeExamples(int targetNumOfInc, String targetDataType, int targetDataCountFrom
@@ -26,9 +38,6 @@ public class Learning {
                 targetTickerNum = i;
             }
         }
-
-
-
         int numOfExample = 0;
         int numOfTrue = 0;
 
@@ -45,8 +54,6 @@ public class Learning {
             temp = exampleMaker.getExamples(targetTickerNum, targetNumOfInc, targetDataType, targetDataCountFrom, targetDataCountTo, incRate
             , inputDataTypes, numOfDataFromCounter);
         }
-
-        System.out.println(numOfExample + " number of example created.");
 
         if (numOfExample == 0) {
             return 0;
@@ -95,16 +102,18 @@ public class Learning {
                 }
                 error /= examples.size();
                 iteration++;
-
-                String errorString = Double.toString(error);
-                errorString = errorString.substring(0, 7);
-
-                String str = "iteration == " + iteration + "  " + "error == " + errorString;
-                System.out.println(str);
+                currError = error;
+                synchronized(showThreadListViewClass) {
+                    showThreadListViewClass.notifyAll();
+                }
             }
         } else {
             System.out.println("NN or dataset(examples) does not match.");
         }
+    }
+
+    public double getCurrError() {
+        return this.currError;
     }
 
     public int getNumOfExample() {

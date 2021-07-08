@@ -66,13 +66,12 @@
             <Label layoutX="130.0" layoutY="50.0" text="Thread" />
             <Button fx:id="requestMoreThreadButton" layoutX="2.0" layoutY="318.0" mnemonicParsing="false" onAction="#userClickRequestMoreThread" prefHeight="25.0" prefWidth="137.0" text=" Request More Thread" />
             <Button fx:id="requestRemoveThreadButton" layoutX="171.0" layoutY="318.0" mnemonicParsing="false" onAction="#userClickRequestRemoveThread" prefHeight="25.0" prefWidth="146.0" text="Request Remove Thread" />
-            <ListView fx:id="todoListView" layoutX="321.0" layoutY="71.0" prefHeight="243.0" prefWidth="207.0" />
-            <Label layoutX="387.0" layoutY="50.0" text="Todo List" />
+            <ListView fx:id="todoListView" layoutX="379.0" layoutY="71.0" prefHeight="243.0" prefWidth="207.0" />
+            <Label layoutX="468.0" layoutY="50.0" text="Todo List" />
             <Separator layoutY="45.0" prefHeight="5.0" prefWidth="600.0" />
-            <Button fx:id="seeThreadWorkButton" layoutX="321.0" layoutY="318.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="207.0" text="See Thread Works" />
-            <Button fx:id="finButton" layoutX="534.0" layoutY="318.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="65.0" text="Finish" />
+            <Button fx:id="finButton" layoutX="473.0" layoutY="318.0" mnemonicParsing="false" onAction="#userClickedFinish" prefHeight="25.0" prefWidth="110.0" text="Finish" />
             <TextField fx:id="numOfThreadTextField" editable="false" layoutX="144.0" layoutY="318.0" prefHeight="25.0" prefWidth="21.0" />
-            <ImageView fx:id="cpuImageView" fitHeight="50.0" fitWidth="50.0" layoutX="542.0" layoutY="71.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="cpuImageView" fitHeight="50.0" fitWidth="50.0" layoutX="323.0" layoutY="168.0" pickOnBounds="true" preserveRatio="true" />
          </children></AnchorPane>
    </children>
 </Pane>

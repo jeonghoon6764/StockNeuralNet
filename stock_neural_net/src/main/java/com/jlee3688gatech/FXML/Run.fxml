@@ -50,28 +50,30 @@
       </MenuBar>
       <AnchorPane layoutY="25.0" prefHeight="377.0" prefWidth="600.0">
          <children>
-            <Label contentDisplay="CENTER" layoutX="14.0" layoutY="14.0" prefHeight="25.0" prefWidth="39.0" text="Stocks" />
-            <Label layoutX="117.0" layoutY="18.0" text="Date From" />
             <HBox alignment="CENTER_RIGHT" layoutY="351.0" prefHeight="25.0" prefWidth="600.0">
                <children>
                   <Label alignment="CENTER" text="version" />
                </children>
             </HBox>
-            <Button fx:id="proceedButton" disable="true" layoutX="490.0" layoutY="326.0" mnemonicParsing="false" onAction="#userClickProceedButton" prefHeight="25.0" prefWidth="96.0" text="Proceed" />
-            <Button layoutX="5.0" layoutY="326.0" mnemonicParsing="false" onAction="#userClickBack" prefHeight="25.0" prefWidth="96.0" text="Back" />
-            <Label layoutX="421.0" layoutY="13.0" text="Information" />
-            <Label layoutX="258.0" layoutY="18.0" text="Date To" />
-            <ListView fx:id="stocksListView" layoutX="5.0" layoutY="39.0" prefHeight="280.0" prefWidth="299.0" />
-            <TextField fx:id="overlapFromTextField" editable="false" layoutX="429.0" layoutY="90.0" />
-            <TextField fx:id="overlapToTextField" editable="false" layoutX="429.0" layoutY="123.0" />
-            <Label layoutX="328.0" layoutY="94.0" text="Date Overlap From" />
-            <Label layoutX="328.0" layoutY="127.0" text="Date Overlap To" />
-            <TextField fx:id="numOfDatasTextField" editable="false" layoutX="430.0" layoutY="243.0" />
-            <Label layoutX="325.0" layoutY="247.0" prefHeight="17.0" prefWidth="96.0" text="Number of Datas" />
-            <Button fx:id="getExampleButton" layoutX="484.0" layoutY="157.0" mnemonicParsing="false" onAction="#userClickGetExampleButton" prefHeight="25.0" prefWidth="96.0" text="Get Examples" />
-            <TextField fx:id="trueExistanceRateTextField" editable="false" layoutX="430.0" layoutY="277.0" />
-            <Label layoutX="311.0" layoutY="281.0" prefHeight="17.0" prefWidth="109.0" text="Truth existance Rate" />
+            <Button fx:id="backButton" layoutX="5.0" layoutY="326.0" mnemonicParsing="false" onAction="#userClickBack" prefHeight="25.0" prefWidth="129.0" text="Back" />
+            <ListView fx:id="neuralListView" layoutX="5.0" layoutY="26.0" onMouseClicked="#neuralNetSetMouseClicked" prefHeight="293.0" prefWidth="129.0" />
+            <TextField fx:id="dateEndToTextField" editable="false" layoutX="308.0" layoutY="22.0" />
+            <Label layoutX="243.0" layoutY="26.0" text="DateEndTo" />
+            <Button fx:id="getExampleButton" layoutX="464.0" layoutY="22.0" mnemonicParsing="false" onAction="#userClickGetExampleButton" prefHeight="25.0" prefWidth="129.0" text="Get Examples" />
             <ImageView fx:id="calculatorImageView" fitHeight="50.0" fitWidth="50.0" layoutX="428.0" layoutY="154.0" pickOnBounds="true" preserveRatio="true" />
+            <ListView fx:id="resultListView" layoutX="358.0" layoutY="164.0" prefHeight="183.0" prefWidth="240.0" />
+            <TextField fx:id="periodStartTextField" layoutX="308.0" layoutY="55.0" prefHeight="25.0" prefWidth="129.0" />
+            <TextField fx:id="periodEndTextField" layoutX="464.0" layoutY="55.0" prefHeight="25.0" prefWidth="129.0" />
+            <Label layoutX="449.0" layoutY="59.0" text="~" />
+            <Label layoutX="243.0" layoutY="59.0" text="Period" />
+            <TextField fx:id="numOfDaysIncTextField" layoutX="554.0" layoutY="86.0" prefHeight="25.0" prefWidth="39.0" />
+            <Label layoutX="243.0" layoutY="90.0" text="Number of days the stock has increased during the period" />
+            <Label layoutX="243.0" layoutY="120.0" text="The degree of increasing stock during the period" />
+            <TextField fx:id="degreeOfIncStockTextField" layoutX="504.0" layoutY="116.0" prefHeight="25.0" prefWidth="89.0" />
+            <ImageView fx:id="imageView" fitHeight="220.0" fitWidth="110.0" layoutX="133.0" layoutY="63.0" pickOnBounds="true" preserveRatio="true" />
+            <ListView fx:id="stockListView" layoutX="243.0" layoutY="164.0" prefHeight="183.0" prefWidth="110.0" />
+            <Label layoutX="272.0" layoutY="146.0" text="Indicators" />
+            <Label layoutX="462.0" layoutY="146.0" text="Result" />
          </children></AnchorPane>
    </children>
 </Pane>

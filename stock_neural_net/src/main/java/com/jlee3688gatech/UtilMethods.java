@@ -25,6 +25,11 @@ public class UtilMethods {
         return cal;
     }
 
+    public static String CalendarToTimeString(Calendar cal) {
+        SimpleDateFormat formatter = new SimpleDateFormat("HH-mm-ss");
+        return formatter.format(cal.getTime());
+    }
+
     public static String CalendarToString(Calendar cal) {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         return formatter.format(cal.getTime());
