@@ -6,7 +6,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jlee3688gatech.Learn2Controller">
+<Pane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jlee3688gatech.RunController">
    <children>
       <MenuBar prefHeight="25.0" prefWidth="600.0">
         <menus>
@@ -57,15 +57,15 @@
             </HBox>
             <Button fx:id="backButton" layoutX="5.0" layoutY="326.0" mnemonicParsing="false" onAction="#userClickBack" prefHeight="25.0" prefWidth="129.0" text="Back" />
             <ListView fx:id="neuralListView" layoutX="5.0" layoutY="26.0" onMouseClicked="#neuralNetSetMouseClicked" prefHeight="293.0" prefWidth="129.0" />
-            <TextField fx:id="dateEndToTextField" editable="false" layoutX="308.0" layoutY="22.0" />
+            <TextField fx:id="dateEndToTextField" layoutX="308.0" layoutY="22.0" onKeyTyped="#userTypeDateEndToTextField" />
             <Label layoutX="243.0" layoutY="26.0" text="DateEndTo" />
             <Button fx:id="getExampleButton" layoutX="464.0" layoutY="22.0" mnemonicParsing="false" onAction="#userClickGetExampleButton" prefHeight="25.0" prefWidth="129.0" text="Get Examples" />
             <ImageView fx:id="calculatorImageView" fitHeight="50.0" fitWidth="50.0" layoutX="428.0" layoutY="154.0" pickOnBounds="true" preserveRatio="true" />
             <ListView fx:id="resultListView" layoutX="358.0" layoutY="164.0" prefHeight="183.0" prefWidth="240.0" />
-            <TextField fx:id="periodStartTextField" layoutX="308.0" layoutY="55.0" prefHeight="25.0" prefWidth="129.0" />
-            <TextField fx:id="periodEndTextField" layoutX="464.0" layoutY="55.0" prefHeight="25.0" prefWidth="129.0" />
-            <Label layoutX="449.0" layoutY="59.0" text="~" />
-            <Label layoutX="243.0" layoutY="59.0" text="Period" />
+            <TextField fx:id="periodStartTextField" layoutX="292.0" layoutY="55.0" prefHeight="25.0" prefWidth="149.0" />
+            <TextField fx:id="openingDateTextField" layoutX="471.0" layoutY="55.0" prefHeight="25.0" prefWidth="33.0" />
+            <Label layoutX="451.0" layoutY="59.0" text="to" />
+            <Label layoutX="243.0" layoutY="59.0" text="Period: " />
             <TextField fx:id="numOfDaysIncTextField" layoutX="554.0" layoutY="86.0" prefHeight="25.0" prefWidth="39.0" />
             <Label layoutX="243.0" layoutY="90.0" text="Number of days the stock has increased during the period" />
             <Label layoutX="243.0" layoutY="120.0" text="The degree of increasing stock during the period" />
@@ -74,6 +74,7 @@
             <ListView fx:id="stockListView" layoutX="243.0" layoutY="164.0" prefHeight="183.0" prefWidth="110.0" />
             <Label layoutX="272.0" layoutY="146.0" text="Indicators" />
             <Label layoutX="462.0" layoutY="146.0" text="Result" />
+            <Label layoutX="518.0" layoutY="59.0" text="Opening date" />
          </children></AnchorPane>
    </children>
 </Pane>

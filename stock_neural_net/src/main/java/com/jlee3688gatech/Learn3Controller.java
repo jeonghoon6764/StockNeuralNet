@@ -174,7 +174,7 @@ public class Learn3Controller {
                 for (int i = 0; i < threadList.size(); i++) {
                     if (threadList.get(i).getRun()) {
                         String currErrorStr = String.format("%.5f", threadList.get(i).getCurrError());
-                        strList.add("Thread" + (i + 1) + ": Target<" + threadList.get(i).getNeuralNetTarget() + "> current Error rate :" + currErrorStr);
+                        strList.add("Thread" + (i + 1) + ": Target<" + threadList.get(i).getNeuralNetTarget() + "> current Error rate : " + currErrorStr);
                     }
                 }
                 Platform.runLater(() -> {

@@ -24,7 +24,6 @@ public class NeuralNet implements Serializable{
     
     /**
      * Constructor for Neural Net class.
-     * @param name name of this Neural Network.
      * @param inputSize size of input in Neural Networks.
      * @param outputSize size of output
      * @param numOfHiddenLayerNodeArr number of nodes in hidden layers.

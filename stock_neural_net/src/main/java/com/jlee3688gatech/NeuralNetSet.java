@@ -127,17 +127,17 @@ public class NeuralNetSet implements Serializable {
         return this.orders;
     }
 
-    //public NeuralNetSetOutput getRecentOutputData(RecentInputData recentInput) {
-    //    NeuralNetSetOutput ret = new NeuralNetSetOutput();
-    //    ArrayList<Double> recentInputList = recentInput.getRecentInput();
-//
-    //    for (int i = 0; i < neuralNetList.size(); i++) {
-    //        ArrayList<Double> output = neuralNetList.get(i).feedFoward(recentInputList);
-    //        ret.addOutput(neuralNetList.get(i).getName(), output.get(0), output.get(1));
-    //    }
-//
-    //    return ret;
-    //}
+    public NeuralNetSetOutput getRecentOutputData(RecentInputData recentInput) {
+        NeuralNetSetOutput ret = new NeuralNetSetOutput();
+        ArrayList<Double> recentInputList = recentInput.getRecentInput();
+
+        for (int i = 0; i < neuralNetList.size(); i++) {
+            ArrayList<Double> output = neuralNetList.get(i).feedFoward(recentInputList);
+            ret.addOutput(neuralNetList.get(i).getTargetTicker(), output.get(0), output.get(1));
+        }
+
+        return ret;
+    }
 
     
     

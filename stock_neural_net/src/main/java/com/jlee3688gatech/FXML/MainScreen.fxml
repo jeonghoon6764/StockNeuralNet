@@ -37,7 +37,7 @@
             </Menu>
             <Menu mnemonicParsing="false" text="Run">
                <items>
-                  <MenuItem mnemonicParsing="false" text="Run" />
+                  <MenuItem mnemonicParsing="false" onAction="#menuRunRun" text="Run" />
                   <MenuItem mnemonicParsing="false" text="Run with Specific Date" />
                </items>
             </Menu>

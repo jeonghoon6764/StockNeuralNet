@@ -103,6 +103,7 @@ public class Learning {
                 error /= examples.size();
                 iteration++;
                 currError = error;
+                System.out.println(error);
                 synchronized(showThreadListViewClass) {
                     showThreadListViewClass.notifyAll();
                 }
