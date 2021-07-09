@@ -3,6 +3,10 @@ package com.jlee3688gatech;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Random;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -51,9 +55,21 @@ public class RunController {
     private Image[] runningImg;
     private String slash;
     private ArrayList<StockDatas> stockDatasList;
+    private Status currentStatus;
+    private ChangeImageClass changeImageClass;
+
+    private boolean runThread;
+    public enum Status {
+        OFF, DOWNLOADING, CALCULATING, FAIL
+    }
 
     @FXML
     private void initialize() {
+        this.currentStatus = Status.OFF;
+        this.runThread = true;
+        this.changeImageClass = new ChangeImageClass();
+        changeImageClass.start();
+
         getExampleButton.setDisable(true);
         this.slash = UtilMethods.slash;
         downloadImg = new Image[3];
@@ -98,6 +114,12 @@ public class RunController {
         }
 
         public synchronized void run() {
+
+            getAndSetStatus(Status.DOWNLOADING);
+            synchronized (changeImageClass) {
+                changeImageClass.notifyAll();
+            }
+
             ArrayList<String> stockList = neuralNetSet.getOrders();
             int numOfInputDate = neuralNetSet.getNumOfInputDate();
 
@@ -133,6 +155,26 @@ public class RunController {
                 }
             }
 
+            boolean isFailDuringDownloading = false;
+
+            for (int i = 0; i < getStockDatasClassList.size(); i++) {
+                if (getStockDatasClassList.get(i).getLoadFail()) {
+                    isFailDuringDownloading = true;
+                    break;
+                }
+            }
+            if (isFailDuringDownloading) {
+                getAndSetStatus(Status.FAIL);
+                Platform.runLater(() -> {
+                    backButton.setDisable(false);
+                });
+                return;
+            }
+
+            getAndSetStatus(Status.CALCULATING);
+            try {
+                Thread.sleep(1000);
+            } catch (Exception e) {}
             ArrayList<StockDatas> inputStockDatasOrderedList = new ArrayList<>();
 
             for (int i = 0; i < stockList.size(); i++) {
@@ -148,15 +190,130 @@ public class RunController {
             NeuralNetSetOutput neuralNetSetOutput = neuralNetSet.getRecentOutputData(recentInputData);
 
             
+            Calendar period = UtilMethods.CalendarMaker(dateEndToTextField.getText());
+            period.add(Calendar.DATE, 1);
+            Platform.runLater(() -> {
+                periodStartTextField.setText(UtilMethods.CalendarToString(period));
+                openingDateTextField.setText(Integer.toString(neuralNetSet.getNumOfDateOutput()));
+                numOfDaysIncTextField.setText(Integer.toString(neuralNetSet.getMinIncreaseDate()));
+                degreeOfIncStockTextField.setText(Double.toString(neuralNetSet.getRateOfTotalIncrease()));
+            });
+
+            ArrayList<Output> outputList = new ArrayList<>();
             for (int i = 0; i < neuralNetSetOutput.getSize(); i++) {
-                System.out.println(neuralNetSetOutput.getStockName(i));
-                System.out.println(neuralNetSetOutput.getTrueValue(i));
-                System.out.println(neuralNetSetOutput.getFalseValue(i));
+                outputList.add(new Output(neuralNetSetOutput.getStockName(i), neuralNetSetOutput.getTrueValue(i), neuralNetSetOutput.getFalseValue(i)));
             }
+            Collections.sort(outputList);
+            ArrayList<String> arrList = new ArrayList<>();
 
-
+            for (int i = 0; i < outputList.size(); i++) {
+                String str = new String();
+                str += "Stock: " + outputList.get(i).stockName;
+                str += " Probability: " + String.format("%.2f", outputList.get(i).probablity * 100) + "%";
+                arrList.add(str);
+            }
+            
+            Platform.runLater(() -> {
+                resultListView.setItems(FXCollections.observableArrayList(arrList));
+                backButton.setDisable(false);
+                getExampleButton.setDisable(false);
+            });
+            getAndSetStatus(Status.OFF);
         }
     }
+
+    public class Output implements Comparable {
+        String stockName;
+        Double probablity;
+        public Output(String stockName, Double trueValue, Double falseValue) {
+            this.stockName = stockName;
+            this.probablity = trueValue - falseValue;
+            this.probablity += 1;
+            this.probablity /= 2;
+        }
+        @Override
+        public int compareTo(Object o) {
+            return ((Output)o).probablity.compareTo(this.probablity);
+        }
+    }
+
+
+    public class ChangeImageClass extends Thread {
+
+        public synchronized void run() {
+            Random rd = new Random();
+            while(getAndSetRunThreadVar(null)) {
+                while (getAndSetStatus(null) == Status.DOWNLOADING) {
+                    Platform.runLater(() -> {
+                        imageView.setImage(downloadImg[rd.nextInt(downloadImg.length)]);
+                    });
+                    try {
+                        Thread.sleep(100);
+                    } catch (Exception e) {}
+                }
+
+                while (getAndSetStatus(null) == Status.CALCULATING) {
+                    for (int i = 0; i < runningImg.length; i++) {
+                        int idx = i;
+                        Platform.runLater(() -> {
+                            imageView.setImage(runningImg[idx]);
+                        });
+                        try {
+                            Thread.sleep(100);
+                        } catch (Exception e) {}
+                    }
+                }
+
+                if (getAndSetStatus(null) == Status.FAIL) {
+                    Platform.runLater(() -> {
+                        imageView.setImage(failImg);
+                    });
+                    try {
+                        Thread.sleep(1000);
+                    } catch (Exception e) {}
+                    Platform.runLater(() -> {
+                        imageView.setImage(baseImg);
+                    });
+                    getAndSetStatus(Status.OFF);
+                }
+
+                if (getAndSetStatus(null) == Status.OFF) {
+                    Platform.runLater(() -> {
+                        imageView.setImage(baseImg);
+                    });
+                    try {
+                        wait();
+                    } catch (InterruptedException e) {}
+                }
+            }
+        }
+    }
+    
+    public void clearInfoField() {
+        Platform.runLater(() -> {
+            periodStartTextField.setText("");
+            openingDateTextField.setText("");
+            numOfDaysIncTextField.setText("");
+            degreeOfIncStockTextField.setText("");
+            resultListView.setItems(null);
+        });
+    }
+
+    public synchronized Status getAndSetStatus(Status status) {
+        if (status != null) {
+            this.currentStatus = status;
+        }
+        return this.currentStatus;
+    }
+
+    public synchronized boolean getAndSetRunThreadVar(Boolean val) {
+        if (val != null) {
+            this.runThread = val;
+        }
+        return this.runThread;
+    }
+
+    
 
     public class GetStockDatasClass extends Thread {
 
@@ -180,12 +337,15 @@ public class RunController {
             getAndSetRunning(true);
             StockDatas stockDatas = null;
             try {
-                System.out.println(UtilMethods.CalendarToString(to));
                 stockDatas = new StockDatas("AUTO_GENERATED", stockTicker, from, to);
             } catch (Exception e) {
                 loadFail = true;
             }
             if (loadFail) {
+                getAndSetRunning(false);
+                synchronized(getExampleClass) {
+                    getExampleClass.notifyAll();
+                }
                 return;
             }
             addStockInList(stockDatas);
@@ -215,12 +375,6 @@ public class RunController {
         }
     }
 
-
-
-    public class ImageContorller extends Thread {
-        
-    }
-
     private void showNeuralNet() {
         ArrayList<String> nameList = MainController.getNeuralNetSetsName();
         neuralListView.setItems(FXCollections.observableArrayList(nameList));
@@ -228,6 +382,7 @@ public class RunController {
 
     public void neuralNetSetMouseClicked(MouseEvent mouseEvent) throws IOException{
         enableGetExampleButton();
+        clearInfoField();
         if (!neuralListView.getSelectionModel().isEmpty()) {
             int idx = neuralListView.getSelectionModel().getSelectedIndex();
             ArrayList<String> orderList = MainController.getAndSetNeuralNetSetsList(null).get(idx).getOrders();
@@ -241,8 +396,10 @@ public class RunController {
         }
     }
 
+
     public void userTypeDateEndToTextField(KeyEvent keyEvent) throws IOException {
         enableGetExampleButton();
+        clearInfoField();
     }
 
     private void enableGetExampleButton() {
@@ -283,6 +440,12 @@ public class RunController {
      * @throws IOException IO Exceprion
      */
     public void userClickBack(ActionEvent actionEvent) throws IOException {
+
+        getAndSetRunThreadVar(false);
+        
+        synchronized (changeImageClass) {
+            changeImageClass.notifyAll();
+        }
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("FXML" + slash + "MainScreen.fxml"));
         Parent root = loader.load();

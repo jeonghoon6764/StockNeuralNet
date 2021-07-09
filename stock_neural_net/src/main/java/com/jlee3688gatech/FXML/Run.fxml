@@ -62,14 +62,14 @@
             <Button fx:id="getExampleButton" layoutX="464.0" layoutY="22.0" mnemonicParsing="false" onAction="#userClickGetExampleButton" prefHeight="25.0" prefWidth="129.0" text="Get Examples" />
             <ImageView fx:id="calculatorImageView" fitHeight="50.0" fitWidth="50.0" layoutX="428.0" layoutY="154.0" pickOnBounds="true" preserveRatio="true" />
             <ListView fx:id="resultListView" layoutX="358.0" layoutY="164.0" prefHeight="183.0" prefWidth="240.0" />
-            <TextField fx:id="periodStartTextField" layoutX="292.0" layoutY="55.0" prefHeight="25.0" prefWidth="149.0" />
-            <TextField fx:id="openingDateTextField" layoutX="471.0" layoutY="55.0" prefHeight="25.0" prefWidth="33.0" />
+            <TextField fx:id="periodStartTextField" editable="false" layoutX="292.0" layoutY="55.0" prefHeight="25.0" prefWidth="149.0" />
+            <TextField fx:id="openingDateTextField" editable="false" layoutX="471.0" layoutY="55.0" prefHeight="25.0" prefWidth="33.0" />
             <Label layoutX="451.0" layoutY="59.0" text="to" />
             <Label layoutX="243.0" layoutY="59.0" text="Period: " />
-            <TextField fx:id="numOfDaysIncTextField" layoutX="554.0" layoutY="86.0" prefHeight="25.0" prefWidth="39.0" />
+            <TextField fx:id="numOfDaysIncTextField" editable="false" layoutX="554.0" layoutY="86.0" prefHeight="25.0" prefWidth="39.0" />
             <Label layoutX="243.0" layoutY="90.0" text="Number of days the stock has increased during the period" />
             <Label layoutX="243.0" layoutY="120.0" text="The degree of increasing stock during the period" />
-            <TextField fx:id="degreeOfIncStockTextField" layoutX="504.0" layoutY="116.0" prefHeight="25.0" prefWidth="89.0" />
+            <TextField fx:id="degreeOfIncStockTextField" editable="false" layoutX="504.0" layoutY="116.0" prefHeight="25.0" prefWidth="89.0" />
             <ImageView fx:id="imageView" fitHeight="220.0" fitWidth="110.0" layoutX="133.0" layoutY="63.0" pickOnBounds="true" preserveRatio="true" />
             <ListView fx:id="stockListView" layoutX="243.0" layoutY="164.0" prefHeight="183.0" prefWidth="110.0" />
             <Label layoutX="272.0" layoutY="146.0" text="Indicators" />

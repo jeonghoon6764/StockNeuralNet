@@ -36,7 +36,8 @@ public class StockDatas implements Serializable{
      * @param to date to
      * @throws IOException exception if the data fails to load.
      */
-    public StockDatas(String name, String ticker, Calendar from, Calendar to) throws Exception {
+    public StockDatas(String name, String ticker, Calendar from, Calendar to2) throws Exception {
+        Calendar to = UtilMethods.CalendarMaker(UtilMethods.calendarToSimpleString(to2));
         to.add(Calendar.DATE, 1);
         this.name = name;
         this.ticker = ticker;
@@ -117,7 +118,6 @@ public class StockDatas implements Serializable{
             return true;
         } else if (newDate.getTimeInMillis() > to.getTimeInMillis()) {
             to.add(Calendar.DATE, 1);
-            newDate.add(Calendar.DATE, 1);
             try {
                 st = YahooFinance.get(ticker, to, newDate, Interval.DAILY);
                 for (int i = 0; i < st.getHistory().size(); i++) {
