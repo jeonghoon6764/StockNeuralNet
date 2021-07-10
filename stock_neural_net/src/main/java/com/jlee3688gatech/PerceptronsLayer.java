@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
+import javax.swing.event.SwingPropertyChangeSupport;
+
 /**
  * This class represents perceptrons layer.
  * @version 1.0
@@ -103,6 +105,7 @@ public class PerceptronsLayer implements Serializable{
     private double sigmoidFunction(double value) {
         double child = 1;
         double parent = 1 + Math.pow(Math.E, value * (-1.0));
+        
         return child / parent;
     }
 

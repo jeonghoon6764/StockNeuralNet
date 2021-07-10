@@ -151,6 +151,21 @@ public class MainScreenController {
      * @param actionEvent Action event
      * @throws IOException IO Exceprion
      */
+    public void userClickRemoveNeuralNetButton(ActionEvent actionEvent) throws IOException {
+
+        if (!neuralNetSetListView.getSelectionModel().isEmpty()) {
+            int idx = neuralNetSetListView.getSelectionModel().getSelectedIndex();
+            MainController.getAndSetNeuralNetSetsList(null).remove(idx);
+            neuralNetSetListView.setItems(FXCollections.observableArrayList(MainController.getNeuralNetSetsName()));
+            informationTextArea.setText("");
+        }
+    }
+
+    /**
+     * ActionEvent method. when user click remove stock button
+     * @param actionEvent Action event
+     * @throws IOException IO Exceprion
+     */
     public void userClickRemoveStocksButton(ActionEvent actionEvent) throws IOException {
 
         if (!stocksListView.getSelectionModel().isEmpty()) {

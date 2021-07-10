@@ -31,7 +31,6 @@ public class App
 
     public static void main( String[] args )
     {
-
         UtilMethods.initialize();
         StartController.main(args);
         nNList = new ArrayList<NeuralNet>();

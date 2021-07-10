@@ -209,7 +209,6 @@ public class ExampleMaker {
             mean += arr.get(i);
         }
         mean /= arr.size();
-
         double standardDeviation = 0.0;
         for (int i = 0; i < arr.size(); i++) {
             standardDeviation += ((arr.get(i) - mean) * (arr.get(i) - mean));
@@ -218,7 +217,11 @@ public class ExampleMaker {
         standardDeviation = Math.sqrt(standardDeviation);
 
         for (int i = 0; i < arr.size(); i++) {
-            arr.set(i, ((arr.get(i) - mean) / standardDeviation));
+            double standardizationValue = (arr.get(i) - mean) / standardDeviation;
+            if (Double.isNaN(standardizationValue)) {
+                standardizationValue = 0.0;
+            }
+            arr.set(i, standardizationValue);
         }
     }
 
