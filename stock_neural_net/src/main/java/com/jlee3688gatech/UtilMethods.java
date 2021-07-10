@@ -57,7 +57,6 @@ public class UtilMethods {
             slash = "/";
             perOSStartAddress = "";
         }
-        perOSStartAddress = slash;
     }
     
 }
