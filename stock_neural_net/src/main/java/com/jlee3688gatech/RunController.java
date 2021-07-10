@@ -75,7 +75,7 @@ public class RunController {
         downloadImg = new Image[3];
         runningImg = new Image[8];
 
-        String addr = slash + "Images" + slash + "Run" + slash + "Base.png";
+        String addr = UtilMethods.perOSStartAddress + "Images" + slash + "Run" + slash + "Base.png";
         baseImg = new Image(getClass().getResource(addr).toExternalForm());
         for (int i = 0; i < downloadImg.length; i++) {
             addr = UtilMethods.perOSStartAddress + "Images" + slash + "Run" + slash + "Down" + i + ".png";
