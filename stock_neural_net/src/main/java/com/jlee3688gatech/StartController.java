@@ -27,7 +27,7 @@ public class StartController extends Application {
         slash = UtilMethods.slash;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("FXML" + slash + "WelcomeScreen.fxml"));
         Parent root = loader.load();
-        primaryStage.setTitle("Inspiration of Blockhead");
+        primaryStage.setTitle("Binary's Intuition");
         primaryStage.setScene(new Scene(root, 600, 400));
         primaryStage.setResizable(false);
         primaryStage.show();

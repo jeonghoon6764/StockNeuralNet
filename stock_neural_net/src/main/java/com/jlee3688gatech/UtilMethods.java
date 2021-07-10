@@ -2,6 +2,8 @@ package com.jlee3688gatech;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
 
 public class UtilMethods {
 
@@ -18,6 +20,7 @@ public class UtilMethods {
         cal.set(Calendar.YEAR, Integer.parseInt(date.substring(0, 4)));
         cal.set(Calendar.MONTH, Integer.parseInt(date.substring(4, 6)) - 1);
         cal.set(Calendar.DATE, Integer.parseInt(date.substring(6, 8)));
+        cal.setTimeZone(TimeZone.getTimeZone("America"));
         //cal.set(Calendar.HOUR, 23);
         //cal.set(Calendar.MINUTE, 59);
         //cal.set(Calendar.SECOND, 59);
