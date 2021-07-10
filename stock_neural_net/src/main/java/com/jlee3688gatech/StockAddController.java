@@ -230,12 +230,18 @@ public class StockAddController {
         if (!companyNameTextField.getText().isEmpty() && !tickerSymbolTextField.getText().isEmpty()
           && !dateStartTextField.getText().isEmpty() && !dateEndTextField.getText().isEmpty()) {
             if (validDateChecker(dateStartTextField.getText()) && validDateChecker(dateEndTextField.getText())) {
-                proceedButton.setDisable(false);
+                Platform.runLater(() -> {
+                    proceedButton.setDisable(false);
+                });
             } else {
-                proceedButton.setDisable(true);
+                Platform.runLater(() -> {
+                    proceedButton.setDisable(true);
+                });
             }
         } else {
-            proceedButton.setDisable(true);
+            Platform.runLater(() -> {
+                proceedButton.setDisable(true);
+            });
         }
     }
 
