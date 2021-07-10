@@ -78,13 +78,13 @@ public class RunController {
         String addr = slash + "Images" + slash + "Run" + slash + "Base.png";
         baseImg = new Image(getClass().getResource(addr).toExternalForm());
         for (int i = 0; i < downloadImg.length; i++) {
-            addr = slash + "Images" + slash + "Run" + slash + "Down" + i + ".png";
+            addr = UtilMethods.perOSStartAddress + "Images" + slash + "Run" + slash + "Down" + i + ".png";
             downloadImg[i] = new Image(getClass().getResource(addr).toExternalForm());
         }
-        addr = slash + "Images" + slash + "Run" + slash + "Fail.png";
+        addr = UtilMethods.perOSStartAddress + "Images" + slash + "Run" + slash + "Fail.png";
         failImg = new Image(getClass().getResource(addr).toExternalForm());
         for (int i = 0; i < runningImg.length; i++) {
-            addr = slash + "Images" + slash + "Run" + slash + "Run" + i + ".png";
+            addr = UtilMethods.perOSStartAddress + "Images" + slash + "Run" + slash + "Run" + i + ".png";
             runningImg[i] = new Image(getClass().getResource(addr).toExternalForm());
         }
         imageView.setImage(baseImg);

@@ -9,6 +9,7 @@ public class UtilMethods {
 
     public static String slash;
     public static String version = "1.0.0";
+    public static String perOSStartAddress;
     public static int doubleClickSpeed = 300;
 
     public static void initialize() {
@@ -51,9 +52,12 @@ public class UtilMethods {
         String osName = System.getProperty("os.name").toLowerCase();
         if (osName.contains("win")) {
             slash = "\\";
+            perOSStartAddress = slash;
         } else {
             slash = "/";
+            perOSStartAddress = "";
         }
+        perOSStartAddress = slash;
     }
     
 }

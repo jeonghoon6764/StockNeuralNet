@@ -54,7 +54,7 @@ public class Learn1Controller {
 
         neuralNetImages = new Image[8];
         for (int i = 1; i <= 8; i++) {
-            String addr = slash + "Images" + slash + "NeuralNetAnimation" + slash + "NN0" + i + ".png";
+            String addr = UtilMethods.perOSStartAddress + "Images" + slash + "NeuralNetAnimation" + slash + "NN0" + i + ".png";
             neuralNetImages[i - 1] = new Image(getClass().getResource(addr).toExternalForm());
         }
 

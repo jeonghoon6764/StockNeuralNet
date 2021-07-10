@@ -74,7 +74,7 @@ public class Learn3Controller {
         disableAllButtons();
         cpuImageArr = new Image[10];
         for (int i = 0; i < cpuImageArr.length; i++) {
-            String addr = slash + "Images" + slash + "CPUs" + slash + "CPU" + i + ".png";
+            String addr = UtilMethods.perOSStartAddress + "Images" + slash + "CPUs" + slash + "CPU" + i + ".png";
             cpuImageArr[i] = new Image(getClass().getResource(addr).toExternalForm());
         }
         Platform.runLater(() -> {

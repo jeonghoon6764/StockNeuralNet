@@ -66,7 +66,7 @@ public class NeuralNetSetAdd2Controller {
         this.slash = UtilMethods.slash;
         calculatorImages = new Image[9];
         for (int i = 0; i < calculatorImages.length; i++) {
-            String addr = slash + "Images" + slash + "Calculator" + slash + "Calculator" + i + ".png";
+            String addr = UtilMethods.perOSStartAddress + "Images" + slash + "Calculator" + slash + "Calculator" + i + ".png";
             calculatorImages[i] = new Image(getClass().getResource(addr).toExternalForm());
         }
         calculateButton.setDisable(true);

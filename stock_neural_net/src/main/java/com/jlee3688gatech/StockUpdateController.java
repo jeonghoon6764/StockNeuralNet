@@ -66,7 +66,7 @@ public class StockUpdateController {
         dateToUpdateTextField.setPromptText(UtilMethods.calendarToSimpleString(toPromptDateStr));
         yahooDownImages = new Image[4];
         for (int i = 0; i < yahooDownImages.length; i++) {
-            String addr = slash + "Images" + slash + "YahooDownload" + slash + "YahooDown" + i + ".png";
+            String addr = UtilMethods.perOSStartAddress + "Images" + slash + "YahooDownload" + slash + "YahooDown" + i + ".png";
             yahooDownImages[i] = new Image(getClass().getResource(addr).toExternalForm());
         }
         yahooDownImageView.setImage(yahooDownImages[0]);

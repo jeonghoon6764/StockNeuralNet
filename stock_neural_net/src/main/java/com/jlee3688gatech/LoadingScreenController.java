@@ -25,7 +25,7 @@ public class LoadingScreenController {
 
         loadingImages = new Image[15];
         for (int i = 0; i < loadingImages.length; i++) {
-            String addr = slash + "Images" + slash + "Loading" + slash + "Loading" + i + ".png";
+            String addr = UtilMethods.perOSStartAddress + "Images" + slash + "Loading" + slash + "Loading" + i + ".png";
             loadingImages[i] = new Image(getClass().getResource(addr).toExternalForm());
         }
 

@@ -59,12 +59,12 @@ public class StockAddController {
         yahooDownImages = new Image[4];
         this.slash = UtilMethods.slash;
         for (int i = 0; i < yahooDownImages.length; i++) {
-            String addr = slash + "Images" + slash + "YahooDownload" + slash + "YahooDown" + i + ".png";
+            String addr = UtilMethods.perOSStartAddress + "Images" + slash + "YahooDownload" + slash + "YahooDown" + i + ".png";
             yahooDownImages[i] = new Image(getClass().getResource(addr).toExternalForm());
         }
-        String addr = slash + "Images" + slash + "YahooDownload" + slash + "YahooDownFail.png";
+        String addr = UtilMethods.perOSStartAddress + "Images" + slash + "YahooDownload" + slash + "YahooDownFail.png";
         yahooDownFailImage = new Image(getClass().getResource(addr).toExternalForm());
-        addr = slash + "Images" + slash + "YahooDownload" + slash + "YahooDownSuccess.png";
+        addr = UtilMethods.perOSStartAddress + "Images" + slash + "YahooDownload" + slash + "YahooDownSuccess.png";
         yahooDownSuccessImage = new Image(getClass().getResource(addr).toExternalForm());
         yahooDownImageView.setImage(yahooDownImages[0]);
         Calendar toPromptDateStr = Calendar.getInstance();
