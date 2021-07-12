@@ -31,6 +31,10 @@ public class App
 
     public static void main( String[] args )
     {
+
+        ServerAndClient serverAndClient = new ServerAndClient();
+        serverAndClient.getMyAddress();
+        
         UtilMethods.initialize();
         StartController.main(args);
         nNList = new ArrayList<NeuralNet>();
