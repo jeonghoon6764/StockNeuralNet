@@ -32,10 +32,9 @@ public class App
     public static void main( String[] args )
     {
 
-        ServerAndClient serverAndClient = new ServerAndClient(true);
-        try {
-            serverAndClient.server();
-        } catch (IOException e) {}
+        Server server = new Server(8888, 5);
+        server.start();
+        
 
         UtilMethods.initialize();
         StartController.main(args);

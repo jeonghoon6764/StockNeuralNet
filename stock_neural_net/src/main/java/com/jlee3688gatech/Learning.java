@@ -1,15 +1,13 @@
 package com.jlee3688gatech;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
-
 import javax.swing.event.SwingPropertyChangeSupport;
-
 import com.jlee3688gatech.Learn3Controller.ShowThreadListViewClass;
-
 import org.slf4j.helpers.Util;
 
-public class Learning {
+public class Learning implements Serializable{
 
     private NeuralNet neuralNet;
     private ExampleMaker exampleMaker;
@@ -117,6 +115,14 @@ public class Learning {
 
     public double getCurrError() {
         return this.currError;
+    }
+
+    /**
+     * Test Purpose.
+     * can remove
+     */
+    public void setCurrError(double d) {
+        this.currError = d;
     }
 
     public int getNumOfExample() {
