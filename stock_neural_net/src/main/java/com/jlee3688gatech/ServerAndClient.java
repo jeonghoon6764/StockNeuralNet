@@ -12,14 +12,15 @@ import java.util.Scanner;
 
 import com.jlee3688gatech.RunController.Output;
 
-public class ServerAndClient {
+public class ServerAndClient extends Thread{
     private InetAddress localAddress;
     private Socket socket;
     private boolean failToInitialize;
     private boolean isServer;
+    private boolean serverOn;
+    private int portNum;
 
     public ServerAndClient(boolean isServer) {
-        socket = new Socket();
         this.isServer = isServer;
         try {
             localAddress = InetAddress.getLocalHost();
@@ -30,27 +31,46 @@ public class ServerAndClient {
         System.out.println(localAddress.toString());
     }
 
-    public void server() throws IOException {
-        int portNum = 8888;
-        int backLogSize = 5;
+    public synchronized boolean getOrSetServerOn(Boolean serverOn) {
+        if (serverOn != null) {
+            this.serverOn = serverOn;
+        } else if (serverOn.booleanValue() == false) {
+            try {
+                socket.close();
+            } catch (IOException e) {}
+        }
+        return this.serverOn;
+    }
+
+    public void server(int portNum, int backLogSize) throws IOException {
         ServerSocket serverSocket = new ServerSocket(portNum, backLogSize);
         System.out.println("socket created");
         System.out.println("portNumber = " + portNum);
         System.out.println("backLogSize = " + backLogSize);
 
-        Socket socket = serverSocket.accept();
-        System.out.println("Accept client connection");
+        InputStream in;
+        OutputStream out;
+        Scanner sc;
+        PrintStream ps;
 
-        InputStream in = socket.getInputStream();
-        OutputStream out = socket.getOutputStream();
-
-        Scanner sc = new Scanner(in);
-        PrintStream ps = new PrintStream(out);
-
-        String str = sc.nextLine();
-        System.out.println(str);
-        ps.println(str);
-
+        while(getOrSetServerOn(null)) {
+            try {
+                socket = serverSocket.accept();
+            } catch (IOException e) {}
+            System.out.println("Accept client connection");
+    
+            in = socket.getInputStream();
+            out = socket.getOutputStream();
+    
+            sc = new Scanner(in);
+            ps = new PrintStream(out);
+    
+            String str = sc.nextLine();
+    
+            System.out.println(str);
+            ps.println(str);
+        }
+        
         in.close();
         sc.close();
         out.close();

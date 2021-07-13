@@ -1,5 +1,7 @@
 package com.jlee3688gatech;
 
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -57,6 +59,20 @@ public class UtilMethods {
             slash = "/";
             perOSStartAddress = "";
         }
+    }
+
+    public static byte[] toByteArray (Object obj) {
+        byte[] bytes = null;
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        try {
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
+            objectOutputStream.writeObject(obj);
+            objectOutputStream.flush();
+            objectOutputStream.close();
+            byteArrayOutputStream.close();
+            bytes = byteArrayOutputStream.toByteArray();
+        } catch (Exception e) {}
+        return bytes;
     }
     
 }

@@ -32,53 +32,53 @@ public class App
     public static void main( String[] args )
     {
 
-        Server server = new Server(8888, 5);
+        Server server = new Server(8889, 5);
         server.start();
-        
-
-        UtilMethods.initialize();
-        StartController.main(args);
-        nNList = new ArrayList<NeuralNet>();
-        stList = new ArrayList<StockDatas>();
-        recentInputs = new ArrayList<RecentInputData>();
-        sc = new Scanner(System.in);
-        ps = new PrintStrings(140);
-        st = new StockList();
 
 
-        boolean continueLoop = true;
-
-        System.out.println("Welcome to Stock Neural-Network");
-        while (continueLoop) {
-            ps.printCurrentAddress("Main Menu");
-            System.out.print("\n");
-            
-            System.out.println("1. Neural Net Menu.");
-            System.out.println("2. StockDatas Menu.");
-            System.out.println("3. Leaning NeuralNet");
-            System.out.println("4. Running NeuralNet");
-            System.out.println("5. Automatic_Macro");
-            System.out.println("6. AutomaticGetRecent");
-            System.out.println("7. Exit.");
-
-            int userSelect = Integer.parseInt(sc.nextLine());
-
-            if (userSelect == 1) {
-                selectNeuralNetMenu();
-            } else if (userSelect == 2) {
-                selectStockDatasMenu();
-            } else if (userSelect == 3) {
-                selectLearning();
-            } else if (userSelect == 4) {
-                runningNeuralNet();
-            } else if (userSelect == 5) {
-                macro_run();
-            } else if (userSelect == 6) {
-                autoGet();
-            } else {
-                continueLoop = false;
-            }
-        }
+    //    UtilMethods.initialize();
+    //    StartController.main(args);
+    //    nNList = new ArrayList<NeuralNet>();
+    //    stList = new ArrayList<StockDatas>();
+    //    recentInputs = new ArrayList<RecentInputData>();
+    //    sc = new Scanner(System.in);
+    //    ps = new PrintStrings(140);
+    //    st = new StockList();
+//
+//
+    //    boolean continueLoop = true;
+//
+    //    System.out.println("Welcome to Stock Neural-Network");
+    //    while (continueLoop) {
+    //        ps.printCurrentAddress("Main Menu");
+    //        System.out.print("\n");
+    //        
+    //        System.out.println("1. Neural Net Menu.");
+    //        System.out.println("2. StockDatas Menu.");
+    //        System.out.println("3. Leaning NeuralNet");
+    //        System.out.println("4. Running NeuralNet");
+    //        System.out.println("5. Automatic_Macro");
+    //        System.out.println("6. AutomaticGetRecent");
+    //        System.out.println("7. Exit.");
+//
+    //        int userSelect = Integer.parseInt(sc.nextLine());
+//
+    //        if (userSelect == 1) {
+    //            selectNeuralNetMenu();
+    //        } else if (userSelect == 2) {
+    //            selectStockDatasMenu();
+    //        } else if (userSelect == 3) {
+    //            selectLearning();
+    //        } else if (userSelect == 4) {
+    //            runningNeuralNet();
+    //        } else if (userSelect == 5) {
+    //            macro_run();
+    //        } else if (userSelect == 6) {
+    //            autoGet();
+    //        } else {
+    //            continueLoop = false;
+    //        }
+    //    }
     }
 
     private static void autoGet() {

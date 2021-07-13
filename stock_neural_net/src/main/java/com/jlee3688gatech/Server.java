@@ -40,7 +40,10 @@ public class Server extends Thread{
     public void run() {
         try {
             turnOnServer();
-        } catch (Exception e) {}
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     private void turnOnServer() throws Exception {
@@ -48,23 +51,27 @@ public class Server extends Thread{
             try {
                 socket = serverSocket.accept();
             } catch (Exception e) {
+                System.out.println("error occured");
                 break;
             }
 
+            System.out.println(localAddress.toString());
             inputStream = socket.getInputStream();
             outputStream = socket.getOutputStream();
             scanner = new Scanner(inputStream);
-            printStream = new PrintStream(outputStream);
-            objectOutputStream = new ObjectOutputStream(outputStream);
-            objectInputStream = new ObjectInputStream(inputStream);
+            //printStream = new PrintStream(outputStream);
+            //objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+            objectInputStream = new ObjectInputStream(socket.getInputStream());
 
             NetworkObject networkObject = (NetworkObject) objectInputStream.readObject();
+            System.out.println("getting Object plz wait");
 
             if (networkObject.getType() == Type.Request && networkObject.getRequest_Type() == Request_Type.Learning_Object) {
                 Learning learning = new Learning(null, null);
                 learning.setCurrError(123.4);
                 objectOutputStream.writeObject(learning);
                 objectOutputStream.flush();
+                System.out.println("resending Object");
             }
         }
         scanner.close();
