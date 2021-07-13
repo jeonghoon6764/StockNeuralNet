@@ -48,6 +48,7 @@ public class ServerAndClient {
         PrintStream ps = new PrintStream(out);
 
         String str = sc.nextLine();
+        System.out.println(str);
         ps.println(str);
 
         in.close();

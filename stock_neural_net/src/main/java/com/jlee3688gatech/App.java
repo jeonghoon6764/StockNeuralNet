@@ -32,9 +32,11 @@ public class App
     public static void main( String[] args )
     {
 
-        ServerAndClient serverAndClient = new ServerAndClient();
-        serverAndClient.getMyAddress();
-        
+        ServerAndClient serverAndClient = new ServerAndClient(true);
+        try {
+            serverAndClient.server();
+        } catch (IOException e) {}
+
         UtilMethods.initialize();
         StartController.main(args);
         nNList = new ArrayList<NeuralNet>();
