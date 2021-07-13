@@ -1,6 +1,8 @@
 package com.jlee3688gatech;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -73,6 +75,16 @@ public class UtilMethods {
             bytes = byteArrayOutputStream.toByteArray();
         } catch (Exception e) {}
         return bytes;
+    }
+
+    public static <T> T toObject(byte[] bytes, Class<T> type) {
+        Object object = null;
+        try {
+            ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
+            ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream);
+            object = objectInputStream.readObject();
+        } catch (Exception e) {}
+        return type.cast(object);
     }
     
 }
