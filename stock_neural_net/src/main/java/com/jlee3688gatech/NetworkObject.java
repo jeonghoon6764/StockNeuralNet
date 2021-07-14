@@ -1,62 +1,35 @@
 package com.jlee3688gatech;
 
 import java.io.Serializable;
-
+import java.util.Calendar;
 
 public class NetworkObject implements Serializable{
 
-    private Learning learning;
-    private NeuralNet neuralNet;
-    private Double error_rate;
-    private Type type;
-    private Request_Type requestType;
-    
-    enum Type {
-        Learning_Object, NeuralNet_Object, Error_Rate, Request
-    }
+    private String messageFrom;
+    private String messageTo;
+    private Calendar creadtedTime;
+    private Object object;
 
-    enum Request_Type {
-        Learning_Object, NeuralNet_Object
+    public NetworkObject(String msgFrom, String msgTo, Object obj) {
+        this.messageFrom = msgFrom;
+        this.messageTo = msgTo;
+        this.object = obj;
+        this.creadtedTime = Calendar.getInstance();
     }
     
-    public NetworkObject(Learning learning) {
-        this.learning = learning;
-        this.type = Type.Learning_Object;
+    public String getMessageFrom() {
+        return this.messageFrom;
     }
 
-    public NetworkObject(NeuralNet neuralNet) {
-        this.neuralNet = neuralNet;
-        this.type = Type.NeuralNet_Object;
+    public String getMessageTo() {
+        return this.messageTo;
     }
 
-    public NetworkObject (Double error_rate) {
-        this.error_rate = error_rate;
-        this.type = Type.Error_Rate;
+    public Calendar getCreatedTime() {
+        return this.creadtedTime;
     }
 
-    public NetworkObject(Request_Type requestType) {
-        this.type = Type.Request;
-        this.requestType = requestType;
+    public <T> T getObject(Class<T> type) {
+        return type.cast(this.object);
     }
-
-    public Learning getLearning() {
-        return this.learning;
-    }
-
-    public NeuralNet getNeuralNet() {
-        return this.neuralNet;
-    }
-
-    public Double getErrRate() {
-        return this.error_rate;
-    }
-
-    public Type getType() {
-        return this.type;
-    }
-
-    public Request_Type getRequest_Type() {
-        return this.requestType;
-    }
-    
 }

@@ -58,15 +58,15 @@ public class Server extends Thread{
                 break;
             }
 
-            //System.out.println(localAddress.toString());
             inputStream = socket.getInputStream();
             outputStream = socket.getOutputStream();
-
             byte[] datas = UtilMethods.readAllByteFromInputStream(inputStream);
-            
-            String message = UtilMethods.toObject(datas, String.class);
+            NetworkObject message = UtilMethods.toObject(datas, NetworkObject.class);
 
-            System.out.println(message);
+            System.out.println("from : " + message.getMessageFrom());
+            System.out.println("to : " + message.getMessageTo());
+            System.out.println("time : " + UtilMethods.CalendarToString(message.getCreatedTime()));
+            System.out.println("String obj : " + message.getObject(String.class));
 
         }
         outputStream.close();
