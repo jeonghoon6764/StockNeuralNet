@@ -1,5 +1,7 @@
 package com.jlee3688gatech;
 
+import java.io.BufferedInputStream;
+import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
@@ -10,6 +12,8 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
+
+import javax.swing.event.SwingPropertyChangeSupport;
 
 import com.jlee3688gatech.NetworkObject.Request_Type;
 import com.jlee3688gatech.NetworkObject.Type;
@@ -41,7 +45,6 @@ public class Server extends Thread{
         try {
             turnOnServer();
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -55,29 +58,17 @@ public class Server extends Thread{
                 break;
             }
 
-            System.out.println(localAddress.toString());
+            //System.out.println(localAddress.toString());
             inputStream = socket.getInputStream();
             outputStream = socket.getOutputStream();
-            scanner = new Scanner(inputStream);
-            //printStream = new PrintStream(outputStream);
-            //objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
-            objectInputStream = new ObjectInputStream(socket.getInputStream());
 
-            NetworkObject networkObject = (NetworkObject) objectInputStream.readObject();
-            System.out.println("getting Object plz wait");
+            byte[] datas = UtilMethods.readAllByteFromInputStream(inputStream);
+            
+            String message = UtilMethods.toObject(datas, String.class);
 
-            if (networkObject.getType() == Type.Request && networkObject.getRequest_Type() == Request_Type.Learning_Object) {
-                Learning learning = new Learning(null, null);
-                learning.setCurrError(123.4);
-                objectOutputStream.writeObject(learning);
-                objectOutputStream.flush();
-                System.out.println("resending Object");
-            }
+            System.out.println(message);
+
         }
-        scanner.close();
-        printStream.close();
-        objectOutputStream.close();
-        objectInputStream.close();
         outputStream.close();
         inputStream.close();
         socket.close();

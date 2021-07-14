@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.media.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jlee3688gatech.Learn3Controller">
+   <children>
+      <MenuBar prefHeight="25.0" prefWidth="600.0">
+        <menus>
+            <Menu mnemonicParsing="false" text="File">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="New" />
+                  <MenuItem mnemonicParsing="false" text="Load" />
+                  <MenuItem mnemonicParsing="false" text="Save" />
+               </items>
+            </Menu>
+          <Menu mnemonicParsing="false" text="Edit">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Add Note on NeuralNet" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Network">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Get NeuralNets" />
+                  <MenuItem mnemonicParsing="false" text="Send NeuralNet" />
+                  <MenuItem mnemonicParsing="false" text="Learn NeuralNet with" />
+            </items>
+          </Menu>
+            <Menu mnemonicParsing="false" text="Learn">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Learn NeuralNet Set" />
+                  <MenuItem mnemonicParsing="false" text="Learn with Specific Date" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Run">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Run" />
+                  <MenuItem mnemonicParsing="false" text="Run with Specific Date" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Help">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="About" />
+               </items>
+            </Menu>
+        </menus>
+      </MenuBar>
+      <TextArea layoutX="430.0" layoutY="52.0" prefHeight="282.0" prefWidth="165.0" />
+      <Label layoutX="467.0" layoutY="31.0" text="Joined Computer" />
+      <TextArea layoutX="242.0" layoutY="51.0" prefHeight="282.0" prefWidth="181.0" />
+      <Label layoutX="306.0" layoutY="31.0" text="To-do List" />
+      <TextArea layoutX="5.0" layoutY="51.0" prefHeight="282.0" prefWidth="231.0" />
+      <Label layoutX="76.0" layoutY="31.0" text="Current Working" />
+      <Button fx:id="finButton" layoutX="483.0" layoutY="338.0" mnemonicParsing="false" onAction="#userClickedFinish" prefHeight="25.0" prefWidth="110.0" text="Finish" />
+      <TextField fx:id="numOfThreadTextField" editable="false" layoutX="147.0" layoutY="338.0" prefHeight="25.0" prefWidth="21.0" />
+      <Button fx:id="requestRemoveThreadButton" layoutX="171.0" layoutY="338.0" mnemonicParsing="false" onAction="#userClickRequestRemoveThread" prefHeight="25.0" prefWidth="146.0" text="Request Remove Thread" />
+      <Button fx:id="requestMoreThreadButton" layoutX="7.0" layoutY="338.0" mnemonicParsing="false" onAction="#userClickRequestMoreThread" prefHeight="25.0" prefWidth="137.0" text=" Request More Thread" />
+   </children>
+</Pane>

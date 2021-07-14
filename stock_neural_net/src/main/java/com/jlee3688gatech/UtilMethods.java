@@ -2,6 +2,8 @@ package com.jlee3688gatech;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.text.SimpleDateFormat;
@@ -86,5 +88,24 @@ public class UtilMethods {
         } catch (Exception e) {}
         return type.cast(object);
     }
-    
+
+    public static byte[] readAllByteFromInputStream(InputStream inputStream) throws Exception {
+        final int bufferSize = 1024;
+        byte[] buffer = new byte[bufferSize];
+        int readSize = 0;
+
+        try {
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+
+            while((readSize = inputStream.read(buffer, 0, bufferSize)) != -1) {
+                byteArrayOutputStream.write(buffer, 0, readSize);
+            }
+
+            byte[] retByteArr = byteArrayOutputStream.toByteArray();
+            byteArrayOutputStream.close();
+            return retByteArr;
+        } catch (Exception e) {
+            throw e;
+        }
+    }
 }
