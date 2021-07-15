@@ -15,9 +15,6 @@ import java.util.Scanner;
 
 import javax.swing.event.SwingPropertyChangeSupport;
 
-import com.jlee3688gatech.NetworkObject.Request_Type;
-import com.jlee3688gatech.NetworkObject.Type;
-
 public class Server extends Thread{
     private ServerSocket serverSocket;
     private InetAddress localAddress;
@@ -65,13 +62,29 @@ public class Server extends Thread{
 
             System.out.println("from : " + message.getMessageFrom());
             System.out.println("to : " + message.getMessageTo());
-            System.out.println("time : " + UtilMethods.CalendarToString(message.getCreatedTime()));
+            System.out.println("time : " + UtilMethods.CalendarToTimeString(message.getCreatedTime()));
             System.out.println("String obj : " + message.getObject(String.class));
+
+            if (message.getObject(String.class).equals("JOIN / REQUEST REQUIREMENT")) {
+
+            } else if (message.getObject(String.class).equals("REQUEST ASSIGNMENT")) {
+
+            } else if (message.getObject(String.class).equals("REQUEST STATUS")) {
+                
+            } else if (message.getObject(String.class).equals("SEND STATUS")) {
+                
+            } else if (message.getObject(String.class).equals("READY TO SEND WORKS")) {
+                
+            }
 
         }
         outputStream.close();
         inputStream.close();
         socket.close();
         serverSocket.close();
+    }
+
+    public boolean getInitFail() {
+        return this.initFail;
     }
 }

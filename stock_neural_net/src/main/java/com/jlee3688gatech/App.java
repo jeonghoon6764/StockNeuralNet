@@ -32,12 +32,12 @@ public class App
     public static void main( String[] args )
     {
 
-        Server server = new Server(10110, 5);
-        server.start();
+        //Server server = new Server(10110, 5);
+        //server.start();
 
 
-    //    UtilMethods.initialize();
-    //    StartController.main(args);
+        UtilMethods.initialize();
+        StartController.main(args);
     //    nNList = new ArrayList<NeuralNet>();
     //    stList = new ArrayList<StockDatas>();
     //    recentInputs = new ArrayList<RecentInputData>();

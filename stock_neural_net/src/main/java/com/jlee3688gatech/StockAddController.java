@@ -49,6 +49,7 @@ public class StockAddController {
     private String startDate;
     private String endDate;
     private Learn1Controller learnController;
+    private Learn1ServerVersionController learn1ServerVersionController;
 
     /**
      * init FXML method
@@ -84,6 +85,10 @@ public class StockAddController {
 
     public void setLearn1Controller(Learn1Controller learnController) {
         this.learnController = learnController;
+    }
+
+    public void setLearn1ServerVersionController(Learn1ServerVersionController learn1ServerVersionController) {
+        this.learn1ServerVersionController = learn1ServerVersionController;
     }
 
     /**
@@ -191,6 +196,9 @@ public class StockAddController {
                     }
                     if (learnController != null) {
                         learnController.showRequiredStocks();
+                    }
+                    if (learn1ServerVersionController != null) {
+                        learn1ServerVersionController.showRequiredStocks();
                     }
                 });
             } catch (Exception e) {

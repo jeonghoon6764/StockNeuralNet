@@ -6,7 +6,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jlee3688gatech.Learn3Controller">
+<Pane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jlee3688gatech.ServerFXMLController2">
    <children>
       <MenuBar prefHeight="25.0" prefWidth="600.0">
         <menus>
@@ -48,8 +48,8 @@
             </Menu>
         </menus>
       </MenuBar>
-      <TextField layoutX="96.0" layoutY="63.0" />
-      <TextField editable="false" layoutX="96.0" layoutY="32.0" />
+      <TextField fx:id="portNumTextField" editable="false" layoutX="96.0" layoutY="63.0" />
+      <TextField fx:id="ipTextField" editable="false" layoutX="96.0" layoutY="32.0" />
       <Label layoutX="44.0" layoutY="36.0" text="IP" />
       <Label layoutX="14.0" layoutY="67.0" text="Port Number" />
       <TextArea layoutX="430.0" layoutY="117.0" prefHeight="213.0" prefWidth="165.0" />
@@ -65,9 +65,9 @@
       <Label layoutX="432.0" layoutY="36.0" text="Minimum Error" />
       <TextField layoutX="346.0" layoutY="63.0" prefHeight="25.0" prefWidth="69.0" />
       <Button layoutX="430.0" layoutY="63.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="159.0" text="Build To-Do" />
-      <Button fx:id="finButton" layoutX="485.0" layoutY="336.0" mnemonicParsing="false" onAction="#userClickedFinish" prefHeight="25.0" prefWidth="110.0" text="Finish" />
-      <TextField fx:id="numOfThreadTextField" editable="false" layoutX="148.0" layoutY="336.0" prefHeight="25.0" prefWidth="21.0" />
-      <Button fx:id="requestRemoveThreadButton" layoutX="172.0" layoutY="336.0" mnemonicParsing="false" onAction="#userClickRequestRemoveThread" prefHeight="25.0" prefWidth="146.0" text="Request Remove Thread" />
-      <Button fx:id="requestMoreThreadButton" layoutX="8.0" layoutY="336.0" mnemonicParsing="false" onAction="#userClickRequestMoreThread" prefHeight="25.0" prefWidth="137.0" text=" Request More Thread" />
+      <Button layoutX="485.0" layoutY="336.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="110.0" text="Finish" />
+      <TextField editable="false" layoutX="148.0" layoutY="336.0" prefHeight="25.0" prefWidth="21.0" />
+      <Button fx:id="requestRemoveThreadButton" layoutX="172.0" layoutY="336.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="146.0" text="Request Remove Thread" />
+      <Button layoutX="8.0" layoutY="336.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="137.0" text=" Request More Thread" />
    </children>
 </Pane>
