@@ -15,6 +15,8 @@ public class Learning implements Serializable{
     private ArrayList<StockDatas> stockDatasArr;
     private Double currError;
     private ShowThreadListViewClass showThreadListViewClass;
+    private ServerFXMLController2 serverFXMLController2;
+    private int itsIndexInLearningList;
     
     public Learning(NeuralNet neuralNet, ArrayList<StockDatas> stockDatasArr) {
         this.currError = 1.0;
@@ -22,6 +24,14 @@ public class Learning implements Serializable{
         this.neuralNet = neuralNet;
         exampleMaker = new ExampleMaker(stockDatasArr);
         this.examples = new ArrayList<ArrayList<ArrayList<Double>>>();
+    }
+
+    public void setItsIndexInLearningList(int idx) {
+        this.itsIndexInLearningList = idx;
+    }
+
+    public void setServerFXMLController2(ServerFXMLController2 serverFXMLController2) {
+        this.serverFXMLController2 = serverFXMLController2;
     }
 
     public void setShowThreadListViewClass(ShowThreadListViewClass showThreadListViewClass) {
@@ -104,8 +114,14 @@ public class Learning implements Serializable{
                 iteration++;
                 currError = error;
                 System.out.println(error);
-                synchronized(showThreadListViewClass) {
-                    showThreadListViewClass.notifyAll();
+                if (showThreadListViewClass != null) {
+                    synchronized(showThreadListViewClass) {
+                        showThreadListViewClass.notifyAll();
+                    }
+                }
+                if (serverFXMLController2 != null) {
+                    serverFXMLController2.setErrorRate(itsIndexInLearningList, error);
+                    serverFXMLController2.showstatusGUIList();
                 }
             }
         } else {

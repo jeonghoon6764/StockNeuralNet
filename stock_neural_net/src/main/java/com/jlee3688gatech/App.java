@@ -1,8 +1,6 @@
 package com.jlee3688gatech;
 
 import java.io.IOException;
-import java.lang.management.ManagementFactory;
-import com.sun.management.OperatingSystemMXBean;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;

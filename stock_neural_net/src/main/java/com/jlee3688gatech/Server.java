@@ -11,6 +11,7 @@ import java.io.PrintStream;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import javax.swing.event.SwingPropertyChangeSupport;
@@ -26,9 +27,16 @@ public class Server extends Thread{
     private PrintStream printStream;
     private ObjectOutputStream objectOutputStream;
     private ObjectInputStream objectInputStream;
+    private ArrayList<String> joinedComputerList;
+    private ArrayList<Learning> learningList;
+    private Double learningRate;
+    private Double minError;
+    private Integer maxIteration;
+    private ServerFXMLController2 guiController;
 
     
     public Server(int portNum, int backLogSize) {
+        this.joinedComputerList = new ArrayList<>();
         try {
             this.localAddress = InetAddress.getLocalHost();
             this.serverSocket = new ServerSocket(portNum, backLogSize);
@@ -46,6 +54,31 @@ public class Server extends Thread{
         }
     }
 
+    public void setGUIController(ServerFXMLController2 serverFXMLController2) {
+        this.guiController = serverFXMLController2;
+    }
+
+    public void setLeatningRate(double d) {
+        this.learningRate = d;
+    }
+
+    public void setminError(double d) {
+        this.minError = d;
+    }
+
+    public void setMaxIteration(int i) {
+        this.maxIteration = i;
+    }
+
+    public synchronized ArrayList<String> getOrAddJoinedComputerList(String name) {
+        if (name != null) {
+            if (!joinedComputerList.contains(name)) {
+                joinedComputerList.add(name);
+            }
+        }
+        return joinedComputerList;
+    }
+
     private void turnOnServer() throws Exception {
         while(true) {
             try {
@@ -54,7 +87,6 @@ public class Server extends Thread{
                 System.out.println("error occured");
                 break;
             }
-
             inputStream = socket.getInputStream();
             outputStream = socket.getOutputStream();
             byte[] datas = UtilMethods.readAllByteFromInputStream(inputStream);
@@ -65,10 +97,24 @@ public class Server extends Thread{
             System.out.println("time : " + UtilMethods.CalendarToTimeString(message.getCreatedTime()));
             System.out.println("String obj : " + message.getObject(String.class));
 
-            if (message.getObject(String.class).equals("JOIN / REQUEST REQUIREMENT")) {
-
-            } else if (message.getObject(String.class).equals("REQUEST ASSIGNMENT")) {
-
+            if (message.getObject(String.class).equals("JOIN")) {
+                getOrAddJoinedComputerList(message.getMessageFrom());
+                guiController.updateJoinedComputerTextField();
+            } else if (message.getObject(String.class).equals("REQUEST PREQ / LEARNING")) {
+                NetworkObject msg = new NetworkObject("Server", message.getMessageFrom(), learningRate);
+                byte[] msgBytes = UtilMethods.toByteArray(msg);
+                outputStream.write(msgBytes);
+                outputStream.flush();
+            } else if (message.getObject(String.class).equals("REQUEST PREQ / MINIMUM ERROR")) {
+                NetworkObject msg = new NetworkObject("Server", message.getMessageFrom(), minError);
+                byte[] msgBytes = UtilMethods.toByteArray(msg);
+                outputStream.write(msgBytes);
+                outputStream.flush();
+            } else if (message.getObject(String.class).equals("REQUEST PREQ / MAX ITERATION")) {
+                NetworkObject msg = new NetworkObject("Server", message.getMessageFrom(), maxIteration);
+                byte[] msgBytes = UtilMethods.toByteArray(msg);
+                outputStream.write(msgBytes);
+                outputStream.flush();
             } else if (message.getObject(String.class).equals("REQUEST STATUS")) {
                 
             } else if (message.getObject(String.class).equals("SEND STATUS")) {
