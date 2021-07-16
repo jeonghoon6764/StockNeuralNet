@@ -87,7 +87,11 @@ public class Client {
             outputStream = socket.getOutputStream();
             outputStream.write(bytes);
             outputStream.flush();
-            outputStream.notify();
+
+            synchronized (outputStream) {
+                outputStream.notify();
+            }
+            
             System.out.println("Success to send message.");
             inputStream = socket.getInputStream();
             System.out.println("Ready to receive bytes from server.");
