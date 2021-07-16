@@ -82,16 +82,12 @@ public class Client {
         byte[] bytes = UtilMethods.toByteArray(networkObject);
 
         try {
-            System.out.println("ssss");
             socket = new Socket(serverAddr, port);
             
             outputStream = socket.getOutputStream();
             outputStream.write(bytes);
             outputStream.flush();
-            outputStream.close();
             
-            System.out.println("msg c");
-
             inputStream = socket.getInputStream();
             byte[] receiveMessage = UtilMethods.readAllByteFromInputStream(inputStream);
             NetworkObject receivedNetworkObject = UtilMethods.toObject(receiveMessage, NetworkObject.class);
@@ -133,7 +129,6 @@ public class Client {
             outputStream = socket.getOutputStream();
             outputStream.write(bytes);
             outputStream.flush();
-            outputStream.close();
         } catch (Exception e) {
         } finally {
             if (outputStream != null) {

@@ -97,6 +97,7 @@ public class UtilMethods {
         try {
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 
+            inputStream.read();
             while((readSize = inputStream.read(buffer, 0, bufferSize)) != -1) {
                 byteArrayOutputStream.write(buffer, 0, readSize);
             }
