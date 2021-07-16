@@ -91,6 +91,8 @@ public class Server extends Thread{
             inputStream = socket.getInputStream();
             outputStream = socket.getOutputStream();
             byte[] datas = UtilMethods.readAllByteFromInputStream(inputStream);
+            
+            System.out.println("bytes received");
             NetworkObject message = UtilMethods.toObject(datas, NetworkObject.class);
 
             System.out.println("from : " + message.getMessageFrom());
