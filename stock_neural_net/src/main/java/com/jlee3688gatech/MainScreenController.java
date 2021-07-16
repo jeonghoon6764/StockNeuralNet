@@ -328,6 +328,16 @@ public class MainScreenController {
         stage.setScene(scene);
     }
 
+    public void menuNetrowkClient (ActionEvent actionEvent) throws IOException {
+        getAndSetRunThreadVar(false);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXML" + slash + "NetworkClient1.fxml"));
+        Parent root = loader.load();
+        Scene scene = new Scene(root, 600, 400);
+        Stage stage = (Stage) mainPane.getScene().getWindow();
+        stage.setResizable(false);
+        stage.setScene(scene);
+    }
+
     
 
     

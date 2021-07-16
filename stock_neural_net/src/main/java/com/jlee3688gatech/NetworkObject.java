@@ -9,12 +9,14 @@ public class NetworkObject implements Serializable{
     private String messageTo;
     private Calendar creadtedTime;
     private Object object;
+    private String str;
 
-    public NetworkObject(String msgFrom, String msgTo, Object obj) {
+    public NetworkObject(String msgFrom, String msgTo, Object obj, String str) {
         this.messageFrom = msgFrom;
         this.messageTo = msgTo;
         this.object = obj;
         this.creadtedTime = Calendar.getInstance();
+        this.str = str;
     }
     
     public String getMessageFrom() {
@@ -31,5 +33,9 @@ public class NetworkObject implements Serializable{
 
     public <T> T getObject(Class<T> type) {
         return type.cast(this.object);
+    }
+
+    public String getString() {
+        return this.str;
     }
 }

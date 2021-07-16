@@ -37,6 +37,7 @@ public class Server extends Thread{
     
     public Server(int portNum, int backLogSize) {
         this.joinedComputerList = new ArrayList<>();
+        this.joinedComputerList.add("Server");
         try {
             this.localAddress = InetAddress.getLocalHost();
             this.serverSocket = new ServerSocket(portNum, backLogSize);
@@ -95,34 +96,50 @@ public class Server extends Thread{
             System.out.println("from : " + message.getMessageFrom());
             System.out.println("to : " + message.getMessageTo());
             System.out.println("time : " + UtilMethods.CalendarToTimeString(message.getCreatedTime()));
-            System.out.println("String obj : " + message.getObject(String.class));
+            System.out.println("String : " + message.getString());
 
-            if (message.getObject(String.class).equals("JOIN")) {
+            if (message.getString().equals("JOIN")) {
                 getOrAddJoinedComputerList(message.getMessageFrom());
                 guiController.updateJoinedComputerTextField();
-            } else if (message.getObject(String.class).equals("REQUEST PREQ / LEARNING")) {
-                NetworkObject msg = new NetworkObject("Server", message.getMessageFrom(), learningRate);
+                Boolean trueWrapper = true;
+                NetworkObject msg = new NetworkObject("Server", message.getMessageFrom(), trueWrapper, "SUCCESS");
                 byte[] msgBytes = UtilMethods.toByteArray(msg);
                 outputStream.write(msgBytes);
                 outputStream.flush();
-            } else if (message.getObject(String.class).equals("REQUEST PREQ / MINIMUM ERROR")) {
-                NetworkObject msg = new NetworkObject("Server", message.getMessageFrom(), minError);
+            } else if (message.getString().equals("REQUEST PREQ / LEARNING")) {
+                Double learningRateWrapper = learningRate;
+                NetworkObject msg = new NetworkObject("Server", message.getMessageFrom(), learningRateWrapper, "Learning Rate");
                 byte[] msgBytes = UtilMethods.toByteArray(msg);
                 outputStream.write(msgBytes);
                 outputStream.flush();
-            } else if (message.getObject(String.class).equals("REQUEST PREQ / MAX ITERATION")) {
-                NetworkObject msg = new NetworkObject("Server", message.getMessageFrom(), maxIteration);
+            } else if (message.getString().equals("REQUEST PREQ / MINIMUM ERROR")) {
+                Double minErrorWrapper = minError;
+                NetworkObject msg = new NetworkObject("Server", message.getMessageFrom(), minErrorWrapper, "Minimum Error");
                 byte[] msgBytes = UtilMethods.toByteArray(msg);
                 outputStream.write(msgBytes);
                 outputStream.flush();
-            } else if (message.getObject(String.class).equals("REQUEST STATUS")) {
+            } else if (message.getString().equals("REQUEST PREQ / MAX ITERATION")) {
+                Integer maxIterWrapper = maxIteration;
+                NetworkObject msg = new NetworkObject("Server", message.getMessageFrom(), maxIterWrapper, "MAX Iteration");
+                byte[] msgBytes = UtilMethods.toByteArray(msg);
+                outputStream.write(msgBytes);
+                outputStream.flush();
+            } else if (message.getString().equals("REQUEST STATUS")) {
+                NetworkObject msg = new NetworkObject("Server", message.getMessageFrom(), guiController.getStatusGUIArrayList(), "Status");
+                byte[] msgBytes = UtilMethods.toByteArray(msg);
+                outputStream.write(msgBytes);
+                outputStream.flush();
+            } else if (message.getString().equals("REQUEST JOINED COMPUTER")) {
+                NetworkObject msg = new NetworkObject("Server", message.getMessageFrom(), getOrAddJoinedComputerList(null), "Joined ComputerList");
+                byte[] msgBytes = UtilMethods.toByteArray(msg);
+                outputStream.write(msgBytes);
+                outputStream.flush();
+            } else if (message.getString().equals("REQUEST ASSIGNMENT")) {
+
                 
-            } else if (message.getObject(String.class).equals("SEND STATUS")) {
-                
-            } else if (message.getObject(String.class).equals("READY TO SEND WORKS")) {
+            } else if (message.getString().equals("READY TO SEND WORKS")) {
                 
             }
-
         }
         outputStream.close();
         inputStream.close();

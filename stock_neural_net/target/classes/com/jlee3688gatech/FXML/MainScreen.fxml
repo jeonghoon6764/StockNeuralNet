@@ -26,7 +26,8 @@
             <items>
               <MenuItem mnemonicParsing="false" text="Get NeuralNets" />
                   <MenuItem mnemonicParsing="false" text="Send NeuralNet" />
-                  <MenuItem mnemonicParsing="false" onAction="#menuNetrowkServer" text="Learn NeuralNet with" />
+                  <MenuItem mnemonicParsing="false" onAction="#menuNetrowkServer" text="Learn NeuralNet as Server" />
+                  <MenuItem mnemonicParsing="false" onAction="#menuNetrowkClient" text="Learn NeuralNet as Client" />
             </items>
           </Menu>
             <Menu mnemonicParsing="false" text="Learn">
