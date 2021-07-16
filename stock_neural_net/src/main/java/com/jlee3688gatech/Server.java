@@ -142,8 +142,6 @@ public class Server extends Thread{
             } else if (message.getString().equals("READY TO SEND WORKS")) {
                 
             }
-
-            socket.shutdownOutput();
             inputStream.close();
             outputStream.close();
             socket.close();

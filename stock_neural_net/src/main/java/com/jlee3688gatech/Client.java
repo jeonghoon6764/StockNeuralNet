@@ -87,12 +87,8 @@ public class Client {
             outputStream = socket.getOutputStream();
             outputStream.write(bytes);
             outputStream.flush();
-            socket.shutdownOutput();
-
             System.out.println("Success to send message.");
-            
             inputStream = socket.getInputStream();
-
             System.out.println("Ready to receive bytes from server.");
             byte[] receiveMessage = UtilMethods.readAllByteFromInputStream(inputStream);
             NetworkObject receivedNetworkObject = UtilMethods.toObject(receiveMessage, NetworkObject.class);
@@ -136,8 +132,6 @@ public class Client {
             outputStream = socket.getOutputStream();
             outputStream.write(bytes);
             outputStream.flush();
-            socket.shutdownOutput();
-            
         } catch (Exception e) {
         } finally {
             if (outputStream != null) {
