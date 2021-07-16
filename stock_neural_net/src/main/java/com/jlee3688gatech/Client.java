@@ -6,6 +6,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -81,18 +82,24 @@ public class Client {
         byte[] bytes = UtilMethods.toByteArray(networkObject);
 
         try {
+            System.out.println("ssss");
             socket = new Socket(serverAddr, port);
-            inputStream = socket.getInputStream();
+            
             outputStream = socket.getOutputStream();
             outputStream.write(bytes);
             outputStream.flush();
+            outputStream.close();
             
+            System.out.println("msg c");
+
+            inputStream = socket.getInputStream();
             byte[] receiveMessage = UtilMethods.readAllByteFromInputStream(inputStream);
             NetworkObject receivedNetworkObject = UtilMethods.toObject(receiveMessage, NetworkObject.class);
             T returnObject = receivedNetworkObject.getObject(receiveType);
 
             return returnObject;
         } catch (Exception e) {
+            e.printStackTrace();
         } finally {
             if (outputStream != null) {
                 outputStream.close();
@@ -126,6 +133,7 @@ public class Client {
             outputStream = socket.getOutputStream();
             outputStream.write(bytes);
             outputStream.flush();
+            outputStream.close();
         } catch (Exception e) {
         } finally {
             if (outputStream != null) {

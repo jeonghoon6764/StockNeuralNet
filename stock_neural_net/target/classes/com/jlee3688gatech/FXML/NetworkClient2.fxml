@@ -48,16 +48,16 @@
             </Menu>
         </menus>
       </MenuBar>
-      <Button fx:id="finButton" layoutX="486.0" layoutY="327.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="110.0" text="Finish" />
+      <Button fx:id="finButton" disable="true" layoutX="486.0" layoutY="327.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="110.0" text="Finish" />
       <TextField fx:id="numOfThreadTextField" editable="false" layoutX="146.0" layoutY="327.0" prefHeight="25.0" prefWidth="21.0" />
-      <Button fx:id="requestRemoveThreadButton" layoutX="170.0" layoutY="327.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="146.0" text="Request Remove Thread" />
-      <Button fx:id="requestMoreThreadButton" layoutX="6.0" layoutY="327.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="137.0" text=" Request More Thread" />
-      <TextField fx:id="maxIterTextField" editable="false" layoutX="456.0" layoutY="29.0" onKeyTyped="#userTypeTextField" prefHeight="25.0" prefWidth="69.0" />
+      <Button fx:id="requestRemoveThreadButton" disable="true" layoutX="170.0" layoutY="327.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="146.0" text="Request Remove Thread" />
+      <Button fx:id="requestMoreThreadButton" disable="true" layoutX="6.0" layoutY="327.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="137.0" text=" Request More Thread" />
+      <TextField fx:id="maxIterTextField" editable="false" layoutX="456.0" layoutY="29.0" prefHeight="25.0" prefWidth="69.0" />
       <Label layoutX="195.0" layoutY="33.0" text="Minimum Error" />
-      <TextField fx:id="minErrorTextField" editable="false" layoutX="282.0" layoutY="29.0" onKeyTyped="#userTypeTextField" prefHeight="25.0" prefWidth="69.0" />
+      <TextField fx:id="minErrorTextField" editable="false" layoutX="282.0" layoutY="29.0" prefHeight="25.0" prefWidth="69.0" />
       <Label layoutX="374.0" layoutY="33.0" text="Max Iteration" />
       <Label layoutX="20.0" layoutY="33.0" text="Learning Rate" />
-      <TextField fx:id="learningRateTextField" editable="false" layoutX="102.0" layoutY="29.0" onKeyTyped="#userTypeTextField" prefHeight="25.0" prefWidth="69.0" />
+      <TextField fx:id="learningRateTextField" editable="false" layoutX="102.0" layoutY="29.0" prefHeight="25.0" prefWidth="69.0" />
       <ListView layoutX="6.0" layoutY="77.0" prefHeight="243.0" prefWidth="419.0" />
       <ListView layoutX="428.0" layoutY="77.0" prefHeight="243.0" prefWidth="168.0" />
       <Label layoutX="177.0" layoutY="60.0" text="Current Works" />

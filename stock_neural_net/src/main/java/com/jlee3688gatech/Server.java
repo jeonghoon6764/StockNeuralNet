@@ -91,6 +91,7 @@ public class Server extends Thread{
             inputStream = socket.getInputStream();
             outputStream = socket.getOutputStream();
             byte[] datas = UtilMethods.readAllByteFromInputStream(inputStream);
+            inputStream.close();
             NetworkObject message = UtilMethods.toObject(datas, NetworkObject.class);
 
             System.out.println("from : " + message.getMessageFrom());
@@ -140,9 +141,10 @@ public class Server extends Thread{
             } else if (message.getString().equals("READY TO SEND WORKS")) {
                 
             }
+
+            outputStream.close();
         }
-        outputStream.close();
-        inputStream.close();
+        
         socket.close();
         serverSocket.close();
     }

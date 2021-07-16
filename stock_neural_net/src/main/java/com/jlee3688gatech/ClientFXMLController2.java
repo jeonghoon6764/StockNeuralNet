@@ -24,16 +24,8 @@ public class ClientFXMLController2 {
 
     @FXML
     private void initialize() {
-        Platform.runLater(() -> {
-            try {
-                client.requestJoin();
-            } catch (IOException e) {
-                learningRateTextField.setText("ERROR");
-                minErrorTextField.setText("ERROR");
-                maxIterTextField.setText("ERROR");
-            }
-        });
-        
+        InitializeClass initializeClass = new InitializeClass();
+        initializeClass.start();
     }
 
     public class InitializeTimerClass extends Thread {
@@ -66,6 +58,7 @@ public class ClientFXMLController2 {
 
         public void run() {
             InitializeTimerClass initializeTimerClass = new InitializeTimerClass(this);
+            initializeTimerClass.start();
 
             try {
                 client.requestJoin();
