@@ -141,6 +141,7 @@ public class Server extends Thread{
                 
             }
 
+            socket.shutdownOutput();
             inputStream.close();
             outputStream.close();
             socket.close();
