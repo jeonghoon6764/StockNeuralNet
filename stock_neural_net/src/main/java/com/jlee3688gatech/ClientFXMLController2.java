@@ -1,9 +1,12 @@
 package com.jlee3688gatech;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 
 public class ClientFXMLController2 {
@@ -16,14 +19,25 @@ public class ClientFXMLController2 {
     private TextField maxIterTextField;
     @FXML
     private Button finButton;
+    @FXML
+    private Button requestMoreThreadButton;
+    @FXML
+    private Button requestRemoveThreadButton;
+    @FXML
+    private ListView statusListView;
+    @FXML
+    private ListView joinedComputerListView;
+
 
     private Client client;
     private Double learningRate;
     private Double minError;
     private Integer maxIteration;
+    private boolean successConnect;
 
     @FXML
     private void initialize() {
+        successConnect = false;
         InitializeClass initializeClass = new InitializeClass();
         initializeClass.start();
     }
@@ -42,7 +56,7 @@ public class ClientFXMLController2 {
                 Thread.sleep(10000);
             } catch (InterruptedException e) {}
 
-            if (learningRate == null || minError == null || maxIterTextField == null) {
+            if (!successConnect) {
                 client.closeAll();
             }
 
@@ -61,20 +75,90 @@ public class ClientFXMLController2 {
             initializeTimerClass.start();
 
             try {
-                client.requestJoin();
+                successConnect = client.requestJoin();
                 learningRate = client.requestLearningRate();
+                if (learningRate == null) {
+                    Platform.runLater(() -> {
+                        learningRateTextField.setText("N/A");
+                        maxIterTextField.setText("N/A");
+                        minErrorTextField.setText("N/A");
+                    });
+                    while(learningRate != null) {
+                        try {
+                            Thread.sleep(5000);
+                        } catch (Exception e) {}
+                        learningRate = client.requestLearningRate();
+                    }
+                }
                 Platform.runLater(() -> {
                     learningRateTextField.setText(Double.toString(learningRate));
                 });
                 minError = client.requestMinimumError();
+                if (minError == null) {
+                    Platform.runLater(() -> {
+                        maxIterTextField.setText("N/A");
+                        minErrorTextField.setText("N/A");
+                    });
+                    while(minError != null) {
+                        try {
+                            Thread.sleep(5000);
+                        } catch (Exception e) {}
+                        minError = client.requestMinimumError();
+                    }
+                }
                 Platform.runLater(() -> {
                     minErrorTextField.setText(Double.toString(minError));
                 });
+                if (maxIteration == null) {
+                    Platform.runLater(() -> {
+                        maxIterTextField.setText("N/A");
+                    });
+                    while(maxIteration != null) {
+                        try {
+                            Thread.sleep(5000);
+                        } catch (Exception e) {}
+                        maxIteration = client.requestMaxIteration();
+                    }
+                }
                 maxIteration = client.requestMaxIteration();
                 Platform.runLater(() -> {
                     maxIterTextField.setText(Integer.toString(maxIteration));
+                    requestMoreThreadButton.setDisable(false);
+                    requestRemoveThreadButton.setDisable(false);
                 });
             } catch (IOException e) {}
+        }
+    }
+
+    public class renewListViews extends Thread {
+
+        public void run() {
+            boolean runThread = true;
+            while(runThread) {
+                ArrayList<String> statusList = null;
+                ArrayList<String> joinedList = null;
+                try {
+                    statusList = client.requestStatusList();
+                    joinedList = client.requestJoinedComputerList();
+                } catch (IOException e) {}
+                if (statusList == null || joinedList == null) {
+                    runThread = false;
+                    Platform.runLater(() -> {
+                        finButton.setDisable(false);
+                    });
+                    break;
+                }
+                ArrayList<String> fnlStatusList = statusList;
+                ArrayList<String> fnlJoinedList = joinedList;
+                Platform.runLater(() -> {
+                    statusListView.setItems(FXCollections.observableArrayList(fnlStatusList));
+                    joinedComputerListView.setItems(FXCollections.observableArrayList(fnlJoinedList));
+                });
+
+                try {
+                    Thread.sleep(5000);
+                } catch (Exception e) {}
+            }
         }
     }
 

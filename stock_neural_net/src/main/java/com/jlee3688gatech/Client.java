@@ -1,5 +1,6 @@
 package com.jlee3688gatech;
 
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
@@ -8,6 +9,7 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintStream;
+import java.io.Writer;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -87,11 +89,9 @@ public class Client {
             outputStream = socket.getOutputStream();
             outputStream.write(bytes);
             outputStream.flush();
-
-            synchronized (outputStream) {
-                outputStream.notify();
-            }
             
+            socket.shutdownOutput();//save my lifr :)
+
             System.out.println("Success to send message.");
             inputStream = socket.getInputStream();
             System.out.println("Ready to receive bytes from server.");
@@ -137,6 +137,8 @@ public class Client {
             outputStream = socket.getOutputStream();
             outputStream.write(bytes);
             outputStream.flush();
+            socket.shutdownOutput();
+            
         } catch (Exception e) {
         } finally {
             if (outputStream != null) {

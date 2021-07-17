@@ -58,8 +58,8 @@
       <Label layoutX="374.0" layoutY="33.0" text="Max Iteration" />
       <Label layoutX="20.0" layoutY="33.0" text="Learning Rate" />
       <TextField fx:id="learningRateTextField" editable="false" layoutX="102.0" layoutY="29.0" prefHeight="25.0" prefWidth="69.0" />
-      <ListView layoutX="6.0" layoutY="77.0" prefHeight="243.0" prefWidth="419.0" />
-      <ListView layoutX="428.0" layoutY="77.0" prefHeight="243.0" prefWidth="168.0" />
+      <ListView fx:id="statusListView" layoutX="6.0" layoutY="77.0" prefHeight="243.0" prefWidth="419.0" />
+      <ListView fx:id="joinedComputerListView" layoutX="428.0" layoutY="77.0" prefHeight="243.0" prefWidth="168.0" />
       <Label layoutX="177.0" layoutY="60.0" text="Current Works" />
       <Label layoutX="467.0" layoutY="60.0" text="Joined Computer" />
    </children>
