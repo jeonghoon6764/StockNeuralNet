@@ -90,8 +90,9 @@ public class ClientFXMLController2 {
                         learningRate = client.requestLearningRate();
                     }
                 }
+                String learningRateStr = Double.toString(learningRate);
                 Platform.runLater(() -> {
-                    learningRateTextField.setText(Double.toString(learningRate));
+                    learningRateTextField.setText(learningRateStr);
                 });
                 minError = client.requestMinimumError();
                 if (minError == null) {
@@ -106,8 +107,9 @@ public class ClientFXMLController2 {
                         minError = client.requestMinimumError();
                     }
                 }
+                String minErrorString = Double.toString(minError);
                 Platform.runLater(() -> {
-                    minErrorTextField.setText(Double.toString(minError));
+                    minErrorTextField.setText(minErrorString);
                 });
                 if (maxIteration == null) {
                     Platform.runLater(() -> {
@@ -120,9 +122,9 @@ public class ClientFXMLController2 {
                         maxIteration = client.requestMaxIteration();
                     }
                 }
-                maxIteration = client.requestMaxIteration();
+                String maxIterationString = Integer.toString(maxIteration);
                 Platform.runLater(() -> {
-                    maxIterTextField.setText(Integer.toString(maxIteration));
+                    maxIterTextField.setText(maxIterationString);
                     requestMoreThreadButton.setDisable(false);
                     requestRemoveThreadButton.setDisable(false);
                 });
