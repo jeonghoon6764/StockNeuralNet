@@ -123,6 +123,17 @@ public class NeuralNetSet implements Serializable {
         return this.neuralNetList;
     }
 
+    public void setNeuralNet(NeuralNet neuralNet, String neuralNetTarget) {
+        int idx = -1;
+        for (int i = 0; i < neuralNetList.size(); i++) {
+            if (this.neuralNetList.get(i).getTargetTicker().equals(neuralNetTarget)) {
+                idx = i;
+                break;
+            }
+        }
+        neuralNetList.set(idx, neuralNet);
+    }
+
     public ArrayList<String> getOrders() {
         return this.orders;
     }

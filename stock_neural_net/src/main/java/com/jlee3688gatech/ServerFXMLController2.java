@@ -79,6 +79,10 @@ public class ServerFXMLController2 {
         });
     }
 
+    public NeuralNetSet getNeuralNetSet() {
+        return this.neuralNetSet;
+    }
+
     public ArrayList<Learning> getLearningSet() {
         return this.learningSet;
     }

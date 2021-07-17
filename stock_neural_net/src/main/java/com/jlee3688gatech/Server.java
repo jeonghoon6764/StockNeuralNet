@@ -182,7 +182,7 @@ public class Server extends Thread{
                         break;
                     }
                 }
-                guiController.getLearningSet().get(idx).setNeuralNet(neuralNet);
+                guiController.getNeuralNetSet().setNeuralNet(neuralNet, neuralNet.getTargetTicker());
                 guiController.notifyFinishWork(idx);
             }
             inputStream.close();
