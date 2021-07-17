@@ -85,7 +85,11 @@ public class UtilMethods {
             ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
             ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream);
             object = objectInputStream.readObject();
-        } catch (Exception e) {}
+            objectInputStream.close();
+            byteArrayInputStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return type.cast(object);
     }
 
@@ -104,6 +108,7 @@ public class UtilMethods {
             byteArrayOutputStream.close();
             return retByteArr;
         } catch (Exception e) {
+            e.printStackTrace();
             throw e;
         }
     }
