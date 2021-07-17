@@ -1,6 +1,7 @@
 package com.jlee3688gatech;
 
 import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -145,7 +146,8 @@ public class Server extends Thread{
                 } else {
                     msg = new NetworkObject("Server", message.getMessageFrom(), null, "Nothing");
                 }
-                byte[] msgBytes = UtilMethods.toByteArray(msg);
+                byte[] msgBytes = toByteArrayForBigFiles(msg);
+                System.out.println("ByteLength == " + msgBytes.length);
                 outputStream.write(msgBytes);
                 outputStream.flush();
             } else if (message.getString().equals("ERROR STATUS")) {
@@ -179,5 +181,21 @@ public class Server extends Thread{
 
     public boolean getInitFail() {
         return this.initFail;
+    }
+
+    public synchronized byte[] toByteArrayForBigFiles (Object obj) {
+        byte[] bytes = null;
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        try {
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
+            objectOutputStream.writeObject(obj);
+            objectOutputStream.flush();
+            objectOutputStream.close();
+            byteArrayOutputStream.close();
+            bytes = byteArrayOutputStream.toByteArray();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return bytes;
     }
 }

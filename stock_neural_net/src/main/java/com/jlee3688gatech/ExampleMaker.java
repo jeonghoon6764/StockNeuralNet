@@ -1,9 +1,10 @@
 package com.jlee3688gatech;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class ExampleMaker {
+public class ExampleMaker implements Serializable {
 
     private ArrayList<StockDatas> stockDatasArr;
     //private ArrayList<Integer> targets;
