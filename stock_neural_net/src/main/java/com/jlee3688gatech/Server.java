@@ -99,7 +99,6 @@ public class Server extends Thread{
             try {
                 socket = serverSocket.accept();
             } catch (Exception e) {
-                System.out.println("error occured");
                 break;
             }
             inputStream = socket.getInputStream();

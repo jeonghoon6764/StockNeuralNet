@@ -102,6 +102,7 @@ public class Client {
         try {
             if (this.socket != null) {
                 this.socket.close();
+                this.socket = null;
             }
         } catch (IOException e) {}
     }
