@@ -65,7 +65,7 @@ public class UtilMethods {
         }
     }
 
-    public static byte[] toByteArray (Object obj) {
+    public static synchronized byte[] toByteArray (Object obj) {
         byte[] bytes = null;
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         try {
@@ -79,7 +79,7 @@ public class UtilMethods {
         return bytes;
     }
 
-    public static <T> T toObject(byte[] bytes, Class<T> type) {
+    public static synchronized <T> T toObject(byte[] bytes, Class<T> type) {
         Object object = null;
         try {
             ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
