@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
@@ -17,6 +18,8 @@ public class ClientFXMLController2 {
     private TextField minErrorTextField;
     @FXML
     private TextField maxIterTextField;
+    @FXML
+    private TextField numOfThreadTextField;
     @FXML
     private Button finButton;
     @FXML
@@ -34,9 +37,14 @@ public class ClientFXMLController2 {
     private Double minError;
     private Integer maxIteration;
     private boolean successConnect;
+    private int targetNumOfThread;
+    private int currActivatedThread;
+    private boolean nothingToWork;
 
     @FXML
     private void initialize() {
+        nothingToWork = false;
+        targetNumOfThread = 0;
         successConnect = false;
         InitializeClass initializeClass = new InitializeClass();
         initializeClass.start();
@@ -58,11 +66,10 @@ public class ClientFXMLController2 {
 
             if (!successConnect) {
                 client.closeAll();
+                Platform.runLater(() -> {
+                    finButton.setDisable(false);
+                });
             }
-
-            Platform.runLater(() -> {
-                finButton.setDisable(false);
-            });
         }
     }
 
@@ -131,10 +138,83 @@ public class ClientFXMLController2 {
 
                 RenewListViewsClass renewListViewsClass = new RenewListViewsClass();
                 renewListViewsClass.start();
-                
+                showNumOfThreadTextField();
+
             } catch (IOException e) {}
         }
     }
+
+    public synchronized int getAndSetCurrActivatedThread(Integer val) {
+        if (val != null) {
+            currActivatedThread += val;
+        }
+        return currActivatedThread;
+    }
+
+
+    public synchronized void checkAndRunThreads() {
+        if (getAndSetTargetNumOfThread(null) > getAndSetCurrActivatedThread(null) && !nothingToWork) {
+            LearningThreadClass learningThreadClass = new LearningThreadClass();
+            learningThreadClass.start();
+        }
+    }
+
+    public class LearningThreadClass extends Thread {
+
+        public void run() {
+            getAndSetCurrActivatedThread(1);
+            Learning learning = null;
+            try {
+                learning = client.requestNextAssignment();
+            } catch (IOException e) {}
+            
+            if (learning == null) {
+                getAndSetCurrActivatedThread(-1);
+                nothingToWork = true;
+                Platform.runLater(() -> {
+                    finButton.setDisable(false);
+                });
+                return;
+            }
+
+            learning.setClient(client);
+            learning.backPropLearnNeuralNet(learningRate, maxIteration, minError);
+            try {
+                client.sendFinishedAssignment(learning.getNeuralNet());
+            } catch (IOException e) {}
+            getAndSetCurrActivatedThread(-1);
+            checkAndRunThreads();
+        }
+    }
+
+    public void userClickRequestMoreThread(ActionEvent actionEvent) throws IOException{
+        getAndSetTargetNumOfThread(1);
+        showNumOfThreadTextField();
+        checkAndRunThreads();
+    }
+
+    public void userClickRequestRemoveThread(ActionEvent actionEvent) throws IOException{
+        getAndSetTargetNumOfThread(-1);
+        showNumOfThreadTextField();
+        checkAndRunThreads();
+    }
+
+
+
+    public synchronized int getAndSetTargetNumOfThread(Integer val) {
+        if (val != null && (targetNumOfThread + val) >= 0) {
+            targetNumOfThread += val;
+        }
+        return targetNumOfThread;
+    }
+
+    private void showNumOfThreadTextField() {
+        int numOfTargetThread = getAndSetTargetNumOfThread(null);
+        Platform.runLater(() -> {
+            numOfThreadTextField.setText(Integer.toString(numOfTargetThread));
+        });
+    }
+
 
     public class RenewListViewsClass extends Thread {
 

@@ -58,6 +58,20 @@ public class Client {
         return ret;
     }
 
+    public Learning requestNextAssignment() throws IOException {
+        Learning ret = sendAndReceiveFromServer("REQUEST ASSIGNMENT", Learning.class);
+        return ret;
+    }
+
+    public void sendStatus(String name, Double errorRate) throws IOException {
+        ErrorInfo errorInfo = new ErrorInfo(errorRate, name);
+        sendToServer(errorInfo, "ERROR STATUS");
+    }
+
+    public void sendFinishedAssignment(NeuralNet neuralNet) throws IOException {
+        sendToServer(neuralNet, "NEURAL NET");
+    }
+
     public void closeAll() {
         try {
             if (outputStream != null) {
@@ -138,7 +152,7 @@ public class Client {
             outputStream.write(bytes);
             outputStream.flush();
             socket.shutdownOutput();
-            
+
         } catch (Exception e) {
         } finally {
             if (outputStream != null) {

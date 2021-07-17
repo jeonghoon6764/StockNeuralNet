@@ -1,5 +1,6 @@
 package com.jlee3688gatech;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -17,6 +18,7 @@ public class Learning implements Serializable{
     private ShowThreadListViewClass showThreadListViewClass;
     private ServerFXMLController2 serverFXMLController2;
     private int itsIndexInLearningList;
+    private Client client;
     
     public Learning(NeuralNet neuralNet, ArrayList<StockDatas> stockDatasArr) {
         this.currError = 1.0;
@@ -24,6 +26,18 @@ public class Learning implements Serializable{
         this.neuralNet = neuralNet;
         exampleMaker = new ExampleMaker(stockDatasArr);
         this.examples = new ArrayList<ArrayList<ArrayList<Double>>>();
+    }
+
+    public void setNeuralNet(NeuralNet neuralNet) {
+        this.neuralNet = neuralNet;
+    }
+
+    public NeuralNet getNeuralNet() {
+        return this.neuralNet;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
     }
 
     public void setItsIndexInLearningList(int idx) {
@@ -122,6 +136,11 @@ public class Learning implements Serializable{
                 if (serverFXMLController2 != null) {
                     serverFXMLController2.setErrorRate(itsIndexInLearningList, error);
                     serverFXMLController2.showstatusGUIList();
+                }
+                if (client != null) {
+                    try {
+                        client.sendStatus(neuralNet.getTargetTicker(), error);
+                    } catch (IOException e) {}
                 }
             }
         } else {

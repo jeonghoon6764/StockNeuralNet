@@ -72,6 +72,10 @@ public class ServerFXMLController2 {
         });
     }
 
+    public ArrayList<Learning> getLearningSet() {
+        return this.learningSet;
+    }
+
     public ArrayList<String> getStatusGUIArrayList() {
         ArrayList<String> statusGUIArrayList = new ArrayList<>();
         for (int i = 0; i < learningSet.size(); i++) {
@@ -100,6 +104,7 @@ public class ServerFXMLController2 {
 
     public void setErrorRate(int index, double errorRate) {
         this.errorRateArrayList.set(index, errorRate);
+        showstatusGUIList();
     }
 
     public synchronized int getAndSetCurrActivatedThread(Integer val) {
@@ -132,9 +137,15 @@ public class ServerFXMLController2 {
             learningStatus[idx] = Status.COMPLETE;
             getAndSetCurrActivatedThread(-1);
             checkAndRunThreads();
-            checkEnd();
+            
         }
     }
+
+    public void notifyFinishWork(int idx) {
+        learningStatus[idx] = Status.COMPLETE;
+        checkEnd();
+    }
+
 
     public void checkEnd() {
         boolean allFinished = true;

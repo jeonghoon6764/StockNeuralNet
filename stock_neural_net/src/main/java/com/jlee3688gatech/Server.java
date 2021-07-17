@@ -137,10 +137,38 @@ public class Server extends Thread{
                 outputStream.write(msgBytes);
                 outputStream.flush();
             } else if (message.getString().equals("REQUEST ASSIGNMENT")) {
+                int idx = guiController.getNetxtReadyLearningSetIndex();
+                NetworkObject msg;
 
-                
-            } else if (message.getString().equals("READY TO SEND WORKS")) {
-                
+                if (idx != -1) {
+                    msg = new NetworkObject("Server", message.getMessageFrom(), guiController.getLearningSet().get(idx), "Learning");
+                } else {
+                    msg = new NetworkObject("Server", message.getMessageFrom(), null, "Nothing");
+                }
+                byte[] msgBytes = UtilMethods.toByteArray(msg);
+                outputStream.write(msgBytes);
+                outputStream.flush();
+            } else if (message.getString().equals("ERROR STATUS")) {
+                ErrorInfo errorInfo = message.getObject(ErrorInfo.class);
+                int idx = 0;
+                for (int i = 0; i < guiController.getLearningSet().size(); i++) {
+                    if (guiController.getLearningSet().get(i).getNeuralNetTarget().equals(errorInfo.getName())) {
+                        idx = i;
+                        break;
+                    }
+                }
+                guiController.setErrorRate(idx, errorInfo.getErrorRate());
+            } else if (message.getString().equals("NEURAL NET")) {
+                NeuralNet neuralNet = message.getObject(NeuralNet.class);
+                int idx = 0;
+                for (int i = 0; i < guiController.getLearningSet().size(); i++) {
+                    if (guiController.getLearningSet().get(i).getNeuralNetTarget().equals(neuralNet.getTargetTicker())) {
+                        idx = i;
+                        break;
+                    }
+                }
+                guiController.getLearningSet().get(idx).setNeuralNet(neuralNet);
+                guiController.notifyFinishWork(idx);
             }
             inputStream.close();
             outputStream.close();
