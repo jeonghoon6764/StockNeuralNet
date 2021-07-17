@@ -100,7 +100,9 @@ public class Client {
 
     public void forceSocketClose() {
         try {
-            this.socket.close();
+            if (this.socket != null) {
+                this.socket.close();
+            }
         } catch (IOException e) {}
     }
 
