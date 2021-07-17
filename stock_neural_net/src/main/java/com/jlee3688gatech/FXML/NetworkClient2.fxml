@@ -48,7 +48,7 @@
             </Menu>
         </menus>
       </MenuBar>
-      <Button fx:id="finButton" disable="true" layoutX="486.0" layoutY="327.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="110.0" text="Finish" />
+      <Button fx:id="finButton" disable="true" layoutX="486.0" layoutY="327.0" mnemonicParsing="false" onAction="#useClickFinishButton" prefHeight="25.0" prefWidth="110.0" text="Finish" />
       <TextField fx:id="numOfThreadTextField" editable="false" layoutX="146.0" layoutY="327.0" prefHeight="25.0" prefWidth="21.0" />
       <Button fx:id="requestRemoveThreadButton" disable="true" layoutX="170.0" layoutY="327.0" mnemonicParsing="false" onAction="#userClickRequestRemoveThread" prefHeight="25.0" prefWidth="146.0" text="Request Remove Thread" />
       <Button fx:id="requestMoreThreadButton" disable="true" layoutX="6.0" layoutY="327.0" mnemonicParsing="false" onAction="#userClickRequestMoreThread" prefHeight="25.0" prefWidth="137.0" text=" Request More Thread" />

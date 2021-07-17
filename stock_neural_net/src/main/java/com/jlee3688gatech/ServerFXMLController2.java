@@ -8,10 +8,15 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
+import javafx.stage.Stage;
+import javafx.scene.Node;
 
 public class ServerFXMLController2 {
 
@@ -53,6 +58,7 @@ public class ServerFXMLController2 {
     private double minErrorRate;
     private int maxIteration;
     private ArrayList<Double> errorRateArrayList;
+    private String slash;
 
     public enum Status {
         READY, RUNING, RECEIVING, COMPLETE
@@ -60,6 +66,7 @@ public class ServerFXMLController2 {
 
     @FXML
     private void initialize() {
+        this.slash = UtilMethods.slash;
         this.targetNumOfThread = 0;
         this.errorRateArrayList = new ArrayList<>();
 
@@ -273,6 +280,25 @@ public class ServerFXMLController2 {
         });
         showNumOfThreadTextField();
         showstatusGUIList();
+    }
+    
+    public void useClickFinishButton(ActionEvent actionEvent) throws IOException{
+        server.turnOffServer();
+        
+        String str = new String();
+        str += "<LEARNING>" + " ";
+        str += "Learning Rate: " + learningRate + ", ";
+        str += "Max iteration: " + maxIteration + ", ";
+        str += "Minimum Error: " + minErrorRate;
+        neuralNetSet.addLog(str);
+        
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXML" + slash + "MainScreen.fxml"));
+        Parent root = loader.load();
+        MainScreenController controller = loader.<MainScreenController>getController();
+        Scene scene = new Scene(root, 600, 400);
+        Stage stage = (Stage) ((Node) (actionEvent.getSource())).getScene().getWindow();
+        stage.setResizable(false);
+        stage.setScene(scene);
     }
 
     

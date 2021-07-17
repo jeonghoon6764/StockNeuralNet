@@ -81,6 +81,19 @@ public class Server extends Thread{
         return joinedComputerList;
     }
 
+    public void turnOffServer() {
+        if (socket != null) {
+            try {
+                socket.close();
+            } catch (IOException e) {}
+        }
+        if (serverSocket != null) {
+            try {
+                serverSocket.close();
+            } catch (IOException e) {}
+        }
+    }
+
     private void turnOnServer() throws Exception {
         while(true) {
             try {

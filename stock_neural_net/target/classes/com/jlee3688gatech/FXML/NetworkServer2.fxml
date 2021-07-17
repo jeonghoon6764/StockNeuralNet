@@ -61,7 +61,7 @@
       <Label layoutX="432.0" layoutY="36.0" text="Minimum Error" />
       <TextField fx:id="maxIterTextField" layoutX="346.0" layoutY="63.0" onKeyTyped="#userTypeTextField" prefHeight="25.0" prefWidth="69.0" />
       <Button fx:id="buildToDoButton" disable="true" layoutX="430.0" layoutY="63.0" mnemonicParsing="false" onAction="#userClickBuildToDoButton" prefHeight="25.0" prefWidth="159.0" text="Build To-Do" />
-      <Button fx:id="finButton" disable="true" layoutX="485.0" layoutY="336.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="110.0" text="Finish" />
+      <Button fx:id="finButton" disable="true" layoutX="485.0" layoutY="336.0" mnemonicParsing="false" onAction="#useClickFinishButton" prefHeight="25.0" prefWidth="110.0" text="Finish" />
       <TextField fx:id="numOfThreadTextField" editable="false" layoutX="148.0" layoutY="336.0" prefHeight="25.0" prefWidth="21.0" />
       <Button fx:id="requestRemoveThreadButton" disable="true" layoutX="172.0" layoutY="336.0" mnemonicParsing="false" onAction="#userClickRequestRemoveThread" prefHeight="25.0" prefWidth="146.0" text="Request Remove Thread" />
       <Button fx:id="requestMoreThreadButton" disable="true" layoutX="8.0" layoutY="336.0" mnemonicParsing="false" onAction="#userClickRequestMoreThread" prefHeight="25.0" prefWidth="137.0" text=" Request More Thread" />

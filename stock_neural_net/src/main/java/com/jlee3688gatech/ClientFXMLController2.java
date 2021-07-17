@@ -6,9 +6,14 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+import javafx.scene.Node;
 
 public class ClientFXMLController2 {
 
@@ -40,9 +45,11 @@ public class ClientFXMLController2 {
     private int targetNumOfThread;
     private int currActivatedThread;
     private boolean nothingToWork;
+    private String slash;
 
     @FXML
     private void initialize() {
+        this.slash = UtilMethods.slash;
         nothingToWork = false;
         targetNumOfThread = 0;
         successConnect = false;
@@ -157,6 +164,16 @@ public class ClientFXMLController2 {
             LearningThreadClass learningThreadClass = new LearningThreadClass();
             learningThreadClass.start();
         }
+    }
+
+    public void useClickFinishButton(ActionEvent actionEvent) throws IOException{
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXML" + slash + "MainScreen.fxml"));
+        Parent root = loader.load();
+        MainScreenController controller = loader.<MainScreenController>getController();
+        Scene scene = new Scene(root, 600, 400);
+        Stage stage = (Stage) ((Node) (actionEvent.getSource())).getScene().getWindow();
+        stage.setResizable(false);
+        stage.setScene(scene);
     }
 
     public class LearningThreadClass extends Thread {
