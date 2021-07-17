@@ -100,13 +100,17 @@ public class ExampleMaker implements Serializable {
 
 
     private ArrayList<Double> getTargetOutputData(int tickerNum, int numOfInc, String dataType, int targetDataCountFrom, int targetDataCountTo, double incRate) {
+        
+        ArrayList<Double> modTemp = getTickerMultipleDatas(tickerNum, "open", counter + targetDataCountFrom - 1, counter + targetDataCountTo + 1);
+
         ArrayList<Double> temp = getTickerMultipleDatas(tickerNum, dataType, counter + targetDataCountFrom - 1, counter + targetDataCountTo + 1);
-        if (temp == null) {
+        if (temp == null || modTemp == null) {
             return null;
         }
 
         int countInc = 0;
-        double base = temp.get(0);
+        //double base = temp.get(0);
+        double base = modTemp.get(0);
         if ((base * (1 + incRate)) > temp.get(temp.size() - 1)) {
             return retFalse();
         } else {
