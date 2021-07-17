@@ -128,11 +128,15 @@ public class ClientFXMLController2 {
                     requestMoreThreadButton.setDisable(false);
                     requestRemoveThreadButton.setDisable(false);
                 });
+
+                RenewListViewsClass renewListViewsClass = new RenewListViewsClass();
+                renewListViewsClass.start();
+                
             } catch (IOException e) {}
         }
     }
 
-    public class renewListViews extends Thread {
+    public class RenewListViewsClass extends Thread {
 
         public void run() {
             boolean runThread = true;
