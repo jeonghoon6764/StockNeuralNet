@@ -98,6 +98,12 @@ public class Client {
         }
     }
 
+    public void forceSocketClose() {
+        try {
+            this.socket.close();
+        } catch (IOException e) {}
+    }
+
     private <T> T sendAndReceiveFromServer(String requestMsg, Class<T> receiveType) throws IOException {
         socket = null;
         inputStream = null;

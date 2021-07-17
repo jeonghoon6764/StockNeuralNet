@@ -167,6 +167,7 @@ public class ClientFXMLController2 {
     }
 
     public void useClickFinishButton(ActionEvent actionEvent) throws IOException{
+        client.forceSocketClose();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("FXML" + slash + "MainScreen.fxml"));
         Parent root = loader.load();
         MainScreenController controller = loader.<MainScreenController>getController();
