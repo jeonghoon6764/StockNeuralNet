@@ -83,7 +83,7 @@ public class ClientFXMLController2 {
                         maxIterTextField.setText("N/A");
                         minErrorTextField.setText("N/A");
                     });
-                    while(learningRate != null) {
+                    while(learningRate == null) {
                         try {
                             Thread.sleep(5000);
                         } catch (Exception e) {}
@@ -100,7 +100,7 @@ public class ClientFXMLController2 {
                         maxIterTextField.setText("N/A");
                         minErrorTextField.setText("N/A");
                     });
-                    while(minError != null) {
+                    while(minError == null) {
                         try {
                             Thread.sleep(5000);
                         } catch (Exception e) {}
@@ -115,7 +115,7 @@ public class ClientFXMLController2 {
                     Platform.runLater(() -> {
                         maxIterTextField.setText("N/A");
                     });
-                    while(maxIteration != null) {
+                    while(maxIteration == null) {
                         try {
                             Thread.sleep(5000);
                         } catch (Exception e) {}
