@@ -1,6 +1,8 @@
 package com.jlee3688gatech;
 
-public class ErrorInfo {
+import java.io.Serializable;
+
+public class ErrorInfo implements Serializable{
 
     private double errorRate;
     private String name;
