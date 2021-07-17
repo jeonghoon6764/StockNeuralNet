@@ -146,7 +146,7 @@ public class Server extends Thread{
                 } else {
                     msg = new NetworkObject("Server", message.getMessageFrom(), null, "Nothing");
                 }
-                byte[] msgBytes = toByteArrayForBigFiles(msg);
+                byte[] msgBytes = UtilMethods.toByteArray(msg);
                 System.out.println("ByteLength == " + msgBytes.length);
                 outputStream.write(msgBytes);
                 outputStream.flush();
@@ -181,21 +181,5 @@ public class Server extends Thread{
 
     public boolean getInitFail() {
         return this.initFail;
-    }
-
-    public synchronized byte[] toByteArrayForBigFiles (Object obj) {
-        byte[] bytes = null;
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        try {
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
-            objectOutputStream.writeObject(obj);
-            objectOutputStream.flush();
-            objectOutputStream.close();
-            byteArrayOutputStream.close();
-            bytes = byteArrayOutputStream.toByteArray();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return bytes;
     }
 }

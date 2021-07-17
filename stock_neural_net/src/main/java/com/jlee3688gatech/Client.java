@@ -29,47 +29,47 @@ public class Client {
     }
 
     public boolean requestJoin() throws IOException {
-        Boolean success = sendAndReceiveFromServer("JOIN", Boolean.class);
+        Boolean success = connectWithServer("JOIN", Boolean.class, null, null, true);
         return success;
     }
 
     public Double requestLearningRate() throws IOException {
-        Double learningRate = sendAndReceiveFromServer("REQUEST PREQ / LEARNING", Double.class);
+        Double learningRate = connectWithServer("REQUEST PREQ / LEARNING", Double.class, null, null, true);
         return learningRate;
     }
 
     public Double requestMinimumError() throws IOException {
-        Double minError = sendAndReceiveFromServer("REQUEST PREQ / MINIMUM ERROR", Double.class);
+        Double minError = connectWithServer("REQUEST PREQ / MINIMUM ERROR", Double.class, null, null, true);
         return minError;
     }
 
     public Integer requestMaxIteration() throws IOException {
-        Integer maxIteration = sendAndReceiveFromServer("REQUEST PREQ / MAX ITERATION", Integer.class);
+        Integer maxIteration = connectWithServer("REQUEST PREQ / MAX ITERATION", Integer.class, null, null, true);
         return maxIteration;
     }
 
     public ArrayList<String> requestStatusList() throws IOException {
-        ArrayList<String> ret = sendAndReceiveFromServer("REQUEST STATUS", ArrayList.class);
+        ArrayList<String> ret = connectWithServer("REQUEST STATUS", ArrayList.class, null, null, true);
         return ret;
     }
 
     public ArrayList<String> requestJoinedComputerList() throws IOException {
-        ArrayList<String> ret = sendAndReceiveFromServer("REQUEST JOINED COMPUTER", ArrayList.class);
+        ArrayList<String> ret = connectWithServer("REQUEST JOINED COMPUTER", ArrayList.class, null, null, true);
         return ret;
     }
 
     public Learning requestNextAssignment() throws IOException {
-        Learning ret = sendAndReceiveFromServer("REQUEST ASSIGNMENT", Learning.class);
+        Learning ret = connectWithServer("REQUEST ASSIGNMENT", Learning.class, null, null, true);
         return ret;
     }
 
     public void sendStatus(String name, Double errorRate) throws IOException {
         ErrorInfo errorInfo = new ErrorInfo(errorRate, name);
-        sendToServer(errorInfo, "ERROR STATUS");
+        connectWithServer(null, null, errorInfo, "ERROR STATUS", false);
     }
 
     public void sendFinishedAssignment(NeuralNet neuralNet) throws IOException {
-        sendToServer(neuralNet, "NEURAL NET");
+        connectWithServer(null, null, neuralNet, "NEURAL NET", false);
     }
 
     public void closeAll() {
@@ -87,6 +87,15 @@ public class Client {
             inputStream = null;
             outputStream = null;
         } catch (Exception e) {}
+    }
+
+    private synchronized <T> T connectWithServer(String requestMsg, Class<T> receiveType, Object obj, String str, boolean receive) throws IOException {
+        if (receive) {
+            return sendAndReceiveFromServer(requestMsg, receiveType);
+        } else {
+            sendToServer(obj, str);
+            return null;
+        }
     }
 
     private <T> T sendAndReceiveFromServer(String requestMsg, Class<T> receiveType) throws IOException {
