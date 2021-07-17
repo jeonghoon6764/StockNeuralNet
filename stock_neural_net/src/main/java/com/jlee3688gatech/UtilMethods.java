@@ -89,7 +89,7 @@ public class UtilMethods {
         return type.cast(object);
     }
 
-    public static byte[] readAllByteFromInputStream(InputStream inputStream) throws Exception {
+    public static synchronized byte[] readAllByteFromInputStream(InputStream inputStream) throws Exception {
         final int bufferSize = 1024;
         byte[] buffer = new byte[bufferSize];
         int readSize = 0;
