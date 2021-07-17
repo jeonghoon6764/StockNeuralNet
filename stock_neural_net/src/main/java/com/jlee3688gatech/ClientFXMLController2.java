@@ -242,7 +242,7 @@ public class ClientFXMLController2 {
                 });
 
                 try {
-                    Thread.sleep(5000);
+                    Thread.sleep(2000);
                 } catch (Exception e) {}
             }
         }
