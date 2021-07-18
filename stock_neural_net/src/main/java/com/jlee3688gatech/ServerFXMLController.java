@@ -60,7 +60,7 @@ public class ServerFXMLController {
     }
 
     public void userClickStartButton(ActionEvent actionEvent) throws IOException {
-        Server server = new Server(portNum, 100);
+        Server server = new Server(portNum, 1000);
         if(server.getInitFail()) {
             Platform.runLater(() -> {
                 portNumberTextField.clear();

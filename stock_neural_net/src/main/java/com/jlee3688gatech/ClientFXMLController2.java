@@ -116,7 +116,7 @@ public class ClientFXMLController2 {
                     });
                     while(minError == null) {
                         try {
-                            Thread.sleep(5000);
+                            Thread.sleep(10000);
                         } catch (Exception e) {}
                         minError = client.requestMinimumError();
                     }
