@@ -117,6 +117,7 @@ public class Client {
 
         try {
             socket = new Socket(serverAddr, port);
+            socket.setSoTimeout(60 * 1000);
             
             outputStream = socket.getOutputStream();
             outputStream.write(bytes);
@@ -136,6 +137,23 @@ public class Client {
             return returnObject;
         } catch (Exception e) {
             e.printStackTrace();
+
+            if (outputStream != null) {
+                outputStream.close();
+            }
+            if (inputStream != null) {
+                inputStream.close();
+            }
+            if (socket != null) {
+                socket.close();
+            }
+
+            socket = null;
+            inputStream = null;
+            outputStream = null;
+
+            return sendAndReceiveFromServer(requestMsg, receiveType);
+
         } finally {
             if (outputStream != null) {
                 outputStream.close();
@@ -151,8 +169,6 @@ public class Client {
             inputStream = null;
             outputStream = null;
         }
-
-        return null;
     }
 
     private void sendToServer(Object obj, String str) throws IOException {
@@ -165,6 +181,7 @@ public class Client {
 
         try {
             socket = new Socket(serverAddr, port);
+            socket.setSoTimeout(60 * 1000);
             inputStream = socket.getInputStream();
             outputStream = socket.getOutputStream();
             outputStream.write(bytes);
@@ -172,6 +189,22 @@ public class Client {
             socket.shutdownOutput();
 
         } catch (Exception e) {
+            e.printStackTrace();
+
+            if (outputStream != null) {
+                outputStream.close();
+            }
+            if (inputStream != null) {
+                inputStream.close();
+            }
+            if (socket != null) {
+                socket.close();
+            }
+            socket = null;
+            inputStream = null;
+            outputStream = null;
+
+            sendToServer(obj, str);
         } finally {
             if (outputStream != null) {
                 outputStream.close();
