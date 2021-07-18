@@ -156,7 +156,7 @@ public class Server extends Thread{
                 if (idx != -1) {
                     msg = new NetworkObject("Server", message.getMessageFrom(), guiController.getLearningSet().get(idx), "Learning");
                 } else {
-                    msg = new NetworkObject("Server", message.getMessageFrom(), null, "Nothing");
+                    msg = new NetworkObject("Server", message.getMessageFrom(), new Learning(null, null), "Nothing");
                 }
                 byte[] msgBytes = UtilMethods.toByteArray(msg);
                 System.out.println("ByteLength == " + msgBytes.length);

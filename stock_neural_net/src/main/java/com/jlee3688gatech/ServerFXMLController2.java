@@ -93,7 +93,7 @@ public class ServerFXMLController2 {
             String str = "Learning " + i + ": <TARGET>" + learningSet.get(i).getNeuralNetTarget();
             str += " " + learningStatus[i].toString();
 
-            if (learningStatus[i] == Status.RUNING) {
+            if (learningStatus[i] == Status.RUNING || learningStatus[i] == Status.COMPLETE) {
                 str += " Error Rate: " + errorRateArrayList.get(i);
             }
             statusGUIArrayList.add(str);

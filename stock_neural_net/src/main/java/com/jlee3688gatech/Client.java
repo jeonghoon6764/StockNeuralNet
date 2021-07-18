@@ -151,6 +151,9 @@ public class Client {
             socket = null;
             inputStream = null;
             outputStream = null;
+            try {
+                Thread.sleep(10 * 1000);
+            } catch (InterruptedException e1) {}
 
             return sendAndReceiveFromServer(requestMsg, receiveType);
 
@@ -203,6 +206,10 @@ public class Client {
             socket = null;
             inputStream = null;
             outputStream = null;
+
+            try {
+                Thread.sleep(10 * 1000);
+            } catch (InterruptedException e1) {}
 
             sendToServer(obj, str);
         } finally {

@@ -186,7 +186,7 @@ public class ClientFXMLController2 {
                 learning = client.requestNextAssignment();
             } catch (IOException e) {}
             
-            if (learning == null) {
+            if (learning.getNeuralNet() == null) {
                 getAndSetCurrActivatedThread(-1);
                 nothingToWork = true;
                 Platform.runLater(() -> {
