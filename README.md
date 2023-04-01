@@ -1,5 +1,3 @@
-StockNeuralNet
-===============
 ![Example](https://user-images.githubusercontent.com/59329676/125172435-62d2a400-e17f-11eb-8dd1-2c2f4502e343.gif)   
 # StockNeuralNet
 
