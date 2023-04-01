@@ -30,7 +30,6 @@ To use the program, follow these steps:
    ```sh
    java -jar target/StockNeuralNet.jar
 
-
 ## Features
 
 🤖 Neural network code written entirely from scratch
