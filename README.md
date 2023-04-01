@@ -75,8 +75,8 @@ Create a new branch:
 Let me know if you need any further modifications.
 
 
-License
+## License
 This project is licensed under the MIT License.
 
-Contact
+## Contact
 📧 For any questions or inquiries, please contact [jeonghoongatech@gmail.com].
