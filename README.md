@@ -65,13 +65,6 @@ Contributions to the project are always welcome. To contribute, follow these ste
    
 5. Create a pull request.
 
-
-Contributing
-Contributions to the project are always welcome. To contribute, follow these steps:
-
-Fork the repository.
-
-Create a new branch:
 Let me know if you need any further modifications.
 
 
