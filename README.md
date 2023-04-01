@@ -79,4 +79,4 @@ Let me know if you need any further modifications.
 This project is licensed under the MIT License.
 
 ## Contact
-📧 For any questions or inquiries, please contact [jeonghoongatech@gmail.com].
+📧 For any questions or inquiries, please contact jeonghoongatech@gmail.com.
